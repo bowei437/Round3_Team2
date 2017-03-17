@@ -10,7 +10,7 @@ from flask import jsonify
 from flask_api import status
 from pathfinder import *
 
-storage_url = "http://ec2-52-41-229-1.us-west-2.compute.amazonaws.com:8080/v1/"
+storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8080/v1/"
 
 
 def get_path(problem_id):
