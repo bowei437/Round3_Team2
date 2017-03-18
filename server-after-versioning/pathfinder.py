@@ -52,7 +52,7 @@ def intersects_obstacle(c):
     loc = 0
 
     while doesIntersect is not False and loc < len(Json["obstacles"]):
-        doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["x"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["y"] + Json["obstacles"][loc]["obstacle_info"]["height"])
+        doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"][0]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"][0]["x"] + 5) and (c[1] >= Json["obstacles"][loc]["obstacle_info"][0]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"][0]["y"] + 5)
         loc += 1
 
     return doesIntersect

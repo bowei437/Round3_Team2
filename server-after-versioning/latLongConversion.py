@@ -20,12 +20,14 @@ def readJSON(data, scale):
 
     #Obstacles
     loc = 0
+    #print("length of obstacles: {0}\nObstacle1: {1}\n".format(len(data["obstacles"]), data["obstacles"][0]))
+
     if "obstacles" not in data:
         print("No Obstacles")
     else:
             while loc < len(data["obstacles"]):
-                data["obstacles"][loc]["obstacle_info"]["coordinates"]["x"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"]["coordinates"]["latitude"], scale)
-                data["obstacles"][loc]["obstacle_info"]["coordinates"]["y"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"]["coordinates"]["longitude"], scale)
+                data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["latitude"], scale)
+                data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["longitude"], scale)
                 loc += 1
 
     #Robot

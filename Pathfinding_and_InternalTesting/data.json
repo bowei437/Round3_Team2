@@ -6,6 +6,18 @@
                 "longitude": 70.0,
                 "x": -9000000,
                 "y": 7000000
+            },
+            {
+                "latitude": -80.0,
+                "longitude": 60.0
+            },
+            {
+                "latitude": -50.0,
+                "longitude": 40.0
+            },
+            {
+                "latitude": -30.0,
+                "longitude": 20.0
             }
         ]
     },

@@ -20,6 +20,8 @@ def readJSON(data, scale):
 
     #Obstacles
     loc = 0
+    #print("length of obstacles: {0}\nObstacle1: {1}\n".format(len(data["obstacles"]), data["obstacles"][0]))
+
     if "obstacles" not in data:
         print("No Obstacles")
     else:
