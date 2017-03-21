@@ -32,10 +32,14 @@ def is_shortest_path(json_message, enable):
         weight = weight - decrementer
         json_message["robots"][0]["coordinates"]["x"] = src["x"]
         json_message["robots"][0]["coordinates"]["y"] = src["y"]
+        #json_message["robots"][0]["coordinates"]["latitude"] = src["latitude"]
+        #json_message["robots"][0]["coordinates"]["longitude"] = src["longitude"]
         path = pathfind_from_json(json_message, 0) #enable set to 0
         if enable == 1:
             print("\nBest Path Weight " + str (path["path_cost"]))
-            print("Best Path Node IDs: " + str (path["coordinates"]))
+            #print("Best Path Node IDs: " + str (path["coordinates"]))
+            #print("\nJson X Y: {0} {1}  SRC X Y: {2} {3}".format(json_message["robots"][0]["coordinates"]["x"],
+            #json_message["robots"][0]["coordinates"]["y"], src["x"], src["y"]))
             print("src value is: {0}".format(src))
             print("\nWEIGHT:{0}\n PATH COST:{1}".format(weight, path["path_cost"]))
 
@@ -130,7 +134,7 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 inputfile = 'testnew.json'
 TestNum = 3 # Current Test Number
 
-uResult = unittest(inputfile, 0) # Run unit test and store result
+uResult = unittest(inputfile, 1) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 """
 

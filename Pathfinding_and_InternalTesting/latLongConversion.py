@@ -11,12 +11,16 @@ def readJSON(data, scale):
     y = convert_latlong_to_xy(data["boundary"]["boundary_info"][0]["longitude"], scale)
     data["boundary"]["boundary_info"][0]["x"] = x
     data["boundary"]["boundary_info"][0]["y"] = y
+    #data["boundary"]["boundary_info"][0]["latitude"] = x
+    #data["boundary"]["boundary_info"][0]["longitude"] = y
 
     #Goal
     x = convert_latlong_to_xy(data["goal"]["coordinates"]["latitude"], scale)
     y = convert_latlong_to_xy(data["goal"]["coordinates"]["longitude"], scale)
     data["goal"]["coordinates"]["x"] = x
     data["goal"]["coordinates"]["y"] = y
+    #data["goal"]["coordinates"]["latitude"] = x
+    #data["goal"]["coordinates"]["longitude"] = y
 
     #Obstacles
     loc = 0
@@ -28,14 +32,17 @@ def readJSON(data, scale):
             while loc < len(data["obstacles"]):
                 data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["latitude"], scale)
                 data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["longitude"], scale)
+                #data["obstacles"][loc]["obstacle_info"][0]["latitude"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["latitude"], scale)
+                #data["obstacles"][loc]["obstacle_info"][0]["longitude"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["longitude"], scale)
                 loc += 1
 
     #Robot
     x = convert_latlong_to_xy(data["robots"][0]["coordinates"]["latitude"], scale)
     y = convert_latlong_to_xy(data["robots"][0]["coordinates"]["longitude"], scale)
-
     data["robots"][0]["coordinates"]["x"] = x
     data["robots"][0]["coordinates"]["y"] = y
+    #data["robots"][0]["coordinates"]["latitude"] = x
+    #data["robots"][0]["coordinates"]["longitude"] = y
     
     with open('data.json', 'w') as outfile:
         json.dump(data, outfile, sort_keys = True, indent = 4, ensure_ascii = False)
