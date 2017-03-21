@@ -7,20 +7,16 @@ def readJSON(data, scale):
     Json = json.loads('{}')
 
     #Boundary
-    x = convert_latlong_to_xy(data["boundary"]["boundary_info"][0]["latitude"], scale)
-    y = convert_latlong_to_xy(data["boundary"]["boundary_info"][0]["longitude"], scale)
+    x = convert_lon_to_x(data["boundary"]["boundary_info"][0]["latitude"])
+    y = convert_lat_to_y(data["boundary"]["boundary_info"][0]["longitude"])
     data["boundary"]["boundary_info"][0]["x"] = x
     data["boundary"]["boundary_info"][0]["y"] = y
-    #data["boundary"]["boundary_info"][0]["latitude"] = x
-    #data["boundary"]["boundary_info"][0]["longitude"] = y
 
     #Goal
-    x = convert_latlong_to_xy(data["goal"]["coordinates"]["latitude"], scale)
-    y = convert_latlong_to_xy(data["goal"]["coordinates"]["longitude"], scale)
+    x = convert_lon_to_x(data["goal"]["coordinates"]["latitude"])
+    y = convert_lat_to_y(data["goal"]["coordinates"]["longitude"])
     data["goal"]["coordinates"]["x"] = x
     data["goal"]["coordinates"]["y"] = y
-    #data["goal"]["coordinates"]["latitude"] = x
-    #data["goal"]["coordinates"]["longitude"] = y
 
     #Obstacles
     loc = 0
@@ -30,80 +26,89 @@ def readJSON(data, scale):
         print("No Obstacles")
     else:
             while loc < len(data["obstacles"]):
-                data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["latitude"], scale)
-                data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["longitude"], scale)
-                #data["obstacles"][loc]["obstacle_info"][0]["latitude"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["latitude"], scale)
-                #data["obstacles"][loc]["obstacle_info"][0]["longitude"] = convert_latlong_to_xy(data["obstacles"][loc]["obstacle_info"][0]["longitude"], scale)
+                data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"][0]["latitude"])
+                data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"][0]["longitude"])
                 loc += 1
 
     #Robot
-    x = convert_latlong_to_xy(data["robots"][0]["coordinates"]["latitude"], scale)
-    y = convert_latlong_to_xy(data["robots"][0]["coordinates"]["longitude"], scale)
+    x = convert_lon_to_x(data["robots"][0]["coordinates"]["latitude"])
+    y = convert_lat_to_y(data["robots"][0]["coordinates"]["longitude"])
     data["robots"][0]["coordinates"]["x"] = x
     data["robots"][0]["coordinates"]["y"] = y
-    #data["robots"][0]["coordinates"]["latitude"] = x
-    #data["robots"][0]["coordinates"]["longitude"] = y
     
     with open('data.json', 'w') as outfile:
         json.dump(data, outfile, sort_keys = True, indent = 4, ensure_ascii = False)
     
     return data
 
-'''
-This table describes how many decimal places are required for each difference in
-position.
-decimal
-places   degrees          distance
--------  -------          --------
-0        1                111  km
-1        0.1              11.1 km
-2        0.01             1.11 km
-3        0.001            111  m
-4        0.0001           11.1 m
-5        0.00001          1.11 m
-6        0.000001         11.1 cm
-7        0.0000001        1.11 cm
-8        0.00000001       1.11 mm
-'''
+# Pseudo Mercator Projections
+def convert_lon_to_x(lon):
+    r_major = 6378137.000
+    return r_major*math.radians(lon)
 
-#Should probably use a scale of 7 giving us a measurable distance of about 1 cm
+def convert_x_to_lon(x):
+    r_major = 6378137.000
+    return math.degrees(x/r_major)
 
-'''
-Program written to convert Latitude and Longitude values to X,Yintergers to be used
-for the pathfinding algorithm.
-'''
+def convert_y_to_lat(y):
+    r_major = 6378137.000
+    y = (0-y)/r_major
+    return 180.0/math.pi*(2.0*math.atan(math.exp(y))-math.pi/2.0)
 
-def convert_latlong_to_xy(latOrLongitude, scale):
-    
-    xyReturn = int(latOrLongitude*(10**scale))
+def convert_lat_to_y(lat):
+    r_major = 6378137.000
+    return 0-r_major*math.log(math.tan(math.pi/4.0+lat*(math.pi/180.0)/2.0))
 
-    return xyReturn
+# returns distance in meters on the mercator map projection
+# from 0 lat 0 lon to the point on the sphere
+def latlon_xy(coordinates):
+    xy = []
+    for coordinate in coordinates:
+        # reversing order since lat comes first in these
+        xy.append((convert_lon_to_x(coordinate[1]), convert_lat_to_y(coordinate[0])))
+    return xy
 
-# Converts XY coordinates given to it to global Latitude and Longitude Values
-def convert_xy_to_latlong(XorY, scale):
+def xy_latlon(points):
+    coordinates = []
+    for point in points:
+        # reversing order since lat comes first in these
+        coordinates.append((convert_y_to_lat(point[1]), convert_x_to_lon(point[0])))
+    return coordinates
 
-    latlongReturn = float(XorY/(10**scale))
+# Some other helpful functions
+def findBoundingRectangle(coordinates):
+    min_x = min(coordinates, key=lambda t: t[0])[0]
+    min_y = min(coordinates, key=lambda t: t[1])[1]
+    max_x = max(coordinates, key=lambda t: t[0])[0]
+    max_y = max(coordinates, key=lambda t: t[1])[1]
+    return [(min_x, min_y), (max_x, max_y)]
 
-    return latlongReturn
+# rounds to nearest base
+# ex. round(3.1415,10) => 0
+# ex. round(3.1415,1) => 3
+def round(x,base):
+    return int(math.ceil(x/base))*base
 
-"""
+def localizeXY(points,core):
+    res = []
+    for point in points:
+        res.append( (point[0]-core[0],point[1]-core[1]) )
+    return res
 
-def convert_latlong_to_xy(latOrLongitude, scale):
-    
-    xyReturn = int((latOrLongitude + 180)*(10**scale))
-    #xyReturn = latOrLongitude
+def rescaleXY(points,scale,base):
+    res = []
+    for point in points:
+        res.append( (round(point[0]*scale,base),round(point[1]*scale,base)) )
+    return res
 
-    return xyReturn
+def backscaleXY(points,scale):
+    res = []
+    for point in points:
+        res.append( (round(point[0]/scale,1),round(point[1]/scale,1)) )
+    return res
 
-# Converts XY coordinates given to it to global Latitude and Longitude Values
-def convert_xy_to_latlong(XorY, scale):
-
-    latlongReturn = float((XorY)/(10**scale))
-
-    retval = latlongReturn - 180
-
-    retval = math.ceil(retval * 1000000) / 1000000
-
-    return retval
-
-"""
+def delocalizeXY(points,core):
+    res = []
+    for point in points:
+        res.append( (point[0]+core[0],point[1]+core[1]) )
+    return res
