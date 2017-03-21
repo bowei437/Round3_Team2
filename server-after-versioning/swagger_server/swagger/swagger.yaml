@@ -3,10 +3,10 @@ swagger: "2.0"
 info:
   description: "Calculates minimum path between points depending on user generated\
     \ map input."
-  version: "2.0.0"
+  version: "3.0.0"
   title: "Team 2 Pathfinding API"
 #host: "ec2-54-200-185-55.us-west-2.compute.amazonaws.com:8081"
-basePath: "/v2"
+basePath: "/v3"
 schemes:
 - "http"
 paths:
