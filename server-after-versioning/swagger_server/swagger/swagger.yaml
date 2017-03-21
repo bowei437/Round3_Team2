@@ -677,7 +677,7 @@ definitions:
         $ref: "#/definitions/Coordinate"
       id:
         type: "integer"
-        format: "int64"
+        format: "int32"
   Goal:
     type: "object"
     properties:
