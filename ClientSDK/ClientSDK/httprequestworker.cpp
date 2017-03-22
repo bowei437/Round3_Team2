@@ -34,6 +34,11 @@ void HttpRequestInput::add_file(QString variable_name, QString local_filename, Q
     files.append(file);
 }
 
+void HttpRequestInput::add_json(QString doc)
+{
+    m_doc = doc;
+}
+
 
 HttpRequestWorker::HttpRequestWorker(QObject *parent)
     : QObject(parent), manager(NULL)
@@ -119,7 +124,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
     if (input->var_layout == ADDRESS || input->var_layout == URL_ENCODED) {
         // variable layout is ADDRESS or URL_ENCODED
 
-        if (input->vars.count() > 0) {
+      /*  if (input->vars.count() > 0) {
             bool first = true;
             foreach (QString key, input->vars.keys()) {
                 if (!first) {
@@ -136,7 +141,9 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
                 input->url_str += "?" + request_content;
                 request_content = "";
             }
-        }
+        }*/
+        request_content.append(input->m_doc);
+
     }
     else {
         // variable layout is MULTIPART

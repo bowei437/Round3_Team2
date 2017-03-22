@@ -18,11 +18,21 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    HttpRequestWorker *worker;
+
+    QString getRequestType();
+    QString url_str;
 
 private slots:
     void POST_problem();
     void handle_result(HttpRequestWorker *worker);
 
+    void on_but_problem_clicked();
+    void on_but_boundary_clicked();
+    void on_but_goal_clicked();
+    void on_but_obstacle_clicked();
+    void on_but_path_clicked();
+    void on_but_robot_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -6,96 +6,210 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>496</height>
+    <width>622</width>
+    <height>524</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Large Scale Assignment 6</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="but1">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>20</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>POST_problem</string>
-    </property>
-   </widget>
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>20</y>
-      <width>391</width>
-      <height>351</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="statuslabel">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>410</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Response Code:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="responsecode">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>410</y>
-      <width>61</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>###</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="uidlabel">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>21</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Uid:</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="uid">
-    <property name="geometry">
-     <rect>
       <x>20</x>
-      <y>0</y>
-      <width>113</width>
-      <height>21</height>
+      <y>40</y>
+      <width>461</width>
+      <height>421</height>
      </rect>
     </property>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>40</y>
+      <width>113</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="but_problem">
+       <property name="text">
+        <string>Problem</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="but_boundary">
+       <property name="text">
+        <string>Boundary</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="but_goal">
+       <property name="text">
+        <string>Goal</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="but_obstacle">
+       <property name="text">
+        <string>Obstacles</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="but_path">
+       <property name="text">
+        <string>Path</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="but_robot">
+       <property name="text">
+        <string>Robot</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_rqst_body">
+       <property name="text">
+        <string>Request Body:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPlainTextEdit" name="rqst_body"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_cur_uid">
+         <property name="text">
+          <string>Current Uid:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="cur_uid">
+         <property name="text">
+          <string>####</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_rpsn_code">
+         <property name="text">
+          <string>Response Code:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="rpsn_code">
+         <property name="text">
+          <string>###</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QComboBox" name="combo_rqst_type">
+       <item>
+        <property name="text">
+         <string>GET</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>POST</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>PUT</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DELETE</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_rqst_uid">
+       <property name="text">
+        <string>Request Uid:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="rqst_uid"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_rqst_oid">
+       <property name="text">
+        <string>Request Obstacle id: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="rqst_oid"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_rqts_rid">
+       <property name="text">
+        <string>Request Robot id: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="rqst_rid"/>
+     </item>
+    </layout>
+   </widget>
+   <zorder>graphicsView</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>horizontalLayoutWidget_2</zorder>
+   <zorder>label_rpsn_code</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>483</width>
+     <width>622</width>
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuGUI_Client_Pathfinding_Team_2">
+    <property name="title">
+     <string>GUI Client Pathfinding Team 2</string>
+    </property>
+   </widget>
+   <addaction name="menuGUI_Client_Pathfinding_Team_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

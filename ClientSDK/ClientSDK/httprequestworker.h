@@ -36,7 +36,9 @@ public:
     void initialize();
     void add_var(QString key, QString value);
     void add_file(QString variable_name, QString local_filename, QString request_filename, QString mime_type);
+    void add_json(QString doc);
 
+    QString m_doc;
 };
 
 
