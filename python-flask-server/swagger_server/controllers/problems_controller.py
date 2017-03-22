@@ -18,13 +18,14 @@ storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2
     be found in the UI, under Problem - GET
 """
 default_problem = {
-"boundary": {
-    "boundary_info": [
+  "boundary": {
+    "coordinates": [
       {
         "latitude": 0,
         "longitude": 0
       }
-    ]
+    ],
+    "shape": "string"
   },
   "goal": {
     "coordinates": {
@@ -34,13 +35,14 @@ default_problem = {
   },
   "obstacles": [
     {
-      "obstacle_id": 0,
-      "obstacle_info": [
+      "coordinates": [
         {
           "latitude": 0,
           "longitude": 0
         }
-      ]
+      ],
+      "obstacle_id": 0,
+      "shape": "string"
     }
   ],
   "problem_id": 0,
@@ -52,9 +54,8 @@ default_problem = {
       },
       "id": 0
     }
-  ],
+  ]
 }
-
 def add_problem():
     """
     Creates a new problem and returns a problemID
@@ -146,4 +147,4 @@ def get_problem(problem_id):
     elif (response.status_code != 200):
         return jsonify(Error(response.status_code, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
     #return response from Storage
-    return jsonify(response.json())
+    return jsonify(response.json()["bo"])

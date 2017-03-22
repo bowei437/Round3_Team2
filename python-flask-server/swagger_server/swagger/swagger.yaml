@@ -677,9 +677,6 @@ definitions:
   Problem:
     type: "object"
     properties:
-      version:
-        type: "integer"
-        format: "int32"
       problem_id:
         type: "integer"
         format: "int32"
