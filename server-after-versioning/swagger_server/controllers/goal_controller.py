@@ -21,7 +21,10 @@ def get_goal(problem_id):
 
     :rtype: Goal
     """
-    
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+ 
     #contact storage
     goal_url = storage_url + str(problem_id)
     response = requests.get(goal_url)
@@ -58,7 +61,13 @@ def update_goal(problem_id, version, goal):
 
     :rtype: None
     """
+    #check if problem_id is positive 
+    if (problem_id < 0):
+        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
 
+    #check if version is positive
+    if (version < 0):
+        return jsonify(Error(405, "Negative Version")), HTTP_405_INVALID_INPUT
 
     if connexion.request.is_json:
         #get JSON from response
@@ -84,14 +93,9 @@ def update_goal(problem_id, version, goal):
             message = "Versions numbers do not match. Version should be: " + str(problem["version"])
             return jsonify(Error(409, message)), status.HTTP_409_CONFLICT
         
-
-        #############################################
-        #   THIS IS WHERE I WOULD SANITIZE INPUTS   #
-        #                                           #
-        #     [INSERT TIMMY TURNER'S DAD MEME]      #
-        #                                           #
-        #   IF I HAD A WORKING SANITIZE FUNCTION    #
-        #############################################
+        #check if start and goal are in valid range
+        #if (abs(problem['goal']['coordinates']['latitude'] -  ) > 100):
+        #    return jsonify(Error(405, "Goal is out of range.")), HTTP_405_INVALID_INPUT
 
         #store new Goal coordinates into Goal of Problem
         problem['goal']['coordinates'] = goal['coordinates']

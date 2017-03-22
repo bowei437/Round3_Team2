@@ -72,6 +72,10 @@ def add_problem():
     json_response = response.json()
     uid = json_response['uid']
     
+    #check if uid is positive (It should, but its just for safety's sake)
+    if (uid < 0):
+        return jsonify(Error(405, "Negative UID")), HTTP_405_INVALID_INPUT
+    
     #PUT the default Problem JSON into storage
     put_url = storage_url + str(uid)
     default_problem['uid'] = uid
@@ -100,6 +104,13 @@ def delete_problem(problem_id, version):
 
     :rtype: None
     """
+    #check if problem_id is positive 
+    if (problem_id < 0):
+        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+
+    #check if version is positive 
+    if (version < 0):
+        return jsonify(Error(405, "Negative Version")), HTTP_405_INVALID_INPUT
 
     #contact Storage
     url = storage_url + str(problem_id)
@@ -139,7 +150,10 @@ def get_problem(problem_id):
 
     :rtype: Problem
     """
-    
+    #check if problem_id is positive 
+    if (problem_id < 0):
+        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+ 
     #contact Storage
     get_url = storage_url + str(problem_id)
     response = requests.get(get_url)

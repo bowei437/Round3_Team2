@@ -21,6 +21,10 @@ def get_boundary(problem_id):
 
     :rtype: Boundary
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+
     #contact storage
     bound_url = storage_url + str(problem_id)
     response = requests.get(bound_url)
@@ -56,6 +60,14 @@ def update_boundary(problem_id, version, boundary):
 
     :rtype: None
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+
+    #check if version is positive
+    if (version < 0):
+        return jsonify(Error(405, "Negative Version")), HTTP_405_INVALID_INPUT
+
     if connexion.request.is_json:
         #get JSON from response
         boundary = connexion.request.get_json()
@@ -79,15 +91,6 @@ def update_boundary(problem_id, version, boundary):
         if (version != problem["version"]):
             message = "Versions numbers do not match. Version should be: " + str(problem["version"])
             return jsonify(Error(409, message)), status.HTTP_409_CONFLICT
-        
-
-        #############################################
-        #   THIS IS WHERE I WOULD SANITIZE INPUTS   #
-        #                                           #
-        #     [INSERT TIMMY TURNER'S DAD MEME]      #
-        #                                           #
-        #   IF I HAD A WORKING SANITIZE FUNCTION    #
-        #############################################
 
         #store new Goal coordinates into Goal of Problem
         problem['boundary'] = boundary
