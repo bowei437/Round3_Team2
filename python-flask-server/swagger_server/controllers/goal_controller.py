@@ -5,6 +5,11 @@ from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
+import requests, json
+from flask import jsonify
+from flask_api import status
+
+storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
 
 def get_goal(problem_id):
@@ -77,7 +82,7 @@ def update_goal(problem_id, goal):
         
         version = response.json()["version"]
         #get problem from response
-        problem = response.json()
+        problem = response.json()["body"]
         
         #check if start and goal are in valid range
         #if (abs(problem['goal']['coordinates']['latitude'] -  ) > 100):
@@ -96,11 +101,7 @@ def update_goal(problem_id, goal):
         if (response.status_code != 200):
             return jsonify(Error(500, "Storage server error: couldn't update goal")), status.HTTP_500_INTERNAL_SERVER_ERROR
         
-        reply = {}
-        reply["response"] = put_response.json()
-        reply["version"] = problem["version"]
-
-        return jsonify(reply)
+        return jsonify({"response":"Update successful"})
 
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE

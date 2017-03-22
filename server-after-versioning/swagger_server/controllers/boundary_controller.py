@@ -88,11 +88,6 @@ def update_boundary(problem_id, version, boundary):
             message = "Versions numbers do not match. Version should be: " + str(problem["version"])
             return jsonify(Error(409, message)), status.HTTP_409_CONFLICT
 
-        #check if boundary is in valid range
-        test_bool = sanitize_boundary(boundary, problem)
-        if (test_bool is False):
-            return jsonify(Error(405, "Validation exception: Invalid boundary info")), status.HTTP_405_METHOD_NOT_ALLOWED
-
         #store new Goal coordinates into Goal of Problem
         problem['boundary'] = boundary
 
@@ -116,31 +111,4 @@ def update_boundary(problem_id, version, boundary):
 
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
-
-def sanitize_boundary(bound, prob):
-    if ("boundary_info" in bound):
-        bound_info = bound["boundary_info"]
-        if ("latitude" in bound_info and "longitude" in bound_info):
-            bound_lat = bound_info["latitude"]
-            bound_long = bound_info["longitude"]
-     
-            goal_lat = prob["goal"]["coordinates"]["latitude"]
-            goal_long = prob["goal"]["coordinates"]["longitude"]
-
-            rob_info = prob["robots"]
-            for coor in robot_info:
-                if ("coordinates" in coor):
-                    robot_lat = coor["coordinate"]["latitude"]
-                    robot_long = coor["coordinate"]["longitude"]
-                    ''' 
-                    if (bound_lat not in range(robot_lat, goal_lat)):
-                        return False
-                    if (bound_long not in range(robot_long, goal_long)):
-                        return False
-                    '''
-       # else:
-        #    return False
-  #  else: 
-   #     return False
-    return True
 

@@ -74,7 +74,7 @@ def add_problem():
     
     #check if uid is positive (It should, but its just for safety's sake)
     if (uid < 0):
-        return jsonify(Error(405, "Negative UID")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative UID")), HTTP_400_BAD_REQUEST
     
     #PUT the default Problem JSON into storage
     put_url = storage_url + str(uid)
@@ -106,11 +106,7 @@ def delete_problem(problem_id, version):
     """
     #check if problem_id is positive 
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
-
-    #check if version is positive 
-    if (version < 0):
-        return jsonify(Error(405, "Negative Version")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
 
     #contact Storage
     url = storage_url + str(problem_id)
@@ -152,7 +148,7 @@ def get_problem(problem_id):
     """
     #check if problem_id is positive 
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
  
     #contact Storage
     get_url = storage_url + str(problem_id)

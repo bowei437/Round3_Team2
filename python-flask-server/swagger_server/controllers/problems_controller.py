@@ -147,4 +147,4 @@ def get_problem(problem_id):
     elif (response.status_code != 200):
         return jsonify(Error(response.status_code, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
     #return response from Storage
-    return jsonify(response.json()["bo"])
+    return jsonify(response.json()["body"])
