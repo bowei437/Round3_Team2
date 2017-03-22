@@ -53,7 +53,6 @@ default_problem = {
       "id": 0
     }
   ],
-  "version": 0
 }
 
 def add_problem():
@@ -99,7 +98,12 @@ def delete_problem(problem_id):
 
     :rtype: None
     """
-        #contact Storage
+
+    #make sure ID was valid
+    if (problem_id < 0):
+        return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
+    
+    #contact Storage
     params = "id=%s/" % str(problem_id)
     url = storage_url + str(params)
     get_response = requests.delete(url)
@@ -107,10 +111,6 @@ def delete_problem(problem_id):
     #make sure Problem existed
     if (get_response.status_code == 404):
         return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
-    
-    #make sure ID was valid
-    elif (get_response.status_code == 400):
-        return jsonify(Error(404, "Problem not found")), status.HTTP_400_BAD_REQUEST
     
     #check if the Storage died
     elif (get_response.status_code != 200):
@@ -129,8 +129,14 @@ def get_problem(problem_id):
 
     :rtype: Problem
     """
-        #contact Storage
-    get_url = storage_url + str(problem_id)
+
+    #make sure ID was valid
+    if (problem_id < 0):
+        return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
+
+    #contact Storage
+    params = "id=%s/" % str(problem_id)
+    get_url = storage_url + str(params)
     response = requests.get(get_url)
 
     #make sure Problem existed
