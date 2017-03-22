@@ -1,0 +1,59 @@
+{
+    "boundary": {
+        "boundary_info": [
+            {
+                "latitude": -90.0,
+                "longitude": 70.0,
+                "x": -9000000,
+                "y": 7000000
+            },
+            {
+                "latitude": -80.0,
+                "longitude": 60.0
+            },
+            {
+                "latitude": -50.0,
+                "longitude": 40.0
+            },
+            {
+                "latitude": -30.0,
+                "longitude": 20.0
+            }
+        ]
+    },
+    "goal": {
+        "coordinates": {
+            "latitude": -85.9222,
+            "longitude": 71.1255,
+            "x": -8592220,
+            "y": 7112550
+        }
+    },
+    "obstacles": [
+        {
+            "obstacle_id": 0,
+            "obstacle_info": [
+                {
+                    "latitude": 0,
+                    "longitude": 0,
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        }
+    ],
+    "problem_id": 415,
+    "robots": [
+        {
+            "coordinates": {
+                "latitude": -85.92132,
+                "longitude": 71.124689,
+                "x": -8592132,
+                "y": 7112468
+            },
+            "id": 0
+        }
+    ],
+    "uid": 415,
+    "version": 3
+}

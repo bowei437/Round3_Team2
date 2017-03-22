@@ -604,8 +604,12 @@ definitions:
         type: "integer"
         format: "int32"
         description: "Unique identifier representing a specific obstacle in the list."
-      obstacle_info:
-        $ref: "#/definitions/Rectangle"
+      shape:
+        type: "string"
+      coordinates:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinate"
   Rectangle:
     type: "object"
     properties:
@@ -652,7 +656,9 @@ definitions:
   Boundary:
     type: "object"
     properties:
-      boundary_info:
+      shape:
+        type: "string"
+      coordinates:
         type: "array"
         items:
           $ref: "#/definitions/Coordinate"
