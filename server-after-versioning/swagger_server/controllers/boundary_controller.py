@@ -64,10 +64,6 @@ def update_boundary(problem_id, version, boundary):
     if (problem_id < 0):
         return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
 
-    #check if version is positive
-    if (version < 0):
-        return jsonify(Error(405, "Negative Version")), HTTP_405_INVALID_INPUT
-
     if connexion.request.is_json:
         #get JSON from response
         boundary = connexion.request.get_json()
@@ -92,6 +88,9 @@ def update_boundary(problem_id, version, boundary):
             message = "Versions numbers do not match. Version should be: " + str(problem["version"])
             return jsonify(Error(409, message)), status.HTTP_409_CONFLICT
 
+        #check if boundary is in valid range
+        sanitize_boundary(boundary, problem)
+
         #store new Goal coordinates into Goal of Problem
         problem['boundary'] = boundary
 
@@ -115,3 +114,43 @@ def update_boundary(problem_id, version, boundary):
 
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+
+def sanitize_boundary(bound, prob):
+    if ("boundary_info" in bound):
+        bound_info = bound["boundary_info"]
+        if ("latitude" in bound_info and "longitude" in bound_info):
+            bound_lat = bound_info["latitude"]
+            bound_long = bound_info["longitude"] 
+        else:
+            return Error(405, "Validation exception: Invalid boundary data"), status.HTTP_405_METHOD_NOT_ALLOWED
+    else: 
+        return Error(405, "Validation exception: Invalid boundary data"), status.HTTP_405_METHOD_NOT_ALLOWED
+    return
+
+'''
+def sanitize_boundary(bound, prob):
+    if ("boundary_info" in bound):
+        boundary_info = bound["boundary_info"]
+        boundary_lat = boundary_info["latitude"]
+        boundary_long = boundary_info["longitude"]
+
+        goal_info = prob["goal"]
+        goal_coordinates = goal_info["coordinates"]
+        goal_lat = goal_coordinates["latitude"]
+        goal_long = goal_coordinates["longitude"]
+ 
+        robot_info = prob["robots"]
+        for coor in robot_info:
+            if ("coordinates" in coor):
+                robot_coordinates = coor["coordinate"]
+                robot_lat = robot_coordinates["latitude"]
+                robot_long = robot_coordinates["longitude"]
+                if (boundary_lat not in range(robot_lat, goal_lat)):
+                    return Error(405, "Validation exception: Invalid boundary data"), status.HTTP_405_METHOD_NOT_ALLOWED
+                if (boundary_long not in range (robot_long, goal_long)):  
+                    return Error(405, "Validation exception: Invalid boundary data"), status.HTTP_405_METHOD_NOT_ALLOWED 
+    else:
+        return Error(405, "Validation exception: Did not provide proper boundary"), status.HTTP_405_METHOD_NOT_ALLOWED
+    return
+'''
+
