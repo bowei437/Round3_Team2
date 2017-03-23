@@ -121,6 +121,9 @@ def delete_robot(problem_id, robot_id):
     #get robots from Problem
     robots = problem["robots"]
 
+    if (len(robots) == 1):
+        return jsonify(Error(400, "Must be at least 1 robot in problem")), status.HTTP_400_BAD_REQUEST
+
     #make sure there isn't a Robot with the same ID
     if (not any(o_robot["id"] == robot_id for o_robot in robots)):
         return jsonify(Error(404, "Robot not found")), status.HTTP_404_NOT_FOUND
