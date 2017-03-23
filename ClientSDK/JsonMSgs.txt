@@ -1,0 +1,46 @@
+{
+  "obstacle_id": 1,
+  "obstacle_info": [
+    {
+      "latitude": -10,
+      "longitude": -10
+    },
+ {
+      "latitude": -10,
+      "longitude": -40
+    },
+ {
+      "latitude": -40,
+      "longitude":-40
+    },
+ {
+      "latitude": -40,
+      "longitude": -10
+    }
+  ]
+}
+
+
+
+{
+  "boundary_info": [
+    {
+      "latitude": 0,
+      "longitude": 0
+    },
+{
+      "latitude": -400,
+      "longitude": 0
+    },
+{
+      "latitude": -400,
+      "longitude": -400
+    },
+{
+      "latitude": 0,
+      "longitude": -400
+    }
+  ]
+}
+
+

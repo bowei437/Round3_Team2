@@ -50,10 +50,15 @@ private:
     void RobotsScene(QJsonArray list);
     void PathScene(QJsonObject update);
 
-    //void resizeEvent(QResizeEvent *);
     QVector<QPointF> getPointList(QJsonArray list);
+
+    QList<QGraphicsPolygonItem *> m_obstacleList;
+    QList<QGraphicsEllipseItem  *> m_robotList;
+    QList<QGraphicsLineItem *> m_pathList;
+    QGraphicsPolygonItem * m_boundary;
+    QGraphicsEllipseItem * m_goal;
+
 private slots:
-    void POST_problem();
     void handle_result(HttpRequestWorker *worker, QString StatusCode);
 
     void on_but_problem_clicked();
