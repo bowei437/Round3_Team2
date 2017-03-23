@@ -207,7 +207,8 @@ def pathfinder(neighbors=grid_neighbors(0, 0, 100, 100),
     return func
 # END ORIGINAL MODULE #########################################################
 
-# enable is used for real world application. Set it to 1 
+# enable is used for real world application. Set it to 1. Removex X,Y from final path output
+# set to 0 if in debug/test mode as tests will require X,Y in final path output
 def pathfind_from_json(json_message, enable):
     # Takes original JSON and high level converts it
     if enable == 1:
