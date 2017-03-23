@@ -26,6 +26,11 @@ paths:
           schema:
             type: "integer"
             format: "int32"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            type: "integer"
+            format: "int32"
       x-swagger-router-controller: "swagger_server.controllers.problems_controller"
   /id={problem_id}/:
     get:
@@ -49,8 +54,6 @@ paths:
           description: "A Problem type, containing all values"
           schema:
             $ref: "#/definitions/Problem"
-        409:
-          description: "Version Out of Date"
         default:
           description: "Unexpected error"
           schema:
@@ -77,8 +80,8 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Problem not found"
-        409:
-          description: "Version Out of Date"
+        500:
+          description: "There was an error in the storage server"
       x-swagger-router-controller: "swagger_server.controllers.problems_controller"
   /id={problem_id}/Obstacles:
     get:
