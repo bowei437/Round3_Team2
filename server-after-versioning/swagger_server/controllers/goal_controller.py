@@ -23,7 +23,7 @@ def get_goal(problem_id):
     """
     #check if problem_id is positive
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
  
     #contact storage
     goal_url = storage_url + str(problem_id)
@@ -63,15 +63,11 @@ def update_goal(problem_id, version, goal):
     """
     #check if problem_id is positive 
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
-
-    #check if version is positive
-    if (version < 0):
-        return jsonify(Error(405, "Negative Version")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
         #get JSON from response
-        goal = connexion.request.get_json()
+        goal = connexion.request.get_json() 
 
         #contact Storage
         goal_url = storage_url + str(problem_id)
@@ -88,15 +84,18 @@ def update_goal(problem_id, version, goal):
         #get problem from response
         problem = response.json()
 
+        '''
+        #check if goal is in valid range
+        test_msg = sanitize_goal(goal, problem)
+        if (test_msg is not "No error"):
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
+
         #check that versions are the same
         if (version != problem["version"]):
             message = "Versions numbers do not match. Version should be: " + str(problem["version"])
             return jsonify(Error(409, message)), status.HTTP_409_CONFLICT
         
-        #check if start and goal are in valid range
-        #if (abs(problem['goal']['coordinates']['latitude'] -  ) > 100):
-        #    return jsonify(Error(405, "Goal is out of range.")), HTTP_405_INVALID_INPUT
-
         #store new Goal coordinates into Goal of Problem
         problem['goal']['coordinates'] = goal['coordinates']
 
@@ -120,6 +119,28 @@ def update_goal(problem_id, version, goal):
 
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+
+'''
+def sanitize_goal(g, prob):
+    coor_count = 0
+    if ("coordinates" in g):
+        g_coor = g["coordinates"]
+        for coor in g_coor:
+            if ("latitude" in coor and "longitude" in coor):
+                coor_count = coor_count + 1
+                g_lat = coor["latitude"]
+                g_long = coor["longitude"]
+                if (g_lat < -90 or g_lat > 90):
+                    return "Invalid latitude: out of range (-90, 90)"
+                if (g_long < -180 or g_long > 180):
+                    return "Invalid longitude: out of range (-180, 180)"
+            else:
+                return "Invalid goal: incomplete latitude and longitude pair"
+    else: 
+        return "Invalid goal: missing coordinates"
+    return "No error"
+'''
+
 
 
 """

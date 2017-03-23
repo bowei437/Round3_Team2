@@ -66,7 +66,7 @@ def add_problem():
 
     #check if storage comes back okay
     if (response.status_code != 200):
-        return jsonify(Error(500, "Error in storage")), HTTP_500_INTERNAL_SERVER_ERROR
+        return jsonify(Error(500, "Error in storage")), status.HTTP_500_INTERNAL_SERVER_ERROR
     
     #retrieve the uid
     json_response = response.json()
@@ -74,7 +74,7 @@ def add_problem():
     
     #check if uid is positive (It should, but its just for safety's sake)
     if (uid < 0):
-        return jsonify(Error(400, "Negative UID")), HTTP_400_BAD_REQUEST
+        return jsonify(Error(400, "Negative UID")), status.HTTP_400_BAD_REQUEST
     
     #PUT the default Problem JSON into storage
     put_url = storage_url + str(uid)
@@ -106,7 +106,7 @@ def delete_problem(problem_id, version):
     """
     #check if problem_id is positive 
     if (problem_id < 0):
-        return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     #contact Storage
     url = storage_url + str(problem_id)
@@ -148,7 +148,7 @@ def get_problem(problem_id):
     """
     #check if problem_id is positive 
     if (problem_id < 0):
-        return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
  
     #contact Storage
     get_url = storage_url + str(problem_id)

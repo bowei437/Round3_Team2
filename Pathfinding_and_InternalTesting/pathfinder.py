@@ -207,7 +207,8 @@ def pathfinder(neighbors=grid_neighbors(0, 0, 100, 100),
     return func
 # END ORIGINAL MODULE #########################################################
 
-# enable is used for real world application. Set it to 1 
+# enable is used for real world application. Set it to 1. Removex X,Y from final path output
+# set to 0 if in debug/test mode as tests will require X,Y in final path output
 def pathfind_from_json(json_message, enable):
     # Takes original JSON and high level converts it
     if enable == 1:
@@ -231,9 +232,9 @@ def pathfind_from_json(json_message, enable):
     # Only write X,Y values into the output IF enable is set to 0 which means it is in debug/test mode. 
     for i, (x, y) in enumerate(path[1]):
         if enable == 1:
-            temp_dict = { "latitude" : convert_xy_to_latlong(x, Global_scale), "longitude" : convert_xy_to_latlong(y, Global_scale)}
+            temp_dict = { "latitude" : convert_y_to_lat(y), "longitude" : convert_x_to_lon(x)}
         else:
-            temp_dict = { "latitude" : convert_xy_to_latlong(x, Global_scale), "longitude" : convert_xy_to_latlong(y, Global_scale),"x" : x, "y" : y}
+            temp_dict = { "latitude" : convert_y_to_lat(y), "longitude" : convert_x_to_lon(x),"x" : x, "y" : y}
         coordinate_array.append(temp_dict)
 
     path_dict = {  "path_cost" : path[0],
