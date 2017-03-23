@@ -47,6 +47,15 @@ default_problem = {
       }
     }
   ],
+  "path": {
+    "coordinates": [
+      {
+        "latitude": 0,
+        "longitude": 0
+      }
+    ],
+    "path_cost": 0
+  },
   "problem_id": 0,
   "regions": {
     "searched": [

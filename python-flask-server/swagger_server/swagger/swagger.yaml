@@ -670,6 +670,8 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Obstacle"
+      path:
+        $ref: '#/definitions/Path'
       regions:
         type: "object"
         properties:
