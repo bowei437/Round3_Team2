@@ -1,6 +1,8 @@
 import json
 import math
 
+# Function called by pathfind_from_json which takes the data it gets initially
+# and does the primary conversion of data into the proper X, Y and lat long
 def readJSON(data, scale):
 
     #globally store JSON message
