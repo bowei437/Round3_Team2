@@ -25,6 +25,9 @@ def add_obstacle(problem_id, version, obstacle):
 
     :rtype: int
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     #check if input is JSON
     if connexion.request.is_json:
@@ -49,16 +52,13 @@ def add_obstacle(problem_id, version, obstacle):
         #make sure versions match
         if (version != problem["version"]):
             return jsonify(Error(409, ("Versions numbers do not match. Version should be:" + str(problem['version'])))), status.HTTP_409_CONFLICT
-        
-
-        #############################################
-        #   THIS IS WHERE I WOULD SANITIZE INPUTS   #
-        #                                           #
-        #     [INSERT TIMMY TURNER'S DAD MEME]      #
-        #                                           #
-        #   IF I HAD A WORKING SANITIZE FUNCTION    #
-        #############################################
-
+       
+        '''        
+        #check if obstacle is in valid range
+        test_msg = sanitize_obstacle(obstacle, problem)
+        if (test_msg is not "No error"):
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
 
         #get Obstacles from Problem
         obstacles = problem["obstacles"]
@@ -106,6 +106,14 @@ def delete_obstacle(problem_id, obstacle_id, version):
 
     :rtype: None
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+   
+    #check if obstacle_id is positive
+    if (obstacle_id < 0):
+        return jsonify(Error(400, "Negative Obstacle_ID")), status.HTTP_400_BAD_REQUEST
+
     #contact Storage
     obst_url = storage_url + str(problem_id)
     response = requests.get(obst_url)
@@ -168,6 +176,14 @@ def get_obstacle(problem_id, obstacle_id):
 
     :rtype: Obstacle
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+
+    #check if obstacle_id is positive
+    if (obstacle_id < 0):
+        return jsonify(Error(400, "Negative Obstacle_ID")), status.HTTP_400_BAD_REQUEST
+
     #contact Storage
     obst_url = storage_url + str(problem_id)
     response = requests.get(obst_url)
@@ -208,6 +224,10 @@ def get_obstacles(problem_id):
 
     :rtype: List[Obstacle]
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+
     #contact Storage
     obst_url = storage_url + str(problem_id)
     response = requests.get(obst_url)
@@ -244,6 +264,13 @@ def update_obstacle(problem_id, obstacle_id, version, updated_obstacle=None):
 
     :rtype: None
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+
+    #check if obstacle_id is positive
+    if (obstacle_id < 0):
+        return jsonify(Error(400, "Negative Obstacle_ID")), status.HTTP_400_BAD_REQUEST
 
     #check if input is JSON
     if connexion.request.is_json:
@@ -268,6 +295,13 @@ def update_obstacle(problem_id, obstacle_id, version, updated_obstacle=None):
         #check if versions match
         if (version != problem["version"]):
             return jsonify(Error(409, ("Versions numbers do not match. Version should be: " + str(problem['version'])))), status.HTTP_409_CONFLICT
+
+        '''        
+        #check if obstacle is in valid range
+        test_msg = sanitize_obstacle(obstacle, problem)
+        if (test_msg is not "No error"):
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
         
         #get list of Obstacles from Problem
         obstacles = problem["obstacles"]
@@ -277,14 +311,6 @@ def update_obstacle(problem_id, obstacle_id, version, updated_obstacle=None):
         changed = False;
         for o_obstacle in obstacles:
             if (o_obstacle["obstacle_id"] == obstacle_id):
-
-                #############################################
-                #   THIS IS WHERE I WOULD SANITIZE INPUTS   #
-                #                                           #
-                #     [INSERT TIMMY TURNER'S DAD MEME]      #
-                #                                           #
-                #   IF I HAD A WORKING SANITIZE FUNCTION    #
-                #############################################
                 obstacles.remove(o_obstacle)
                 obstacles.append(obstacle)
                 problem["obstacles"] = obstacles
@@ -315,3 +341,9 @@ def update_obstacle(problem_id, obstacle_id, version, updated_obstacle=None):
         return jsonify(reply)
     #return Error if not JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+
+'''
+def sanitize_obstacle(obs):
+    #similar to sanitize_boundary
+    return "No error"
+'''

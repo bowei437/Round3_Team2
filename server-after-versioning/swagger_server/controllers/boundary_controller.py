@@ -23,7 +23,7 @@ def get_boundary(problem_id):
     """
     #check if problem_id is positive
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     #contact storage
     bound_url = storage_url + str(problem_id)
@@ -62,11 +62,18 @@ def update_boundary(problem_id, version, boundary):
     """
     #check if problem_id is positive
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
         #get JSON from response
         boundary = connexion.request.get_json()
+
+        '''
+        #check if boundary is in valid range
+        test_msg = sanitize_boundary(boundary)
+        if (test_msg is not "No error"):
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
 
         #contact Storage
         bound_url = storage_url + str(problem_id)
@@ -112,3 +119,39 @@ def update_boundary(problem_id, version, boundary):
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
 
+'''
+def sanitize_boundary(bound):
+    coor_count = 0
+    if ("coordinates" in bound):
+        bound_coor = bound["coordinates"]
+        for coor in bound_coor:
+            if ("latitude" in coor and "longitude" in coor):
+                coor_count = coor_count + 1
+                bound_lat = coor["latitude"]
+                bound_long = coor["longitude"]
+                if (bound_lat < -90 or bound_lat > 90):
+                    return "Invalid latitude: out of range (-90 to 90)"
+                if (bound_long < -180 or bound_long > 180):
+                    return "Invalid longitude: out of range (-180 to 180)"
+            else:
+                return "Invalid boundary: incomplete latitude and longitude pair"
+    else:
+        return "Invalid boundary: missing coordinates"
+    if ("shape" in bound):
+        bound_shape = bound["shape"]
+        if (bound_shape.lower() is "triangle" and coor_count == 3):
+            pass
+        elif (bound_shape.lower() is "rectangle" and coor_count == 4):
+            pass
+        elif (bound_shape.lower() is "square" and coor_count == 4):
+            pass
+        elif (bound_shape.lower() is "pentagon" and coor_count == 5):
+            pass
+        elif (bound_shape.lower() is "hexagon" and coor_count == 6):
+            pass
+        else:
+            return "Invalid boundary: unmatching shape and number of coordinates"
+    else:
+        return "Invalid boundary: missing shape"
+    return "No error"
+'''

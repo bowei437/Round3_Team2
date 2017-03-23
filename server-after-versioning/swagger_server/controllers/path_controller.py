@@ -24,7 +24,7 @@ def get_path(problem_id):
     """
     #check if problem_id is positive
     if (problem_id < 0):
-        return jsonify(Error(405, "Negative Problem_ID")), HTTP_405_INVALID_INPUT
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
     
     #contact storage
     path_url = storage_url + str(problem_id)

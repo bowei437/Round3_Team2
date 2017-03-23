@@ -25,6 +25,10 @@ def add_robot(problem_id, version, robot):
 
     :rtype: int
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+
     #check that input is JSON
     if connexion.request.is_json:
         #get JSON from input
@@ -49,15 +53,12 @@ def add_robot(problem_id, version, robot):
         if (version != problem["version"]):
             return jsonify(Error(409, ("Versions numbers do not match. Version should be:" + str(problem['version'])))), status.HTTP_409_CONFLICT
         
-
-        #############################################
-        #   THIS IS WHERE I WOULD SANITIZE INPUTS   #
-        #                                           #
-        #     [INSERT TIMMY TURNER'S DAD MEME]      #
-        #                                           #
-        #   IF I HAD A WORKING SANITIZE FUNCTION    #
-        #############################################
-
+        '''
+        #check if robot is in valid range
+        test_msg = sanitize_robot(robot, problem)
+        if (test_msg is not "No Error"):
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
 
         #get robots from Problem
         robots = problem["robots"]
@@ -105,7 +106,14 @@ def delete_robot(problem_id, robot_id, version):
 
     :rtype: None
     """
-
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+   
+    #check if robot_id is positive
+    if (robot_id < 0):
+        return jsonify(Error(400, "Negative Robot_ID")), status.HTTP_400_BAD_REQUEST
+ 
     #contact Storage
     robot_url = storage_url + str(problem_id)
     response = requests.get(robot_url)
@@ -167,6 +175,13 @@ def get_robot(problem_id, robot_id):
 
     :rtype: Robot
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+
+    #check if robot_id is positive
+    if (robot_id < 0):
+        return jsonify(Error(400, "Negative Robot_ID")), status.HTTP_400_BAD_REQUEST
 
     #contact Storage
     robot_url = storage_url + str(problem_id)
@@ -207,6 +222,9 @@ def get_robots(problem_id):
 
     :rtype: List[Robot]
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     #contact Storage
     robot_url = storage_url + str(problem_id)
@@ -245,11 +263,24 @@ def update_robot(problem_id, version, robot, robot_id):
 
     :rtype: None
     """
+    #check if problem_id is positive
+    if (problem_id < 0):
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
+
+    #check if robot_id is positive
+    if (robot_id < 0):
+        return jsonify(Error(400, "Negative Robot_ID")), status.HTTP_400_BAD_REQUEST
 
     #check if input is JSON
     if connexion.request.is_json:
         #get JSON from input
         robot = connexion.request.get_json()
+
+        ''' 
+        #check if robot is in valid range
+        test_msg = sanitize_robot(robot)
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
 
         #contact Storage
         robot_url = storage_url + str(problem_id)
@@ -278,14 +309,6 @@ def update_robot(problem_id, version, robot, robot_id):
         changed = False;
         for o_robot in robots:
             if (o_robot["id"] == robot_id):
-
-                #############################################
-                #   THIS IS WHERE I WOULD SANITIZE INPUTS   #
-                #                                           #
-                #     [INSERT TIMMY TURNER'S DAD MEME]      #
-                #                                           #
-                #   IF I HAD A WORKING SANITIZE FUNCTION    #
-                #############################################
 
                 o_robot["coordinates"] = robot["coordinates"]
                 problem["robots"] = robots
@@ -317,3 +340,7 @@ def update_robot(problem_id, version, robot, robot_id):
     #return Error if not JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
 
+'''
+def sanitize_robot(rob):
+    #similar to sanitize_boundary
+'''
