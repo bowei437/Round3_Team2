@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
+    <width>614</width>
     <height>524</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Large Scale Assignment 6</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="view_field">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -29,7 +29,7 @@
      <rect>
       <x>490</x>
       <y>40</y>
-      <width>113</width>
+      <width>121</width>
       <height>421</height>
      </rect>
     </property>
@@ -87,22 +87,21 @@
       <widget class="QPlainTextEdit" name="rqst_body"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_cur_uid">
-         <property name="text">
-          <string>Current Uid:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="cur_uid">
-         <property name="text">
-          <string>####</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QLabel" name="label">
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+       <property name="text">
+        <string>*Place Coordinates in</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string> order of drawn</string>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -190,17 +189,13 @@
      </item>
     </layout>
    </widget>
-   <zorder>graphicsView</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>horizontalLayoutWidget_2</zorder>
-   <zorder>label_rpsn_code</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>622</width>
+     <width>614</width>
      <height>20</height>
     </rect>
    </property>

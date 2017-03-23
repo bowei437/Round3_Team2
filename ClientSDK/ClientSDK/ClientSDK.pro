@@ -18,6 +18,7 @@ SOURCES += main.cpp\
     httprequestworker.cpp
 
 HEADERS  += mainwindow.h \
-    httprequestworker.h
+    httprequestworker.h \
+    jsonkeys.h
 
 FORMS    += mainwindow.ui

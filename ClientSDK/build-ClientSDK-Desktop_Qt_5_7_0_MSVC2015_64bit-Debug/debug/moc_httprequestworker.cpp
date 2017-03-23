@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_HttpRequestWorker_t {
-    QByteArrayData data[8];
-    char stringdata0[108];
+    QByteArrayData data[9];
+    char stringdata0[119];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,13 +34,14 @@ QT_MOC_LITERAL(1, 18, 21), // "on_execution_finished"
 QT_MOC_LITERAL(2, 40, 0), // ""
 QT_MOC_LITERAL(3, 41, 18), // "HttpRequestWorker*"
 QT_MOC_LITERAL(4, 60, 6), // "worker"
-QT_MOC_LITERAL(5, 67, 19), // "on_manager_finished"
-QT_MOC_LITERAL(6, 87, 14), // "QNetworkReply*"
-QT_MOC_LITERAL(7, 102, 5) // "reply"
+QT_MOC_LITERAL(5, 67, 10), // "StatusCode"
+QT_MOC_LITERAL(6, 78, 19), // "on_manager_finished"
+QT_MOC_LITERAL(7, 98, 14), // "QNetworkReply*"
+QT_MOC_LITERAL(8, 113, 5) // "reply"
 
     },
     "HttpRequestWorker\0on_execution_finished\0"
-    "\0HttpRequestWorker*\0worker\0"
+    "\0HttpRequestWorker*\0worker\0StatusCode\0"
     "on_manager_finished\0QNetworkReply*\0"
     "reply"
 };
@@ -60,16 +61,16 @@ static const uint qt_meta_data_HttpRequestWorker[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x06 /* Public */,
+       1,    2,   24,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,   27,    2, 0x08 /* Private */,
+       6,    1,   29,    2, 0x08 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 3, QMetaType::QString,    4,    5,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 6,    7,
+    QMetaType::Void, 0x80000000 | 7,    8,
 
        0        // eod
 };
@@ -80,7 +81,7 @@ void HttpRequestWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         HttpRequestWorker *_t = static_cast<HttpRequestWorker *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_execution_finished((*reinterpret_cast< HttpRequestWorker*(*)>(_a[1]))); break;
+        case 0: _t->on_execution_finished((*reinterpret_cast< HttpRequestWorker*(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 1: _t->on_manager_finished((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
         default: ;
         }
@@ -106,7 +107,7 @@ void HttpRequestWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (HttpRequestWorker::*_t)(HttpRequestWorker * );
+            typedef void (HttpRequestWorker::*_t)(HttpRequestWorker * , QString );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&HttpRequestWorker::on_execution_finished)) {
                 *result = 0;
                 return;
@@ -152,9 +153,9 @@ int HttpRequestWorker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void HttpRequestWorker::on_execution_finished(HttpRequestWorker * _t1)
+void HttpRequestWorker::on_execution_finished(HttpRequestWorker * _t1, QString _t2)
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

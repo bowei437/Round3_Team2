@@ -56,7 +56,7 @@ public:
     void execute(HttpRequestInput *input);
 
 signals:
-    void on_execution_finished(HttpRequestWorker *worker);
+    void on_execution_finished(HttpRequestWorker *worker, QString StatusCode);
 
 private:
     QNetworkAccessManager *manager;

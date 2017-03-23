@@ -245,14 +245,16 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
     // prepare connection
 
     QNetworkRequest request = QNetworkRequest(QUrl(input->url_str));
-    request.setRawHeader("User-Agent", "Agent name goes here");
+    //request.setRawHeader("User-Agent", "Agent name goes here");
 
     if (input->var_layout == URL_ENCODED) {
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     }
     else if (input->var_layout == MULTIPART) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
     }
+
+    qDebug() << "Request content: " <<  request_content;
 
     if (input->http_method == "GET") {
         manager->get(request);
@@ -287,5 +289,9 @@ void HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
 
     reply->deleteLater();
 
-    emit on_execution_finished(this);
+
+    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+
+
+    emit on_execution_finished(this, statusCode.toString());
 }

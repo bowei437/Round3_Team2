@@ -35,7 +35,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QGraphicsView *graphicsView;
+    QGraphicsView *view_field;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *but_problem;
@@ -46,9 +46,8 @@ public:
     QPushButton *but_robot;
     QLabel *label_rqst_body;
     QPlainTextEdit *rqst_body;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *label_cur_uid;
-    QLabel *cur_uid;
+    QLabel *label;
+    QLabel *label_2;
     QHBoxLayout *horizontalLayout;
     QLabel *label_rpsn_code;
     QLabel *rpsn_code;
@@ -70,15 +69,15 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(622, 524);
+        MainWindow->resize(614, 524);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        graphicsView = new QGraphicsView(centralWidget);
-        graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(20, 40, 461, 421));
+        view_field = new QGraphicsView(centralWidget);
+        view_field->setObjectName(QStringLiteral("view_field"));
+        view_field->setGeometry(QRect(20, 40, 461, 421));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(490, 40, 113, 421));
+        verticalLayoutWidget->setGeometry(QRect(490, 40, 121, 421));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -124,21 +123,16 @@ public:
 
         verticalLayout->addWidget(rqst_body);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        label_cur_uid = new QLabel(verticalLayoutWidget);
-        label_cur_uid->setObjectName(QStringLiteral("label_cur_uid"));
+        label = new QLabel(verticalLayoutWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setLineWidth(1);
 
-        horizontalLayout_3->addWidget(label_cur_uid);
+        verticalLayout->addWidget(label);
 
-        cur_uid = new QLabel(verticalLayoutWidget);
-        cur_uid->setObjectName(QStringLiteral("cur_uid"));
+        label_2 = new QLabel(verticalLayoutWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
 
-        horizontalLayout_3->addWidget(cur_uid);
-
-
-        verticalLayout->addLayout(horizontalLayout_3);
+        verticalLayout->addWidget(label_2);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -200,13 +194,9 @@ public:
         horizontalLayout_2->addWidget(rqst_rid);
 
         MainWindow->setCentralWidget(centralWidget);
-        graphicsView->raise();
-        verticalLayoutWidget->raise();
-        horizontalLayoutWidget_2->raise();
-        label_rpsn_code->raise();
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 622, 20));
+        menuBar->setGeometry(QRect(0, 0, 614, 20));
         menuGUI_Client_Pathfinding_Team_2 = new QMenu(menuBar);
         menuGUI_Client_Pathfinding_Team_2->setObjectName(QStringLiteral("menuGUI_Client_Pathfinding_Team_2"));
         MainWindow->setMenuBar(menuBar);
@@ -234,8 +224,8 @@ public:
         but_path->setText(QApplication::translate("MainWindow", "Path", 0));
         but_robot->setText(QApplication::translate("MainWindow", "Robot", 0));
         label_rqst_body->setText(QApplication::translate("MainWindow", "Request Body:", 0));
-        label_cur_uid->setText(QApplication::translate("MainWindow", "Current Uid:", 0));
-        cur_uid->setText(QApplication::translate("MainWindow", "####", 0));
+        label->setText(QApplication::translate("MainWindow", "*Place Coordinates in", 0));
+        label_2->setText(QApplication::translate("MainWindow", " order of drawn", 0));
         label_rpsn_code->setText(QApplication::translate("MainWindow", "Response Code:", 0));
         rpsn_code->setText(QApplication::translate("MainWindow", "###", 0));
         combo_rqst_type->clear();
