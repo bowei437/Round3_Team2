@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   description: "Calculates minimum path between points depending on user generated\
     \ map input."
-  version: "3.5.0"
+  version: "3.0.0"
   title: "Team 2 Pathfinding API"
 basePath: "/v3"
 schemes:
@@ -22,10 +22,12 @@ paths:
       parameters: []
       responses:
         201:
-          description: "The new problem has been created"
+          description: "The id of the new problem generated"
           schema:
             type: "integer"
             format: "int32"
+        405:
+          description: "Invalid input"
       x-swagger-router-controller: "swagger_server.controllers.problems_controller"
   /id={problem_id}/:
     get:
@@ -602,25 +604,42 @@ definitions:
         type: "integer"
         format: "int32"
         description: "Unique identifier representing a specific obstacle in the list."
-      obstacle_info:
-        $ref: "#/definitions/Shape"
-  Shape:
-    type: "object"
-    required:
-    - "coordinates"
-    - "shape"
-    properties:
       shape:
         type: "string"
-        default: "rectangle"
-        enum:
-        - "rectangle"
-        - "triangle"
-        - "polygon"
       coordinates:
         type: "array"
         items:
           $ref: "#/definitions/Coordinate"
+  Rectangle:
+    type: "object"
+    properties:
+      coordinates:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinate"
+  Triangle:
+    type: "object"
+    properties:
+      coordinates:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinate"
+  Polygon:
+    type: "object"
+    properties:
+      coordinates:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinate"
+  Shapes:
+    type: "object"
+    properties:
+      rectangle:
+        $ref: "#/definitions/Rectangle"
+      triangle:
+        $ref: "#/definitions/Triangle"
+      polygon:
+        $ref: "#/definitions/Polygon"
   Robot:
     type: "object"
     properties:
@@ -637,8 +656,12 @@ definitions:
   Boundary:
     type: "object"
     properties:
-      boundary_info:
-        $ref: "#/definitions/Shape"
+      shape:
+        type: "string"
+      coordinates:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinate"
   Path:
     type: "object"
     properties:
@@ -670,56 +693,6 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Obstacle"
-      regions:
-        type: "object"
-        properties:
-          searched:
-            type: "array"
-            items:
-              $ref: "#/definitions/searchedRegionLIDAR"
-          unsearched:
-            type: "object"
-            properties:
-              version:
-                type: "integer"
-                format: "int32"
-              cache:
-                type: "array"
-                items:
-                  $ref: "#/definitions/unsearchedRegionPolygon"
-  unsearchedRegionPolygon:
-    required:
-    - "points"
-    properties:
-      id:
-        type: "integer"
-        format: "int32"
-        readOnly: true
-        minimum: 0
-      points:
-        type: "array"
-        items:
-          $ref: "#/definitions/Coordinate"
-    description: "Polygonal unsearched region; allow array of"
-  searchedRegionLIDAR:
-    required:
-    - "points"
-    - "radius"
-    properties:
-      id:
-        type: "integer"
-        format: "int32"
-        readOnly: true
-        minimum: 0
-      points:
-        type: "array"
-        items:
-          $ref: "#/definitions/Coordinate"
-      radius:
-        type: "number"
-        format: "double"
-        minimum: 0
-    description: "LIDAR-like searched region; searched area around robot is a circle"
   Error:
     type: "object"
     properties:

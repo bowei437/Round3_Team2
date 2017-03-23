@@ -10,6 +10,8 @@ from flask import jsonify
 from flask_api import status
 
 storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
+
+
 """
     This is the default Problem JSON. It needs to be updated
     as changes are made to API. The default from Swagger can 
@@ -86,7 +88,6 @@ default_problem = {
     }
   ]
 }
-
 def add_problem():
     """
     Creates a new problem and returns a problemID
@@ -103,19 +104,22 @@ def add_problem():
     #retrieve the problem_id
     json_response = response.json()
     problem_id = json_response['problem_id']
+    
     #PUT the default Problem JSON into storage
     params = "id=%s/ver=%s/" % (str(problem_id),"0")
     put_url = storage_url + str(params)
     default_problem['problem_id'] = problem_id
     response = requests.put(put_url, json=default_problem)
 
-
+    #check if the Problem does exist (It should, but its just for safety's sake)
+    if (response.status_code == 404):
+        return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
     #check that Storage didn't die in some way
-    if (response.status_code != 200):
-        return jsonify(Error(response.status_code, "words")), status.HTTP_500_INTERNAL_SERVER_ERROR
+    elif (response.status_code != 200):
+        return jsonify(Error(response.status_code, response.text)), status.HTTP_500_INTERNAL_SERVER_ERROR
     
     #return the default problem so the user knows it has been created
-    return (jsonify(default_problem)), status.HTTP_201_CREATED
+    return jsonify(default_problem)
 
 
 def delete_problem(problem_id):
@@ -127,7 +131,8 @@ def delete_problem(problem_id):
 
     :rtype: None
     """
-        #make sure ID was valid
+
+    #make sure ID was valid
     if (problem_id < 0):
         return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
     
@@ -157,7 +162,8 @@ def get_problem(problem_id):
 
     :rtype: Problem
     """
-        #make sure ID was valid
+
+    #make sure ID was valid
     if (problem_id < 0):
         return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
 
