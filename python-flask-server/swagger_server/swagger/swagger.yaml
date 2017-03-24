@@ -769,59 +769,21 @@ definitions:
         description: "Unique identifier representing a specific obstacle in the list."
         minimum: 0
       obstacle_info:
-        $ref: "#/definitions/Shape"
-  Shape:
-    type: "object"
-    required:
-    - "shapeType"
-    discriminator: "shapeType"
-    properties:
-      shapeType:
-        type: "string"
+        $ref: "#/definitions/Rectangle"
   Rectangle:
-    allOf:
-    - $ref: "#/definitions/Shape"
-    - type: "object"
-      properties:
-        coordinates:
-          type: "array"
-          items:
-            $ref: "#/definitions/Coordinate"
-          maxItems: 4
-          minItems: 4
-        name:
-          type: "string"
-          default: "rectangle"
+    type: "object"
+    properties:
+      coordinates:
+        type: "array"
+        items:
+          $ref: "#/definitions/Coordinate"
+        maxItems: 4
+        minItems: 4
+      name:
+        type: "string"
+        pattern: "^rectangle$"
+        default: "rectangle"
     description: "a 4 coordinate shape"
-  Triangle:
-    allOf:
-    - $ref: "#/definitions/Shape"
-    - type: "object"
-      properties:
-        coordinates:
-          type: "array"
-          items:
-            $ref: "#/definitions/Coordinate"
-          maxItems: 3
-          minItems: 3
-        name:
-          type: "string"
-          default: "triangle"
-    description: "a 3 coordinate shape"
-  Polygon:
-    allOf:
-    - $ref: "#/definitions/Shape"
-    - type: "object"
-      properties:
-        coordinates:
-          type: "array"
-          items:
-            $ref: "#/definitions/Coordinate"
-          minItems: 5
-        name:
-          type: "string"
-          default: "polygon"
-    description: "a many coordinate shape"
   Robot:
     type: "object"
     required:
@@ -847,7 +809,7 @@ definitions:
     - "boundary_info"
     properties:
       boundary_info:
-        $ref: "#/definitions/Shape"
+        $ref: "#/definitions/Rectangle"
   Path:
     type: "object"
     required:

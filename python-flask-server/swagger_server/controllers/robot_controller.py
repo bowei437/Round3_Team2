@@ -1,11 +1,16 @@
 import connexion
+from werkzeug.exceptions import BadRequest
 from swagger_server.models.error import Error
 from swagger_server.models.robot import Robot
 from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
+import requests, json
+from flask import jsonify
+from flask_api import status
 
+storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
 def add_robot(problem_id, robot):
     """
@@ -25,8 +30,12 @@ def add_robot(problem_id, robot):
     #check that input is JSON
     if connexion.request.is_json:
         #get JSON from input
+        try:
+            robot = Robot.from_dict(connexion.request.get_json())
+        except (ValueError, BadRequest) as error:
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
+
         robot = connexion.request.get_json()
-        robot = Robot.from_dict(connexion.request.get_json())
 
 
         #Storage version control
@@ -261,8 +270,11 @@ def update_robot(problem_id, robot, robot_id):
     #check if input is JSON
     if connexion.request.is_json:
         #get JSON from input
+        try:
+            robot = Robot.from_dict(connexion.request.get_json())
+        except (ValueError, BadRequest) as error:
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
         robot = connexion.request.get_json()
-        robot = Robot.from_dict(connexion.request.get_json())
 
 
         ''' 

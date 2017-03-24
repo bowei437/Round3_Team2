@@ -1,4 +1,5 @@
 import connexion
+from werkzeug.exceptions import BadRequest
 from swagger_server.models.error import Error
 from swagger_server.models.goal import Goal
 from datetime import date, datetime
@@ -63,16 +64,13 @@ def update_goal(problem_id, goal):
         return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
-        #get JSON from response
-        
-
-        #goal = connexion.request.get_json()
-
         #check for input validity
         try:
             goal = Goal.from_dict(connexion.request.get_json())
-        except ValueError, BadRequest as error:
-            return jsonify(Error(400, str(ValueError))), status.HTTP_400_BAD_REQUEST
+        except (ValueError, BadRequest) as error:
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
+        
+        goal = connexion.request.get_json()
 
         #Storage version control
         while True:
@@ -99,19 +97,7 @@ def update_goal(problem_id, goal):
 
             #store new Goal coordinates into Goal of Problem
 
-            ###################
-            ###################
-            ## may not work ###
-            ###################
-            ###################
-            problem['goal']['coordinates'] = goal.coordinates()
-            ###################
-            ###################            
-            ###################
-            ###################
-
-
-            
+            problem['goal']['coordinates'] = goal['coordinates']
             #PUT the new Problem back into Storage
             params = "id=%s/ver=%s/" % (str(problem_id), str(version))
             goal_url = storage_url + str(params)

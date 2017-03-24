@@ -1,4 +1,5 @@
 import connexion
+from werkzeug.exceptions import BadRequest
 from swagger_server.models.error import Error
 from swagger_server.models.problem import Problem
 from datetime import date, datetime
@@ -11,6 +12,87 @@ from flask_api import status
 
 storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
+
+default_problem = {
+  "boundary": {
+    "boundary_info": {
+      "coordinates": [
+        {
+          "latitude": 0,
+          "longitude": 0
+        }
+      ],
+      "name": "rectangle"
+    }
+  },
+  "goal": {
+    "coordinates": {
+      "latitude": 0,
+      "longitude": 0
+    }
+  },
+  "obstacles": [
+    {
+      "obstacle_id": 0,
+      "obstacle_info": {
+        "coordinates": [
+          {
+            "latitude": 0,
+            "longitude": 0
+          }
+        ],
+        "name": "rectangle"
+      }
+    }
+  ],
+  "path": {
+    "coordinates": [
+      {
+        "latitude": 0,
+        "longitude": 0
+      }
+    ],
+    "path_cost": 1
+  },
+  "problem_id": 0,
+  "regions": {
+    "searched": [
+      {
+        "id": 0,
+        "points": [
+          {
+            "latitude": 0,
+            "longitude": 0
+          }
+        ],
+        "radius": 0
+      }
+    ],
+    "unsearched": {
+      "cache": [
+        {
+          "id": 0,
+          "points": [
+            {
+              "latitude": 0,
+              "longitude": 0
+            }
+          ]
+        }
+      ],
+      "version": 0
+    }
+  },
+  "robots": [
+    {
+      "coordinates": {
+        "latitude": 0,
+        "longitude": 0
+      },
+      "id": 0
+    }
+  ]
+}
 def add_problem():
     """
     Creates a new problem and returns a problemID
@@ -82,8 +164,8 @@ def get_problem(problem_id):
     :rtype: Problem
     """
     #make sure ID was valid
-    if (problem_id < 0):
-        return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
+    #if (problem_id < 0):
+    #    return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
 
     #contact Storage
     params = "id=%s/" % str(problem_id)

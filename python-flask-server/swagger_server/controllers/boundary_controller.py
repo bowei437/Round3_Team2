@@ -1,4 +1,5 @@
 import connexion
+from werkzeug.exceptions import BadRequest
 from swagger_server.models.boundary import Boundary
 from swagger_server.models.error import Error
 from datetime import date, datetime
@@ -63,15 +64,10 @@ def update_boundary(problem_id, boundary):
         #check for input validity
         try:
             boundary = Boundary.from_dict(connexion.request.get_json())
-        except ValueError as error:
-            return jsonify(Error(400, str(ValueError)), status.HTTP_BAD_REQUEST
+        except (ValueError, BadRequest) as error:
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
 
-        '''
-        #check if boundary is in valid range
-        test_msg = sanitize_boundary(boundary)
-        if (test_msg is not "No error"):
-            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
-        '''
+        boundary = connexion.request.get_json()
 
         #Storage version control
         while True:
