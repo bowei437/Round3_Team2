@@ -38,9 +38,9 @@ def readJSON(data, scale):
         print("No Obstacles")
     else:
             while loc < len(data["obstacles"]):
-                while loc2 < len(data["obstacles"][loc]["obstacle_info"]):
-                    data["obstacles"][loc]["obstacle_info"][loc2]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"][loc2]["longitude"])
-                    data["obstacles"][loc]["obstacle_info"][loc2]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"][loc2]["latitude"])
+                while loc2 < len(data["obstacles"][loc]["obstacle_info"]["coordinates"]):
+                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["longitude"])
+                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["latitude"])
                     loc2 += 1
                 loc += 1
                 loc2 = 0
@@ -48,8 +48,8 @@ def readJSON(data, scale):
     loc = 0
     loc2 = 0
     # Calculates rectangular boundary width and height
-    maxtest = max(data["obstacles"][0]["obstacle_info"], key=lambda ev: ev["longitude"])
-    print(maxtest)
+    #maxtest = max(data["obstacles"][0]["obstacle_info"], key=lambda ev: ev["longitude"])
+    #print(maxtest)
 
     #Robot
     x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])

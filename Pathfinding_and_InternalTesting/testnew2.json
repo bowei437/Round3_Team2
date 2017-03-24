@@ -19,7 +19,8 @@
   "obstacles": [
     {
       "obstacle_id": 0,
-        "obstacle_info": [
+      "obstacle_info": {
+        "coordinates": [
           {
             "latitude": 37.229711,
             "longitude": -80.423030
@@ -82,8 +83,8 @@
   "robots": [
     {
       "coordinates": {
-        "latitude": 0,
-        "longitude": 0
+          "latitude": 37.229507,
+          "longitude": -80.423788
       },
       "id": 0
     }
