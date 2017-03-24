@@ -769,21 +769,19 @@ definitions:
         description: "Unique identifier representing a specific obstacle in the list."
         minimum: 0
       obstacle_info:
-        $ref: "#/definitions/Rectangle"
-  Rectangle:
+        $ref: "#/definitions/Shape"
+  Shape:
     type: "object"
     properties:
       coordinates:
         type: "array"
         items:
           $ref: "#/definitions/Coordinate"
-        maxItems: 4
-        minItems: 4
       name:
         type: "string"
-        pattern: "^rectangle$"
+        pattern: "^rectangle$|^triangle$|^polygon$"
         default: "rectangle"
-    description: "a 4 coordinate shape"
+    description: "a constraining shape"
   Robot:
     type: "object"
     required:
@@ -809,7 +807,7 @@ definitions:
     - "boundary_info"
     properties:
       boundary_info:
-        $ref: "#/definitions/Rectangle"
+        $ref: "#/definitions/Shape"
   Path:
     type: "object"
     required:

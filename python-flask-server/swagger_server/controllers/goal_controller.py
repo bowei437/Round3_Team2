@@ -68,7 +68,7 @@ def update_goal(problem_id, goal):
         try:
             goal = Goal.from_dict(connexion.request.get_json())
         except (ValueError, BadRequest) as error:
-            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
+            return jsonify(Error(400, "Validation error; please check inputs", str(error))), status.HTTP_400_BAD_REQUEST
         
         goal = connexion.request.get_json()
 
