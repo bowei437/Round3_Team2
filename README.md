@@ -36,7 +36,7 @@ Explain what these tests test and why
 Give an example
 ```
 
-### Sanitization
+## Sanitization
 
 The inputs to our API are sanitized using Flask's model feature and Swagger. The API will catch invalid inputs like missing information or out-of-range value. In the server controller code, we catch exceptions when we requset to get json objects and send errors with detailed message. We also have checks in our controller code for the rest of the input sanitization. We use consistent error code and detailed error message to make our API very easy to use.
 
