@@ -26,6 +26,11 @@ paths:
           schema:
             type: "integer"
             format: "int32"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            type: "integer"
+            format: "int32"
       x-swagger-router-controller: "swagger_server.controllers.problems_controller"
   /id={problem_id}/:
     get:
@@ -49,8 +54,6 @@ paths:
           description: "A Problem type, containing all values"
           schema:
             $ref: "#/definitions/Problem"
-        409:
-          description: "Version Out of Date"
         default:
           description: "Unexpected error"
           schema:
@@ -75,10 +78,16 @@ paths:
       responses:
         400:
           description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/Error"
         404:
           description: "Problem not found"
-        409:
-          description: "Version Out of Date"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.problems_controller"
   /id={problem_id}/Obstacles:
     get:
@@ -105,8 +114,18 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Obstacle"
-        409:
-          description: "Version Out of Date"
+        400:
+          description: "negative problem id"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Problem not found"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -143,10 +162,26 @@ paths:
           schema:
             type: "integer"
             format: "int32"
-        405:
-          description: "Invalid input"
+        400:
+          description: "Invalid input: see documentation on valid values"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Problem not found"
+          schema:
+            $ref: "#/definitions/Error"
         409:
-          description: "Version Out of Date"
+          description: "obstacle id already exists"
+          schema:
+            $ref: "#/definitions/Error"
+        415:
+          description: "Input was not in JSON format"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.obstacles_controller"
   /id={problem_id}/Obstacles/obstacle_id={obstacle_id}:
     get:
@@ -176,8 +211,18 @@ paths:
           description: "An obstacle"
           schema:
             $ref: "#/definitions/Obstacle"
-        409:
-          description: "Version Out of Date"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -215,14 +260,20 @@ paths:
         schema:
           $ref: "#/definitions/Obstacle"
       responses:
+        204:
+          description: "Obstacle has been updated successfully"
         400:
-          description: "Invalid ID supplied"
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Obstacle not found"
-        405:
-          description: "Validation exception"
-        409:
-          description: "Version Out of Date"
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.obstacles_controller"
     delete:
       tags:
@@ -247,12 +298,20 @@ paths:
         type: "integer"
         format: "int32"
       responses:
+        204:
+          description: "Obstacle has been deleted successfully"
         400:
-          description: "Invalid ID supplied"
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Obstacle not found"
-        409:
-          description: "Version Out of Date"
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.obstacles_controller"
   /id={problem_id}/Robot:
     get:
@@ -278,8 +337,18 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Robot"
-        409:
-          description: "Version Out of Date"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -311,15 +380,28 @@ paths:
         schema:
           $ref: "#/definitions/Robot"
       responses:
-        200:
-          description: "The id of the new robot generated"
+        201:
+          description: "The robot has been added to the list"
+        400:
+          description: "There was an invalid input"
           schema:
-            type: "integer"
-            format: "int32"
-        405:
-          description: "Invalid input"
+            $ref: "#/definitions/Error"
+        404:
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
         409:
-          description: "Version Out of Date"
+          description: "the robot id provided already exists"
+          schema:
+            $ref: "#/definitions/Error"
+        415:
+          description: "The input provided is not in JSON format"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.robot_controller"
   /id={problem_id}/Robot/rid={robot_id}:
     get:
@@ -349,15 +431,21 @@ paths:
         format: "int32"
       responses:
         200:
-          description: "A robot"
+          description: "A robot has been returned"
           schema:
             $ref: "#/definitions/Robot"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Robot not found"
-        405:
-          description: "Validation exception"
-        409:
-          description: "Version Out of Date"
+          description: "a requested resource does not exist; either problem or robot"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.robot_controller"
     put:
       tags:
@@ -391,12 +479,24 @@ paths:
         type: "integer"
         format: "int32"
       responses:
+        204:
+          description: "the robot has been updated successfully"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Robot not found"
-        405:
-          description: "Validation exception"
-        409:
-          description: "Version Out of Date"
+          description: "a requested resource does not exist; either problem or robot"
+          schema:
+            $ref: "#/definitions/Error"
+        415:
+          description: "The input provided is not in JSON format"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.robot_controller"
     delete:
       tags:
@@ -421,12 +521,20 @@ paths:
         type: "integer"
         format: "int32"
       responses:
+        204:
+          description: "the robot has been deleted successfully"
         400:
-          description: "Invalid ID supplied"
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Robot not found"
-        409:
-          description: "Version Out of Date"
+          description: "a requested resource does not exist; either problem or robot"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.robot_controller"
   /id={problem_id}/Goal:
     get:
@@ -447,11 +555,21 @@ paths:
         format: "int32"
       responses:
         200:
-          description: "The goal location information"
+          description: "A goal has been returned"
           schema:
             $ref: "#/definitions/Goal"
-        409:
-          description: "Version Out of Date"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -483,12 +601,24 @@ paths:
         schema:
           $ref: "#/definitions/Goal"
       responses:
+        204:
+          description: "the goal has been updated successfully"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Goal not found"
-        405:
-          description: "Validation exception"
-        409:
-          description: "Version Out of Date"
+          description: "a requested resource does not exist; either problem or goal"
+          schema:
+            $ref: "#/definitions/Error"
+        415:
+          description: "The input provided is not in JSON format"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.goal_controller"
   /id={problem_id}/Boundary:
     get:
@@ -513,8 +643,18 @@ paths:
             \ and height"
           schema:
             $ref: "#/definitions/Boundary"
-        409:
-          description: "Version Out of Date"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "a requested resource does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:
@@ -546,12 +686,24 @@ paths:
         schema:
           $ref: "#/definitions/Boundary"
       responses:
+        204:
+          description: "the boundary has been updated successfully"
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          description: "Boundary not found"
-        405:
-          description: "Validation exception"
-        409:
-          description: "Version Out of Date"
+          description: "a requested problem does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        415:
+          description: "The input provided is not in JSON format"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.boundary_controller"
   /id={problem_id}/Path:
     get:
@@ -575,9 +727,19 @@ paths:
         200:
           description: "Array of Coordinates from start to finish."
           schema:
-            $ref: "#/definitions/Path"
-        409:
-          description: "Version Out of Date"
+            $ref: "#/definitions/Path"        
+        400:
+          description: "There was an invalid input"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "a requested problem does not exist"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "There was an error in the storage server"
+          schema:
+            $ref: "#/definitions/Error"
         default:
           description: "Unexpected error"
           schema:

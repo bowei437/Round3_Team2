@@ -121,7 +121,7 @@ def add_problem():
 
     #check that Storage didn't die in some way
     if (response.status_code != 200):
-        return jsonify(Error(response.status_code, "words")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return jsonify(Error(500, "Error in storage")), status.HTTP_500_INTERNAL_SERVER_ERROR
     
     #return the default problem so the user knows it has been created
     return (jsonify(default_problem)), status.HTTP_201_CREATED
@@ -151,7 +151,7 @@ def delete_problem(problem_id):
 
     #check if the Storage died
     elif (get_response.status_code != 200):
-        return jsonify(Error(response.status_code, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        return jsonify(Error(500, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
 
     #return response from Storage
     return jsonify({"response": "successfully deleted"})
