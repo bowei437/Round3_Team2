@@ -71,8 +71,8 @@ def update_goal(problem_id, goal):
         #check for input validity
         try:
             goal = Goal.from_dict(connexion.request.get_json())
-        except ValueError, BadRequest as error:
-            return jsonify(Error(400, str(ValueError))), status.HTTP_400_BAD_REQUEST
+        except ValueError as error:
+            return jsonify(Error(400, str(ValueError)), status.HTTP_BAD_REQUEST
 
         #Storage version control
         while True:

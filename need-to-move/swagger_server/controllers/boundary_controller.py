@@ -1,6 +1,6 @@
 import connexion
+from swagger_server.models.boundary import Boundary
 from swagger_server.models.error import Error
-from swagger_server.models.goal import Goal
 from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
@@ -11,23 +11,23 @@ from flask_api import status
 
 storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
-def get_goal(problem_id):
+def get_boundary(problem_id):
     """
-    Goal Location
-    Returns a description of the goal location. 
+    Boundary
+    Returns a description of the boundary
     :param problem_id: The id of the problem being manipulated
     :type problem_id: int
 
-    :rtype: Goal
+    :rtype: Boundary
     """
-    #check if problem_id is nonnegative
+    #check if problem_id is positive
     if (problem_id < 0):
         return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
- 
+
     #contact storage
     params = "id=%s/" % str(problem_id)
-    goal_url = storage_url + str(params)
-    response = requests.get(goal_url)
+    bound_url = storage_url + str(params)
+    response = requests.get(bound_url)
 
     #check that the Problem exists
     if (response.status_code == 404):
@@ -40,83 +40,63 @@ def get_goal(problem_id):
     #get the Problem from the response
     problem = response.json()["body"]
 
-    reply = {}
-    reply["goal"] = problem["goal"]
-
-    #return the Goal from the Problem
-    return jsonify(reply)
+    #return the Boundary from the Problem
+    return jsonify(problem["boundary"])
 
 
-def update_goal(problem_id, goal):
+def update_boundary(problem_id, boundary):
     """
-    Update the existing goal value
+    Update the existing boundary value
     
     :param problem_id: The id of the problem being manipulated
     :type problem_id: int
-    :param goal: Goal object that needs to be updated.
-    :type goal: dict | bytes
+    :param boundary: Boundary object that needs to be updated.
+    :type boundary: dict | bytes
 
     :rtype: None
     """
-    #check if problem_id is positive 
+    #check if problem_id is positive
     if (problem_id < 0):
         return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
         #get JSON from response
-        
+        boundary = connexion.request.get_json()
 
-        #goal = connexion.request.get_json()
-
-        #check for input validity
-        try:
-            goal = Goal.from_dict(connexion.request.get_json())
-        except ValueError, BadRequest as error:
-            return jsonify(Error(400, str(ValueError))), status.HTTP_400_BAD_REQUEST
+        '''
+        #check if boundary is in valid range
+        test_msg = sanitize_boundary(boundary)
+        if (test_msg is not "No error"):
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
 
         #Storage version control
         while True:
             #contact Storage
             params = "id=%s/" % str(problem_id)
-            goal_url = storage_url + str(params)
-            response = requests.get(goal_url)
-     
+            bound_url = storage_url + str(params)
+            response = requests.get(bound_url)
+ 
             #check that Problem exists
             if (response.status_code == 404):
                 return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
         
             #check if Storage died
             elif (response.status_code != 200):
-                return jsonify(Error(500, "Storage server error: couldn't update goal")), status.HTTP_500_INTERNAL_SERVER_ERROR
+                return jsonify(Error(500, "Storage server error: couldn't access Boundary")), status.HTTP_500_INTERNAL_SERVER_ERROR
         
             #get problem from response
-            problem = response.json()["body"]
-            version = response.json()["version"]
-          
-            #check if start and goal are in valid range
-            #if (abs(problem['goal']['coordinates']['latitude'] -  ) > 100):
-            #    return jsonify(Error(405, "Goal is out of range.")), HTTP_405_INVALID_INPUT
+            problem = response.json()['body']
+            version = response.json()['version']
 
             #store new Goal coordinates into Goal of Problem
+            problem['boundary'] = boundary
 
-            ###################
-            ###################
-            ## may not work ###
-            ###################
-            ###################
-            problem['goal']['coordinates'] = goal.coordinates()
-            ###################
-            ###################            
-            ###################
-            ###################
-
-
-            
             #PUT the new Problem back into Storage
             params = "id=%s/ver=%s/" % (str(problem_id), str(version))
-            goal_url = storage_url + str(params)
-            put_response = requests.put(goal_url, json=problem)
-      
+            put_url = storage_url + str(params)
+            put_response = requests.put(put_url, json=problem)
+
             #check for Storage version control
             if (response.status_code != 412):
                 #check if Storage died
@@ -124,8 +104,8 @@ def update_goal(problem_id, goal):
                     return jsonify(Error(500, "Storage server error: couldn't update goal")), status.HTTP_500_INTERNAL_SERVER_ERROR
                 break
         
-        return jsonify({"response":"Update successful"})
+        #return the Boundary from the Problem
+        return jsonify({"response": "update successful"})
 
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
-
