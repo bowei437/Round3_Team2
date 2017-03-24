@@ -221,8 +221,8 @@ def pathfind_from_json(json_message, enable):
     
 
     finder = pathfinder(distance=absolute_distance, cost=fixed_cost(1),
-                        neighbors=grid_neighbors(Json["boundaryx"],
-                         Json["boundaryy"],
+                        neighbors=grid_neighbors(Json["boundary"]["boundary_info"][0]["x"],
+                         Json["boundary"]["boundary_info"][0]["y"],
                           50000000, 50000000))
 
     path = finder((Json["robots"][0]["coordinates"]["x"], Json["robots"][0]["coordinates"]["y"]), (Json["goal"]["coordinates"]["x"], Json["goal"]["coordinates"]["y"]))

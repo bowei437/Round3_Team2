@@ -1,6 +1,26 @@
 {
-    "boundaryx": -10065797,
-    "boundaryy": -5979662,
+    "boundary": {
+        "boundary_info": [
+            {
+                "latitude": 50,
+                "longitude": -100,
+                "x": -11131949,
+                "y": -6446275
+            },
+            {
+                "latitude": -80.0,
+                "longitude": 60.0
+            },
+            {
+                "latitude": -50.0,
+                "longitude": 40.0
+            },
+            {
+                "latitude": -30.0,
+                "longitude": 20.0
+            }
+        ]
+    },
     "goal": {
         "coordinates": {
             "latitude": 37.229792,

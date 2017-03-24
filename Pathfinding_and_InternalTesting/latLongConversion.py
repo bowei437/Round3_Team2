@@ -13,45 +13,15 @@ def readJSON(data, scale):
     #globally store JSON message
     Json = json.loads('{}')
 
-    # Normalizes boundary by making it just outside the range of the largest value
-    if (data["goal"]["coordinates"]["longitude"] > data["robots"][0]["coordinates"]["longitude"]):
-        # If NEGATIVE
-        if ((data["goal"]["coordinates"]["longitude"]) < 1):
-            boundLON = (data["goal"]["coordinates"]["longitude"]) - 10
-        else:
-            boundLON = (data["goal"]["coordinates"]["longitude"]) + 10
-    else:
-        boundLON = (data["robots"][0]["coordinates"]["longitude"]) + 10
-        if ((data["robots"][0]["coordinates"]["longitude"]) < 1):
-            boundLON = (data["robots"][0]["coordinates"]["longitude"]) - 10
-        else:
-            boundLON = (data["robots"][0]["coordinates"]["longitude"]) + 10
-
-
-    if (data["goal"]["coordinates"]["latitude"] > data["robots"][0]["coordinates"]["latitude"]):
-        # If NEGATIVE
-        if ((data["goal"]["coordinates"]["latitude"]) < 1):
-            boundLAT = (data["goal"]["coordinates"]["latitude"]) - 10
-        else:
-            boundLAT = (data["goal"]["coordinates"]["latitude"]) + 10
-    else:
-        boundLON = (data["robots"][0]["coordinates"]["latitude"]) + 10
-        if ((data["robots"][0]["coordinates"]["latitude"]) < 1):
-            boundLAT = (data["robots"][0]["coordinates"]["latitude"]) - 10
-        else:
-            boundLAT = (data["robots"][0]["coordinates"]["latitude"]) + 10
-
-    print("New Boundary LAT LON: {0} | {1}".format(boundLAT, boundLON))
 
 
     #Boundary
-    x = convert_lon_to_x(boundLON)
-    y = convert_lat_to_y(boundLAT)
-    data.update({"boundaryx" : x})
-    data.update({"boundaryy" : y})
+    x = convert_lon_to_x(data["boundary"]["boundary_info"][0]["longitude"])
+    y = convert_lat_to_y(data["boundary"]["boundary_info"][0]["latitude"])
+    data["boundary"]["boundary_info"][0]["x"] = x
+    data["boundary"]["boundary_info"][0]["y"] = y
 
-    #data["boundary"]["boundary_info"][0]["x"] = x
-    #data["boundary"]["boundary_info"][0]["y"] = y
+
 
     #Goal
     x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
