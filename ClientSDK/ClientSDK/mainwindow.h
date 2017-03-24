@@ -44,6 +44,7 @@ private:
     QGraphicsScene *m_scene;
 
     void parseJson(QByteArray response);
+    void getProblemId(QByteArray response);
     void BoundaryScene(QJsonObject update);
     void ObstaclesScene(QJsonArray list);
     void GoalScene(QJsonObject update);

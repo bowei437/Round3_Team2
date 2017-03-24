@@ -48,6 +48,12 @@ public:
     QPlainTextEdit *rqst_body;
     QLabel *label;
     QLabel *label_2;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_status;
+    QLabel *status;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_rspn_id;
+    QLabel *cur_prob_id;
     QHBoxLayout *horizontalLayout;
     QLabel *label_rpsn_code;
     QLabel *rpsn_code;
@@ -133,6 +139,38 @@ public:
         label_2->setObjectName(QStringLiteral("label_2"));
 
         verticalLayout->addWidget(label_2);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        label_status = new QLabel(verticalLayoutWidget);
+        label_status->setObjectName(QStringLiteral("label_status"));
+
+        horizontalLayout_4->addWidget(label_status);
+
+        status = new QLabel(verticalLayoutWidget);
+        status->setObjectName(QStringLiteral("status"));
+
+        horizontalLayout_4->addWidget(status);
+
+
+        verticalLayout->addLayout(horizontalLayout_4);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        label_rspn_id = new QLabel(verticalLayoutWidget);
+        label_rspn_id->setObjectName(QStringLiteral("label_rspn_id"));
+
+        horizontalLayout_3->addWidget(label_rspn_id);
+
+        cur_prob_id = new QLabel(verticalLayoutWidget);
+        cur_prob_id->setObjectName(QStringLiteral("cur_prob_id"));
+
+        horizontalLayout_3->addWidget(cur_prob_id);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -226,6 +264,10 @@ public:
         label_rqst_body->setText(QApplication::translate("MainWindow", "Request Body:", 0));
         label->setText(QApplication::translate("MainWindow", "*Place Coordinates in", 0));
         label_2->setText(QApplication::translate("MainWindow", " order of drawn", 0));
+        label_status->setText(QApplication::translate("MainWindow", "Status: ", 0));
+        status->setText(QString());
+        label_rspn_id->setText(QApplication::translate("MainWindow", "Current Prob Id:", 0));
+        cur_prob_id->setText(QApplication::translate("MainWindow", "###", 0));
         label_rpsn_code->setText(QApplication::translate("MainWindow", "Response Code:", 0));
         rpsn_code->setText(QApplication::translate("MainWindow", "###", 0));
         combo_rqst_type->clear();
