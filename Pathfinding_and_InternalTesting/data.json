@@ -1,14 +1,16 @@
 {
     "boundary": {
-        "coordinates": [
-            {
-                "latitude": 50,
-                "longitude": -100,
-                "x": -11131949,
-                "y": -6446275
-            }
-        ],
-        "shape": "rectangle"
+        "boundary_info": {
+            "coordinates": [
+                {
+                    "latitude": 50,
+                    "longitude": -100,
+                    "x": -11131949,
+                    "y": -6446275
+                }
+            ],
+            "name": "rectangle"
+        }
     },
     "goal": {
         "coordinates": {

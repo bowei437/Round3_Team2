@@ -3,8 +3,8 @@
     "boundary_info": {
       "coordinates": [
         {
-          "latitude": 0,
-          "longitude": 0
+          "latitude": 50,
+          "longitude": -100
         }
       ],
       "name": "rectangle"
@@ -12,18 +12,29 @@
   },
   "goal": {
     "coordinates": {
-      "latitude": 0,
-      "longitude": 0
+        "latitude": 37.229792,
+        "longitude": -80.422600
     }
   },
   "obstacles": [
     {
       "obstacle_id": 0,
-      "obstacle_info": {
-        "coordinates": [
+        "obstacle_info": [
           {
-            "latitude": 0,
-            "longitude": 0
+            "latitude": 37.229711,
+            "longitude": -80.423030
+          },
+          {
+            "latitude": 37.229721,
+            "longitude": -80.423021
+          },
+          {
+            "latitude": 37.229725,
+            "longitude": -80.423042
+          },
+          {
+            "latitude": 37.229728,
+            "longitude": -80.423011
           }
         ],
         "name": "rectangle"
