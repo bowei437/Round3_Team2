@@ -21,10 +21,21 @@
         "obstacle_id": 0,
         "obstacle_info": [
           {
-            "latitude": 37.229700,
-            "longitude": -80.423000
+            "latitude": 37.229711,
+            "longitude": -80.423030
+          },
+          {
+            "latitude": 37.229721,
+            "longitude": -80.423021
+          },
+          {
+            "latitude": 37.229725,
+            "longitude": -80.423042
+          },
+          {
+            "latitude": 37.229728,
+            "longitude": -80.423011
           }
-
         ]
       },
       {
@@ -34,15 +45,15 @@
             "latitude": 37.229701,
             "longitude": -80.423000
           },
-		  {
+		      {
             "latitude": 37.229701,
             "longitude": -80.423000
           },
-		  {
+		      {
             "latitude": 37.229701,
             "longitude": -80.423000
           },
-		  {
+		      {
             "latitude": 37.229701,
             "longitude": -80.423000
           }
