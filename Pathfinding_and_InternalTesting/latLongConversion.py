@@ -1,5 +1,10 @@
 import json
 import math
+from decimal import Decimal, ROUND_HALF_UP
+# Here are all your options for rounding:
+# This one offers the most out of the box control
+# ROUND_05UP       ROUND_DOWN       ROUND_HALF_DOWN  ROUND_HALF_UP
+# ROUND_CEILING    ROUND_FLOOR      ROUND_HALF_EVEN  ROUND_UP
 
 # Function called by pathfind_from_json which takes the data it gets initially
 # and does the primary conversion of data into the proper X, Y and lat long
@@ -46,7 +51,23 @@ def readJSON(data, scale):
 # Pseudo Mercator Projections
 def convert_lon_to_x(lon):
     r_major = 6378137.000
-    return r_major*math.radians(lon)
+    
+    string = "{:.3f}".format(r_major*math.radians(lon))
+    temp = float(string)
+    xout = round(temp, 1) 
+    print("LON TEMP: {0} | {1}".format(temp, xout)) 
+
+    return xout
+
+def convert_lat_to_y(lat):
+    r_major = 6378137.000
+    string = "{:.3f}".format(0-r_major*math.log(math.tan(math.pi/4.0+lat*(math.pi/180.0)/2.0)))
+    temp = float(string) 
+
+    yout = round(temp, 1)
+    print("LAT TEMP: {0} | {1}".format(temp, yout))
+
+    return yout
 
 def convert_x_to_lon(x):
     r_major = 6378137.000
@@ -57,9 +78,7 @@ def convert_y_to_lat(y):
     y = (0-y)/r_major
     return 180.0/math.pi*(2.0*math.atan(math.exp(y))-math.pi/2.0)
 
-def convert_lat_to_y(lat):
-    r_major = 6378137.000
-    return 0-r_major*math.log(math.tan(math.pi/4.0+lat*(math.pi/180.0)/2.0))
+
 
 # returns distance in meters on the mercator map projection
 # from 0 lat 0 lon to the point on the sphere

@@ -2,14 +2,14 @@
     "boundary": {
       "boundary_info": [
         {
-          "latitude": -100.0,
-          "longitude": 80
+          "latitude": -90.0,
+          "longitude": 70.0
         }
       ]
     },
     "goal": {
       "coordinates": {
-        "latitude": -85.922500,
+        "latitude": -85.922200,
         "longitude": 71.125500
       }
     },

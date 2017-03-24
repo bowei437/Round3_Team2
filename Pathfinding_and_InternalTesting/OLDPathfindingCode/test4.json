@@ -2,38 +2,39 @@
     "boundary": {
       "boundary_info": [
         {
-          "latitude": -100.0,
-          "longitude": 80
+          "latitude": -90.0,
+          "longitude": 75.0
         }
       ]
     },
     "goal": {
       "coordinates": {
-        "latitude": -85.922500,
+        "latitude": -85.922200,
         "longitude": 71.125500
       }
     },
     "obstacles": [
       {
         "obstacle_id": 0,
-        "obstacle_info": [
-          {
+        "obstacle_info": {
+          "coordinates": {
             "latitude": -85.925566,
             "longitude": 71.125566
-          }
-
-        ]
+          },
+          "height": 7,
+          "width": 8
+        }
       },
       {
         "obstacle_id": 1,
-        "obstacle_info": [
-          {
-            "latitude": -85.925550,
-            "longitude": 71.125552
-          }
-
-        ]
-
+        "obstacle_info": {
+          "coordinates": {
+            "latitude": -85.925546,
+            "longitude": 71.125538
+          },
+          "height": 9,
+          "width": 2
+        }
       }
     ],
     "problem_id": 0,
@@ -47,5 +48,3 @@
       }
     ]
   }
-
-

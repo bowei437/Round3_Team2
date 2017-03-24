@@ -70,8 +70,7 @@ def unittest(fname, enable):
         print("\nInput JSON File not valid\nTest for valid structure returned correctly so test is pass")
         
     else: # ** Else means data is pure and can now run Unit Test **
-        tempResult = True
-        #tempResult = is_shortest_path(data, enable) # Run Unit Test function and store True / False result into tempResult variable
+        tempResult = is_shortest_path(data, enable) # Run Unit Test function and store True / False result into tempResult variable
     
     # Conditional check of statement to assign string of PASSED or FAILED
     if tempResult is True:
@@ -132,7 +131,7 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 
 #### TEST 3 #####################################################################################
 #Large map with high computation
-inputfile = 'test3.json'
+inputfile = 'testnew.json'
 TestNum = 3 # Current Test Number
 
 uResult = unittest(inputfile, 1) # Run unit test and store result
