@@ -16,10 +16,12 @@ def readJSON(data, scale):
 
 
     #Boundary
-    x = convert_lon_to_x(data["boundary"]["boundary_info"][0]["longitude"])
-    y = convert_lat_to_y(data["boundary"]["boundary_info"][0]["latitude"])
-    data["boundary"]["boundary_info"][0]["x"] = x
-    data["boundary"]["boundary_info"][0]["y"] = y
+    x = convert_lon_to_x(data["boundary"]["coordinates"][0]["longitude"])
+    y = convert_lat_to_y(data["boundary"]["coordinates"][0]["latitude"])
+    data["boundary"]["coordinates"][0]["x"] = x
+    data["boundary"]["coordinates"][0]["y"] = y
+
+
 
 
 
