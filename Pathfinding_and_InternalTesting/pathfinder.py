@@ -50,6 +50,7 @@ def intersects_obstacle(c):
     # this boolean is then returned
     doesIntersect = False
     loc = 0
+    #while loc < len(data["obstacles"][loc]["obstacle_info"]):
 
     while doesIntersect is not False and loc < len(Json["obstacles"]):
         doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"][0]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"][0]["x"] + 5) and (c[1] >= Json["obstacles"][loc]["obstacle_info"][0]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"][0]["y"] + 5)
@@ -221,8 +222,8 @@ def pathfind_from_json(json_message, enable):
     
 
     finder = pathfinder(distance=absolute_distance, cost=fixed_cost(1),
-                        neighbors=grid_neighbors(Json["boundaryx"],
-                         Json["boundaryy"],
+                        neighbors=grid_neighbors(Json["boundary"]["coordinates"][0]["x"],
+                         Json["boundary"]["coordinates"][0]["y"],
                           50000000, 50000000))
 
     path = finder((Json["robots"][0]["coordinates"]["x"], Json["robots"][0]["coordinates"]["y"]), (Json["goal"]["coordinates"]["x"], Json["goal"]["coordinates"]["y"]))

@@ -13,63 +13,43 @@ def readJSON(data, scale):
     #globally store JSON message
     Json = json.loads('{}')
 
-    # Normalizes boundary by making it just outside the range of the largest value
-    if (data["goal"]["coordinates"]["longitude"] > data["robots"][0]["coordinates"]["longitude"]):
-        # If NEGATIVE
-        if ((data["goal"]["coordinates"]["longitude"]) < 1):
-            boundLON = (data["goal"]["coordinates"]["longitude"]) - 10
-        else:
-            boundLON = (data["goal"]["coordinates"]["longitude"]) + 10
-    else:
-        boundLON = (data["robots"][0]["coordinates"]["longitude"]) + 10
-        if ((data["robots"][0]["coordinates"]["longitude"]) < 1):
-            boundLON = (data["robots"][0]["coordinates"]["longitude"]) - 10
-        else:
-            boundLON = (data["robots"][0]["coordinates"]["longitude"]) + 10
-
-
-    if (data["goal"]["coordinates"]["latitude"] > data["robots"][0]["coordinates"]["latitude"]):
-        # If NEGATIVE
-        if ((data["goal"]["coordinates"]["latitude"]) < 1):
-            boundLAT = (data["goal"]["coordinates"]["latitude"]) - 10
-        else:
-            boundLAT = (data["goal"]["coordinates"]["latitude"]) + 10
-    else:
-        boundLON = (data["robots"][0]["coordinates"]["latitude"]) + 10
-        if ((data["robots"][0]["coordinates"]["latitude"]) < 1):
-            boundLAT = (data["robots"][0]["coordinates"]["latitude"]) - 10
-        else:
-            boundLAT = (data["robots"][0]["coordinates"]["latitude"]) + 10
-
-    print("New Boundary LAT LON: {0} | {1}".format(boundLAT, boundLON))
 
 
     #Boundary
-    x = convert_lon_to_x(boundLON)
-    y = convert_lat_to_y(boundLAT)
-    data.update({"boundaryx" : x})
-    data.update({"boundaryy" : y})
+    x = convert_lon_to_x(data["boundary"]["coordinates"][0]["longitude"])
+    y = convert_lat_to_y(data["boundary"]["coordinates"][0]["latitude"])
+    data["boundary"]["coordinates"][0]["x"] = x
+    data["boundary"]["coordinates"][0]["y"] = y
 
-    #data["boundary"]["boundary_info"][0]["x"] = x
-    #data["boundary"]["boundary_info"][0]["y"] = y
+
 
     #Goal
     x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
     y = convert_lat_to_y(data["goal"]["coordinates"]["latitude"])
     data["goal"]["coordinates"]["x"] = x
     data["goal"]["coordinates"]["y"] = y
-
+  
     #Obstacles
     loc = 0
+    loc2 = 0
     #print("length of obstacles: {0}\nObstacle1: {1}\n".format(len(data["obstacles"]), data["obstacles"][0]))
 
     if "obstacles" not in data:
         print("No Obstacles")
     else:
             while loc < len(data["obstacles"]):
-                data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"][0]["longitude"])
-                data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"][0]["latitude"])
+                while loc2 < len(data["obstacles"][loc]["obstacle_info"]):
+                    data["obstacles"][loc]["obstacle_info"][loc2]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"][loc2]["longitude"])
+                    data["obstacles"][loc]["obstacle_info"][loc2]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"][loc2]["latitude"])
+                    loc2 += 1
                 loc += 1
+                loc2 = 0
+
+    loc = 0
+    loc2 = 0
+    # Calculates rectangular boundary width and height
+    maxtest = max(data["obstacles"][0]["obstacle_info"], key=lambda ev: ev["longitude"])
+    print(maxtest)
 
     #Robot
     x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])

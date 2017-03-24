@@ -3,6 +3,7 @@
 #include <QNetworkReply>
 #include <QMessageBox>
 
+#define QT_NO_DEBUG_OUTPUT
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -316,7 +317,6 @@ void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode) {
 
 void MainWindow::on_but_problem_clicked()
 {
-    qDebug() << "Problem clicked";
     QString json;
     QString requestType = getRequestType();
     QString url;

@@ -254,8 +254,6 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=" + boundary);
     }
 
-    qDebug() << "Request content: " <<  request_content;
-
     if (input->http_method == "GET") {
         manager->get(request);
     }
