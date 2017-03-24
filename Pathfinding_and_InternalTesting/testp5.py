@@ -132,7 +132,7 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 
 #### TEST 3 #####################################################################################
 #Large map with high computation
-inputfile = 'test3.json'
+inputfile = 'testnew.json'
 TestNum = 3 # Current Test Number
 
 uResult = unittest(inputfile, 1) # Run unit test and store result

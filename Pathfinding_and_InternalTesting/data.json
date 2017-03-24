@@ -2,19 +2,31 @@
     "boundary": {
         "boundary_info": [
             {
-                "latitude": -100.0,
-                "longitude": 80,
+                "latitude": 20,
+                "longitude": -100,
                 "x": -11131949,
-                "y": -15538711
+                "y": -2273030
+            },
+            {
+                "latitude": -80.0,
+                "longitude": 60.0
+            },
+            {
+                "latitude": -50.0,
+                "longitude": 40.0
+            },
+            {
+                "latitude": -30.0,
+                "longitude": 20.0
             }
         ]
     },
     "goal": {
         "coordinates": {
-            "latitude": -85.9225,
-            "longitude": 71.1255,
-            "x": -9564848,
-            "y": -11445320
+            "latitude": 37.229792,
+            "longitude": -80.4226,
+            "x": -8952602,
+            "y": -4471185
         }
     },
     "obstacles": [
@@ -22,10 +34,10 @@
             "obstacle_id": 0,
             "obstacle_info": [
                 {
-                    "latitude": -85.925566,
-                    "longitude": 71.125566,
-                    "x": -9565190,
-                    "y": -11445343
+                    "latitude": 37.2297,
+                    "longitude": -80.423,
+                    "x": -8952647,
+                    "y": -4471172
                 }
             ]
         },
@@ -33,10 +45,10 @@
             "obstacle_id": 1,
             "obstacle_info": [
                 {
-                    "latitude": -85.92555,
-                    "longitude": 71.125552,
-                    "x": -9565188,
-                    "y": -11445338
+                    "latitude": 37.229701,
+                    "longitude": -80.423,
+                    "x": -8952647,
+                    "y": -4471172
                 }
             ]
         }
@@ -45,10 +57,10 @@
     "robots": [
         {
             "coordinates": {
-                "latitude": -85.92132,
-                "longitude": 71.124689,
-                "x": -9564717,
-                "y": -11445041
+                "latitude": 37.229507,
+                "longitude": -80.423788,
+                "x": -8952735,
+                "y": -4471145
             },
             "id": 0
         }

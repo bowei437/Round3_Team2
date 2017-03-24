@@ -14,14 +14,14 @@ def readJSON(data, scale):
     Json = json.loads('{}')
 
     #Boundary
-    x = convert_lon_to_x(data["boundary"]["boundary_info"][0]["latitude"])
-    y = convert_lat_to_y(data["boundary"]["boundary_info"][0]["longitude"])
+    x = convert_lon_to_x(data["boundary"]["boundary_info"][0]["longitude"])
+    y = convert_lat_to_y(data["boundary"]["boundary_info"][0]["latitude"])
     data["boundary"]["boundary_info"][0]["x"] = x
     data["boundary"]["boundary_info"][0]["y"] = y
 
     #Goal
-    x = convert_lon_to_x(data["goal"]["coordinates"]["latitude"])
-    y = convert_lat_to_y(data["goal"]["coordinates"]["longitude"])
+    x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
+    y = convert_lat_to_y(data["goal"]["coordinates"]["latitude"])
     data["goal"]["coordinates"]["x"] = x
     data["goal"]["coordinates"]["y"] = y
 
@@ -33,13 +33,13 @@ def readJSON(data, scale):
         print("No Obstacles")
     else:
             while loc < len(data["obstacles"]):
-                data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"][0]["latitude"])
-                data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"][0]["longitude"])
+                data["obstacles"][loc]["obstacle_info"][0]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"][0]["longitude"])
+                data["obstacles"][loc]["obstacle_info"][0]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"][0]["latitude"])
                 loc += 1
 
     #Robot
-    x = convert_lon_to_x(data["robots"][0]["coordinates"]["latitude"])
-    y = convert_lat_to_y(data["robots"][0]["coordinates"]["longitude"])
+    x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])
+    y = convert_lat_to_y(data["robots"][0]["coordinates"]["latitude"])
     data["robots"][0]["coordinates"]["x"] = x
     data["robots"][0]["coordinates"]["y"] = y
     
@@ -55,17 +55,18 @@ def convert_lon_to_x(lon):
     string = "{:.3f}".format(r_major*math.radians(lon))
     temp = float(string)
     xout = round(temp, 1) 
-    print("LON TEMP: {0} | {1}".format(temp, xout)) 
+    #print("LON TEMP: {0} | {1}".format(temp, xout)) 
 
     return xout
 
 def convert_lat_to_y(lat):
     r_major = 6378137.000
-    string = "{:.3f}".format(0-r_major*math.log(math.tan(math.pi/4.0+lat*(math.pi/180.0)/2.0)))
+    tmath = 0-r_major*math.log(math.tan(math.pi/4.0+lat*(math.pi/180.0)/2.0))
+    string = "{:.3f}".format(tmath)
     temp = float(string) 
 
     yout = round(temp, 1)
-    print("LAT TEMP: {0} | {1}".format(temp, yout))
+    #print("LAT TEMP: {0} | {1}".format(temp, yout))
 
     return yout
 
