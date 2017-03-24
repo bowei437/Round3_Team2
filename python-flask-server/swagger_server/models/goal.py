@@ -60,6 +60,8 @@ class Goal(Model):
         :param coordinates: The coordinates of this Goal.
         :type coordinates: Coordinate
         """
+        if coordinates is None:
+            raise ValueError("Invalid value for `coordinates`, must not be `None`")
 
         self._coordinates = coordinates
 

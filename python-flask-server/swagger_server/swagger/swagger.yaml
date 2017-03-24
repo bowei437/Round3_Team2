@@ -78,16 +78,10 @@ paths:
       responses:
         400:
           description: "Invalid ID supplied"
-          schema:
-            $ref: "#/definitions/Error"
         404:
           description: "Problem not found"
-          schema:
-            $ref: "#/definitions/Error"
         500:
           description: "There was an error in the storage server"
-          schema:
-            $ref: "#/definitions/Error"
       x-swagger-router-controller: "swagger_server.controllers.problems_controller"
   /id={problem_id}/Obstacles:
     get:
@@ -727,7 +721,7 @@ paths:
         200:
           description: "Array of Coordinates from start to finish."
           schema:
-            $ref: "#/definitions/Path"        
+            $ref: "#/definitions/Path"
         400:
           description: "There was an invalid input"
           schema:
@@ -748,15 +742,24 @@ paths:
 definitions:
   Coordinate:
     type: "object"
+    required:
+    - "latitude"
+    - "longitude"
     properties:
       longitude:
         type: "number"
         format: "double"
         description: "the longitude of the object."
+        minimum: -180
+        maximum: 180
+        default: 0
       latitude:
         type: "number"
         format: "double"
         description: "the latitude of the object."
+        minimum: -90
+        maximum: 90
+        default: 0
   Obstacle:
     type: "object"
     properties:
@@ -764,50 +767,95 @@ definitions:
         type: "integer"
         format: "int32"
         description: "Unique identifier representing a specific obstacle in the list."
+        minimum: 0
       obstacle_info:
         $ref: "#/definitions/Shape"
   Shape:
     type: "object"
-    required:
-    - "coordinates"
-    - "shape"
+    discriminator: "shapeType"
     properties:
-      shape:
-        type: "string"
-        default: "rectangle"
-        enum:
-        - "rectangle"
-        - "triangle"
-        - "polygon"
-      coordinates:
-        type: "array"
-        items:
-          $ref: "#/definitions/Coordinate"
+        shapeType:
+            type: "object"
+  Rectangle:
+    allOf:
+    - $ref: "#/definitions/Shape"
+    - type: "object"
+      properties:
+        coordinates:
+          type: "array"
+          items:
+            $ref: "#/definitions/Coordinate"
+          maxItems: 4
+          minItems: 4
+        name:
+          type: "string"
+          default: "rectangle"
+    description: "a 4 coordinate shape"
+  Triangle:
+    allOf:
+    - $ref: "#/definitions/Shape"
+    - type: "object"
+      properties:
+        coordinates:
+          type: "array"
+          items:
+            $ref: "#/definitions/Coordinate"
+          maxItems: 3
+          minItems: 3
+        name:
+          type: "string"
+          default: "triangle"
+    description: "a 3 coordinate shape"
+  Polygon:
+    allOf:
+    - $ref: "#/definitions/Shape"
+    - type: "object"
+      properties:
+        coordinates:
+          type: "array"
+          items:
+            $ref: "#/definitions/Coordinate"
+          minItems: 5
+        name:
+          type: "string"
+          default: "polygon"
+    description: "a many coordinate shape"
   Robot:
     type: "object"
+    required:
+    - "coordinates"
+    - "id"
     properties:
       coordinates:
         $ref: "#/definitions/Coordinate"
       id:
         type: "integer"
         format: "int32"
+        minimum: 0
   Goal:
     type: "object"
+    required:
+    - "coordinates"
     properties:
       coordinates:
         $ref: "#/definitions/Coordinate"
   Boundary:
     type: "object"
+    required:
+    - "boundary_info"
     properties:
       boundary_info:
         $ref: "#/definitions/Shape"
   Path:
     type: "object"
+    required:
+    - "path_cost"
     properties:
       path_cost:
         type: "number"
         format: "double"
         description: "The total cost to travel the path"
+        default: 1
       coordinates:
         type: "array"
         description: "The path travelled"
@@ -815,10 +863,15 @@ definitions:
           $ref: "#/definitions/Coordinate"
   Problem:
     type: "object"
+    required:
+    - "boundary"
+    - "goal"
+    - "robots"
     properties:
       problem_id:
         type: "integer"
         format: "int32"
+        minimum: 0
       robots:
         type: "array"
         description: "The list of robots for the problem"
@@ -833,24 +886,9 @@ definitions:
         items:
           $ref: "#/definitions/Obstacle"
       path:
-        $ref: '#/definitions/Path'
+        $ref: "#/definitions/Path"
       regions:
-        type: "object"
-        properties:
-          searched:
-            type: "array"
-            items:
-              $ref: "#/definitions/searchedRegionLIDAR"
-          unsearched:
-            type: "object"
-            properties:
-              version:
-                type: "integer"
-                format: "int32"
-              cache:
-                type: "array"
-                items:
-                  $ref: "#/definitions/unsearchedRegionPolygon"
+        $ref: "#/definitions/Problem_regions"
   unsearchedRegionPolygon:
     required:
     - "points"
@@ -894,3 +932,20 @@ definitions:
         type: "string"
       fields:
         type: "string"
+  Problem_regions_unsearched:
+    properties:
+      version:
+        type: "integer"
+        format: "int32"
+      cache:
+        type: "array"
+        items:
+          $ref: "#/definitions/unsearchedRegionPolygon"
+  Problem_regions:
+    properties:
+      searched:
+        type: "array"
+        items:
+          $ref: "#/definitions/searchedRegionLIDAR"
+      unsearched:
+        $ref: "#/definitions/Problem_regions_unsearched"

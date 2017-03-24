@@ -65,6 +65,8 @@ class Robot(Model):
         :param coordinates: The coordinates of this Robot.
         :type coordinates: Coordinate
         """
+        if coordinates is None:
+            raise ValueError("Invalid value for `coordinates`, must not be `None`")
 
         self._coordinates = coordinates
 
@@ -86,6 +88,10 @@ class Robot(Model):
         :param id: The id of this Robot.
         :type id: int
         """
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")
+        if id is not None and id < 0:
+            raise ValueError("Invalid value for `id`, must be a value greater than or equal to `0`")
 
         self._id = id
 

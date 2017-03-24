@@ -5,11 +5,6 @@ from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
-import requests, json
-from flask import jsonify
-from flask_api import status
-
-storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
 
 def get_goal(problem_id):
@@ -59,13 +54,22 @@ def update_goal(problem_id, goal):
 
     :rtype: None
     """
+    if connexion.request.is_json:
+        goal = Goal.from_dict(connexion.request.get_json())
+    return 'do some magic!'
+
     #check if problem_id is positive 
     if (problem_id < 0):
         return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
         #get JSON from response
-        goal = connexion.request.get_json()
+        
+
+        #goal = connexion.request.get_json()
+
+        #THIS IS WHERE YOU WOULD BEGIN VALIDATING, JISU
+        goal = Goal.from_dict(connexion.request.get_json())
 
         #Storage version control
         while True:
@@ -91,8 +95,20 @@ def update_goal(problem_id, goal):
             #    return jsonify(Error(405, "Goal is out of range.")), HTTP_405_INVALID_INPUT
 
             #store new Goal coordinates into Goal of Problem
-            problem['goal']['coordinates'] = goal['coordinates']
 
+            ###################
+            ###################
+            ## may not work ###
+            ###################
+            ###################
+            problem['goal']['coordinates'] = goal.coordinates()
+            ###################
+            ###################            
+            ###################
+            ###################
+
+
+            
             #PUT the new Problem back into Storage
             params = "id=%s/ver=%s/" % (str(problem_id), str(version))
             goal_url = storage_url + str(params)
@@ -109,3 +125,4 @@ def update_goal(problem_id, goal):
 
     #return an error if input isn't JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+
