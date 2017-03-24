@@ -60,11 +60,11 @@ def update_boundary(problem_id, boundary):
         return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
-        #get JSON from response
-        boundary = connexion.request.get_json()
-
-        boundary = Boundary.from_dict(connexion.request.get_json())
-
+        #check for input validity
+        try:
+            boundary = Boundary.from_dict(connexion.request.get_json())
+        except ValueError as error:
+            return jsonify(Error(400, str(ValueError)), status.HTTP_BAD_REQUEST
 
         '''
         #check if boundary is in valid range
