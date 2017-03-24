@@ -22,9 +22,12 @@ const QString obstacle_id_str = QString("obstacle_id");
 const QString obstacle_info_str = QString("obstacle_info");
 
 //robots
+const QString robot_str = QString("robot");
 const QString robots_str = QString("robots");
 const QString id_str = QString("id");
 
+//robots
+const QString path_str = QString("path");
 //problem id
 const QString problem_id_str = QString("problem_id");
 const QString uid_str = QString("uid");

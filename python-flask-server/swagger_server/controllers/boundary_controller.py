@@ -70,34 +70,39 @@ def update_boundary(problem_id, boundary):
             return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
         '''
 
-        #contact Storage
-        params = "id=%s/" % str(problem_id)
-        bound_url = storage_url + str(params)
-        response = requests.get(bound_url)
-     
-        #check that Problem exists
-        if (response.status_code == 404):
-            return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
+        #Storage version control
+        while True:
+            #contact Storage
+            params = "id=%s/" % str(problem_id)
+            bound_url = storage_url + str(params)
+            response = requests.get(bound_url)
+ 
+            #check that Problem exists
+            if (response.status_code == 404):
+                return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
         
-        #check if Storage died
-        elif (response.status_code != 200):
-            return jsonify(Error(500, "Storage server error: couldn't access Boundary")), status.HTTP_500_INTERNAL_SERVER_ERROR
+            #check if Storage died
+            elif (response.status_code != 200):
+                return jsonify(Error(500, "Storage server error: couldn't access Boundary")), status.HTTP_500_INTERNAL_SERVER_ERROR
         
-        #get problem from response
-        problem = response.json()['body']
-        version = response.json()['version']
+            #get problem from response
+            problem = response.json()['body']
+            version = response.json()['version']
 
-        #store new Goal coordinates into Goal of Problem
-        problem['boundary'] = boundary
+            #store new Goal coordinates into Goal of Problem
+            problem['boundary'] = boundary
 
-        #PUT the new Problem back into Storage
-        params = "id=%s/ver=%s/" % (str(problem_id), str(version))
-        put_url = storage_url + str(params)
-        put_response = requests.put(put_url, json=problem)
-        
-        #check if Storage died
-        if (response.status_code != 200):
-            return jsonify(Error(500, "Storage server error: couldn't update goal")), status.HTTP_500_INTERNAL_SERVER_ERROR
+            #PUT the new Problem back into Storage
+            params = "id=%s/ver=%s/" % (str(problem_id), str(version))
+            put_url = storage_url + str(params)
+            put_response = requests.put(put_url, json=problem)
+
+            #check for Storage version control
+            if (response.status_code != 412):
+                #check if Storage died
+                if (response.status_code != 200):
+                    return jsonify(Error(500, "Storage server error: couldn't update goal")), status.HTTP_500_INTERNAL_SERVER_ERROR
+                break
         
         #return the Boundary from the Problem
         return jsonify({"response": "update successful"})

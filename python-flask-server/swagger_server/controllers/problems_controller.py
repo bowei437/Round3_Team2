@@ -136,7 +136,7 @@ def delete_problem(problem_id):
 
     :rtype: None
     """
-        #make sure ID was valid
+    #make sure ID was valid
     if (problem_id < 0):
         return jsonify(Error(400, "Problem not valid")), status.HTTP_400_BAD_REQUEST
     
@@ -148,7 +148,7 @@ def delete_problem(problem_id):
     #make sure Problem existed
     if (get_response.status_code == 404):
         return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
-    
+
     #check if the Storage died
     elif (get_response.status_code != 200):
         return jsonify(Error(500, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
