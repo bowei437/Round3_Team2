@@ -33,8 +33,19 @@
           {
             "latitude": 37.229701,
             "longitude": -80.423000
+          },
+		  {
+            "latitude": 37.229701,
+            "longitude": -80.423000
+          },
+		  {
+            "latitude": 37.229701,
+            "longitude": -80.423000
+          },
+		  {
+            "latitude": 37.229701,
+            "longitude": -80.423000
           }
-
         ]
 
       }
