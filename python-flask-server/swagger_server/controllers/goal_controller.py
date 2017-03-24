@@ -18,7 +18,7 @@ def get_goal(problem_id):
     """
     #check if problem_id is nonnegative
     if (problem_id < 0):
-        return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
  
     #contact storage
     params = "id=%s/" % str(problem_id)
@@ -54,13 +54,9 @@ def update_goal(problem_id, goal):
 
     :rtype: None
     """
-    if connexion.request.is_json:
-        goal = Goal.from_dict(connexion.request.get_json())
-    return 'do some magic!'
-
     #check if problem_id is positive 
     if (problem_id < 0):
-        return jsonify(Error(400, "Negative Problem_ID")), HTTP_400_BAD_REQUEST
+        return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     if connexion.request.is_json:
         #get JSON from response
@@ -68,8 +64,11 @@ def update_goal(problem_id, goal):
 
         #goal = connexion.request.get_json()
 
-        #THIS IS WHERE YOU WOULD BEGIN VALIDATING, JISU
-        goal = Goal.from_dict(connexion.request.get_json())
+        #check for input validity
+        try:
+            goal = Goal.from_dict(connexion.request.get_json())
+        except ValueError as error:
+            return jsonify(Error(400, str(ValueError)), status.HTTP_BAD_REQUEST
 
         #Storage version control
         while True:
