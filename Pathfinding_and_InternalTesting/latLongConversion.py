@@ -23,8 +23,6 @@ def readJSON(data, scale):
 
 
 
-
-
     #Goal
     x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
     y = convert_lat_to_y(data["goal"]["coordinates"]["latitude"])
@@ -47,6 +45,8 @@ def readJSON(data, scale):
                 loc += 1
                 loc2 = 0
 
+    loc = 0
+    loc2 = 0
     #Robot
     x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])
     y = convert_lat_to_y(data["robots"][0]["coordinates"]["latitude"])

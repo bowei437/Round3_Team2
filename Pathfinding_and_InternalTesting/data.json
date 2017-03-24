@@ -23,7 +23,23 @@
             "obstacle_id": 0,
             "obstacle_info": [
                 {
-                    "latitude": 37.2297,
+                    "latitude": 37.229705,
+                    "longitude": -80.423
+                },
+                {
+                    "latitude": 37.229708,
+                    "longitude": -80.423,
+                    "x": -8952647,
+                    "y": -4471172
+                },
+                {
+                    "latitude": 37.229711,
+                    "longitude": -80.423,
+                    "x": -8952647,
+                    "y": -4471172
+                },
+                {
+                    "latitude": 37.229721,
                     "longitude": -80.423,
                     "x": -8952647,
                     "y": -4471172

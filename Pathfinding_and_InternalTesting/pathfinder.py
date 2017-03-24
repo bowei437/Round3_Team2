@@ -50,6 +50,7 @@ def intersects_obstacle(c):
     # this boolean is then returned
     doesIntersect = False
     loc = 0
+    while loc < len(data["obstacles"][loc]["obstacle_info"]):
 
     while doesIntersect is not False and loc < len(Json["obstacles"]):
         doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"][0]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"][0]["x"] + 5) and (c[1] >= Json["obstacles"][loc]["obstacle_info"][0]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"][0]["y"] + 5)
