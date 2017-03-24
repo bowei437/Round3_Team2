@@ -24,35 +24,40 @@ def get_path(problem_id):
     #check if problem_id is positive
     if (problem_id < 0):
         return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
-    
-    #contact storage
-    params = "id=%s/" % str(problem_id)
-    path_url = storage_url + str(params)
-    response = requests.get(path_url)
 
-    #check that the Problem exists
-    if (response.status_code == 404):
-        return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
-    
-    #check if Storage died
-    elif (response.status_code != 200):
-        return jsonify(Error(500, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
-    
-    #get the Problem from the response
-    problem = response.json()["body"]
-    version = response.json()["version"]
-    path = pathfind_from_json(problem, 1)
-    problem["path"] = path
+    #Storage version control   
+    while True: 
+        #contact storage
+        params = "id=%s/" % str(problem_id)
+        path_url = storage_url + str(params)
+        response = requests.get(path_url)
 
-    params = "id=%s/ver=%s/" % (str(problem_id), str(version))
-    put_url = storage_url + str(params)
-    response = requests(put_url, json=problem)
+        #check that the Problem exists
+        if (response.status_code == 404):
+            return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
+    
+        #check if Storage died
+        elif (response.status_code != 200):
+            return jsonify(Error(500, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
+    
+        #get the Problem from the response
+        problem = response.json()["body"]
+        version = response.json()["version"]
+        path = pathfind_from_json(problem, 1)
+        problem["path"] = path
 
-    if (response.status_code == 404):
-        return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
-    
-    #check if Storage died
-    elif (response.status_code != 200):
-        return jsonify(Error(500, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
-    
+        params = "id=%s/ver=%s/" % (str(problem_id), str(version))
+        put_url = storage_url + str(params)
+        response = requests(put_url, json=problem)
+
+        if (response.status_code == 404):
+            return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
+       
+        #check for Storage version control
+        if (response.status_code != 412):
+            #check if Storage died
+            if (response.status_code != 200):
+                return jsonify(Error(500, "Storage server error")), status.HTTP_500_INTERNAL_SERVER_ERROR
+            break
+
     return jsonify(path)
