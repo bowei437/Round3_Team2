@@ -772,10 +772,12 @@ definitions:
         $ref: "#/definitions/Shape"
   Shape:
     type: "object"
-    discriminator: "shapeType"
+    discriminator: shapeType
+    required:
+    - shapeType
     properties:
-        shapeType:
-            type: "object"
+      shapeType:
+        type: string
   Rectangle:
     allOf:
     - $ref: "#/definitions/Shape"

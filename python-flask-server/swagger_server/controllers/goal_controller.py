@@ -5,7 +5,11 @@ from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
+import requests, json
+from flask import jsonify
+from flask_api import status
 
+storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
 def get_goal(problem_id):
     """
