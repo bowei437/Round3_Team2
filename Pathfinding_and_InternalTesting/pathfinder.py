@@ -124,6 +124,7 @@ def grid_neighbors(minx, miny, height, width):
                          (coord[0], coord[1] - 1),
                          (coord[0] + 1, coord[1]),
                          (coord[0] - 1, coord[1])]
+        #print("Grid Neighbors: {0}".format(neighbor_list))
 
         return [c for c in neighbor_list
                 if c != coord

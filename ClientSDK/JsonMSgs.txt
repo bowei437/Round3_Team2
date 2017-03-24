@@ -22,8 +22,10 @@
 
 
 
+//boundary
+
 {
-  "boundary_info": [
+  "coordinates": [
     {
       "latitude": 0,
       "longitude": 0
@@ -40,7 +42,15 @@
       "latitude": 0,
       "longitude": -400
     }
-  ]
+  ],
+  "shape": "rectangle"
 }
 
+//goal
 
+{
+  "coordinates": {
+    "latitude": -50,
+    "longitude": -350
+  }
+}

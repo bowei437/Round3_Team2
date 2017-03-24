@@ -17,10 +17,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(worker, SIGNAL(on_execution_finished(HttpRequestWorker*, QString)), this, SLOT(handle_result(HttpRequestWorker*, QString)));
 
     //set url
-    url_str  = "http://ec2-54-200-185-55.us-west-2.compute.amazonaws.com:8081/v3/";
+    url_str  = "http://ec2-54-200-185-55.us-west-2.compute.amazonaws.com:8082/v3/";
 
     //set secene
     ui->view_field->setScene(m_scene);
+
+    //initialize
+    m_boundary = NULL;
+    m_goal = NULL;
+    m_obstacleList.clear();
+    m_robotList.clear();
+    m_pathList.clear();
 
 }
 
@@ -49,9 +56,10 @@ QString MainWindow::getRequestType()
 
 }
 
-//TODO change *_info to coordinates
+
 void MainWindow::parseJson(QByteArray response)
 {
+    qDebug() << "1";
     QJsonArray tempArray;
     QJsonParseError error;
     QJsonDocument Jdoc = QJsonDocument::fromJson(response, &error);
@@ -68,6 +76,7 @@ void MainWindow::parseJson(QByteArray response)
 
     switch(m_rqst){
     case PROBLEM:
+        qDebug() << "2";
         if(JObject[boundary_str] != QJsonValue::Undefined)
             BoundaryScene(JObject[boundary_str].toObject());
 
@@ -79,6 +88,9 @@ void MainWindow::parseJson(QByteArray response)
 
         if(JObject[robots_str] != QJsonValue::Undefined)
             RobotsScene(JObject[robots_str].toArray());
+
+        if(JObject[path_str] != QJsonValue::Undefined)
+            PathScene(JObject[path_str].toObject());
         break;
     case BOUNDARY:
         if(JObject[boundary_info_str] != QJsonValue::Undefined)
@@ -86,22 +98,22 @@ void MainWindow::parseJson(QByteArray response)
         break;
     case GOAL:
         if(JObject[coordinates_str] != QJsonValue::Undefined)
-            GoalScene(JObject);
+            GoalScene(JObject[goal_str].toObject());
         break;
     case OBSTACLES:
         if(JObject[coordinates_str] != QJsonValue::Undefined  && ui->rqst_oid->text() != ""){
-            tempArray.append(JObject);
+            tempArray.append(JObject[obstacles_str].toObject());
             ObstaclesScene(tempArray);
         }else
             ObstaclesScene(JArray);
 
         break;
     case ROBOTS:
-        if(JObject[coordinates_str] != QJsonValue::Undefined  && ui->rqst_rid->text() == ""){
-            tempArray.append(JObject);
+        if(JObject[coordinates_str] != QJsonValue::Undefined  && ui->rqst_rid->text() != ""){
+            tempArray.append(JObject[robot_str].toObject());
             RobotsScene(tempArray);
         }else
-            ObstaclesScene(JArray);
+            RobotsScene(JObject[robots_str].toArray());
         break;
     case PATH:
         if(JObject[coordinates_str] != QJsonValue::Undefined)
@@ -110,19 +122,39 @@ void MainWindow::parseJson(QByteArray response)
     }
 }
 
+void MainWindow::getProblemId(QByteArray response)
+{
+    QJsonParseError error;
+    QJsonDocument Jdoc = QJsonDocument::fromJson(response, &error);
+
+    //qDebug() << "response: " << response;
+    //qDebug() << "error: " << error.errorString();
+    if(error.error != QJsonParseError::NoError || error.offset >= response.size()){
+        QMessageBox::information(this, "", "Bad json from server");
+        return;
+    }
+
+    QJsonObject JObject = Jdoc.object();
+    QString temp = QString::number(JObject[problem_id_str].toInt());
+
+    ui->cur_prob_id->setText(temp);
+}
+
 void MainWindow::BoundaryScene(QJsonObject update)
 {
-    //if(update[shape_str].toString() == "string") //no defaults
-     //   return;
+    qDebug() << "3";
 
-    //remove old bondary
-    m_scene->removeItem(m_boundary);
+    //remove old objects in display
+    if(m_boundary != NULL)
+        m_scene->removeItem(m_boundary);
 
     const QVector<QPointF> pointsList = getPointList(update[coordinates_str].toArray());
-    QPolygonF boundary(pointsList);
-    QPen color;
 
+    QPolygonF boundary(pointsList);
+    QRectF sizer = boundary.boundingRect();
+    QPen color;
     color = QPen(Qt::black);
+    color.setWidthF(sizer.height()/400);
 
     m_scene->setSceneRect(boundary.boundingRect());
     m_boundary = m_scene->addPolygon(boundary, color);
@@ -133,6 +165,7 @@ void MainWindow::BoundaryScene(QJsonObject update)
 
 void MainWindow::ObstaclesScene(QJsonArray list)
 {
+    qDebug() << "4";
     //remove old obstacles
     int listSize = m_obstacleList.size();
     for(int i = 0; i < listSize; i++)
@@ -160,11 +193,15 @@ void MainWindow::ObstaclesScene(QJsonArray list)
 
 void MainWindow::GoalScene(QJsonObject update)
 {
+    qDebug() << "5";
     //remove old goal
-    m_scene->removeItem(m_goal);
+    if(m_goal != NULL)
+        m_scene->removeItem(m_goal);
 
+    QRectF sizer = m_scene->itemsBoundingRect();
     QPen shp_color;
     shp_color = QPen(Qt::black);
+    shp_color.setWidthF(sizer.height()/400);
 
 
     QBrush fill;
@@ -175,19 +212,23 @@ void MainWindow::GoalScene(QJsonObject update)
 
     m_goal = m_scene->addEllipse(coords[latitude_str].toDouble(),
                                  coords[longitude_str].toDouble(),
-                                 5,5,shp_color, fill);
+                                 sizer.height()/80,sizer.height()/80,
+                                 shp_color, fill);
 }
 
 void MainWindow::RobotsScene(QJsonArray list)
 {
+    qDebug() << "6";
     //remove old robots
     int listSize = m_robotList.size();
     for(int i = 0; i < listSize; i++)
         m_scene->removeItem(m_robotList.at(i));
     m_robotList.clear();
 
+    QRectF sizer = m_scene->itemsBoundingRect();
     QPen shp_color;
     shp_color = QPen(Qt::black);
+    shp_color.setWidthF(sizer.height()/400);
 
     QBrush fill;
     fill.setColor(Qt::green);
@@ -199,7 +240,8 @@ void MainWindow::RobotsScene(QJsonArray list)
 
         QGraphicsEllipseItem *RobotHandle = m_scene->addEllipse(coords[latitude_str].toDouble(),
                                                                 coords[longitude_str].toDouble(),
-                                                                5,5,shp_color, fill);
+                                                                sizer.height()/80,sizer.height()/80,
+                                                                shp_color, fill);
         m_robotList.append(RobotHandle);
     }
 
@@ -207,14 +249,17 @@ void MainWindow::RobotsScene(QJsonArray list)
 
 void MainWindow::PathScene(QJsonObject update)
 {
+    qDebug() << "7";
     //remove old path
     int listSize = m_pathList.size();
     for(int i = 0; i < listSize; i++)
         m_scene->removeItem(m_pathList.at(i));
     m_pathList.clear();
 
+    QRectF sizer = m_scene->itemsBoundingRect();
     QPen color;
-    color = QPen(Qt::black);
+    color = QPen(Qt::darkRed);
+    color.setWidthF(sizer.height()/200);
 
     const QVector<QPointF> pointsList = getPointList(update[coordinates_str].toArray());
 
@@ -241,6 +286,7 @@ QVector<QPointF> MainWindow::getPointList(QJsonArray list)
 
 
 void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode) {
+   ui->status->setText("Got Response");
    ui->rpsn_code->setText(StatusCode);
       QString msg;
 
@@ -251,13 +297,20 @@ void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode) {
     else {
         // an error occurred
         msg = "Error: " + worker->error_str;
-        QMessageBox::information(this, "", msg);
-    }
 
+        return;
+    }
+    QMessageBox::information(this, "", msg);
+
+    if(ui->rqst_uid->text() != "")
+        ui->cur_prob_id->setText(ui->rqst_uid->text());
 
     //hopefully the user isnt fast enough to change the request type after sending out the request lol
     if(getRequestType() == "GET")
         parseJson(worker->response);
+    else if(getRequestType() == "POST" && m_rqst == PROBLEM)
+        getProblemId(worker->response);
+
 }
 
 
@@ -287,6 +340,7 @@ void MainWindow::on_but_problem_clicked()
     worker->execute(&input);
 
     m_rqst = request::PROBLEM;
+    ui->status->setText("Sent Request");
 }
 
 void MainWindow::on_but_boundary_clicked()
@@ -312,6 +366,7 @@ void MainWindow::on_but_boundary_clicked()
     worker->execute(&input);
 
     m_rqst = request::BOUNDARY;
+    ui->status->setText("Sent Request");
 }
 
 void MainWindow::on_but_goal_clicked()
@@ -337,6 +392,7 @@ void MainWindow::on_but_goal_clicked()
     worker->execute(&input);
 
     m_rqst = request::GOAL;
+    ui->status->setText("Sent Request");
 }
 
 void MainWindow::on_but_obstacle_clicked()
@@ -371,6 +427,7 @@ void MainWindow::on_but_obstacle_clicked()
     worker->execute(&input);
 
     m_rqst = request::OBSTACLES;
+    ui->status->setText("Sent Request");
 }
 
 void MainWindow::on_but_path_clicked()
@@ -393,6 +450,7 @@ void MainWindow::on_but_path_clicked()
     worker->execute(&input);
 
     m_rqst = request::PATH;
+    ui->status->setText("Sent Request");
 }
 
 void MainWindow::on_but_robot_clicked()
@@ -401,7 +459,7 @@ void MainWindow::on_but_robot_clicked()
     QString requestType = getRequestType();
     QString url;
 
-    if(requestType == "GET" && ui->rqst_oid->text() == ""){
+    if(requestType == "GET" && ui->rqst_rid->text() == ""){
         url = url_str + "id=" + ui->rqst_uid->text() + "/Robot";
         json = "";
     }else if(requestType == "GET"){
@@ -427,4 +485,5 @@ void MainWindow::on_but_robot_clicked()
     worker->execute(&input);
 
     m_rqst = request::ROBOTS;
+    ui->status->setText("Sent Request");
 }
