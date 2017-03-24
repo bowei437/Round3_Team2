@@ -1,25 +1,14 @@
 {
     "boundary": {
-        "boundary_info": [
+        "coordinates": [
             {
                 "latitude": 50,
                 "longitude": -100,
                 "x": -11131949,
                 "y": -6446275
-            },
-            {
-                "latitude": -80.0,
-                "longitude": 60.0
-            },
-            {
-                "latitude": -50.0,
-                "longitude": 40.0
-            },
-            {
-                "latitude": -30.0,
-                "longitude": 20.0
             }
-        ]
+        ],
+        "shape": "rectangle"
     },
     "goal": {
         "coordinates": {
@@ -46,9 +35,7 @@
             "obstacle_info": [
                 {
                     "latitude": 37.229701,
-                    "longitude": -80.423,
-                    "x": -8952647,
-                    "y": -4471172
+                    "longitude": -80.423
                 }
             ]
         }
