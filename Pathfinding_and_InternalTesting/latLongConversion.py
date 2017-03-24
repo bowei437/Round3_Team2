@@ -47,6 +47,10 @@ def readJSON(data, scale):
 
     loc = 0
     loc2 = 0
+    # Calculates rectangular boundary width and height
+    maxtest = max(data["obstacles"][0]["obstacle_info"], key=lambda ev: ev["longitude"])
+    print(maxtest)
+
     #Robot
     x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])
     y = convert_lat_to_y(data["robots"][0]["coordinates"]["latitude"])

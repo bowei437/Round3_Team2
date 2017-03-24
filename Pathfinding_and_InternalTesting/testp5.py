@@ -135,7 +135,7 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 inputfile = 'testnew.json'
 TestNum = 3 # Current Test Number
 
-uResult = unittest(inputfile, 1) # Run unit test and store result
+uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 """
 
