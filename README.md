@@ -11,6 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Python3 
 * VirtualBox (VM for Docker)
 * SSH access to AWS server
+* QT creator (GUI)
 
 ## Deployment
 
@@ -35,6 +36,11 @@ Explain what these tests test and why
 ```
 Give an example
 ```
+
+## GUI
+run the CLientSDK project within the clientSDk folder. a gui window should pop up. Following out swagger ui guidelines to fill out the body
+of the message. Select one of the 4 request types from the drop down, fill in the id's if neccessary and then click the desire function button.
+Only Get requests will cause data to be displayed in the graphics view.
 
 ## Sanitization
 
