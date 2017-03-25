@@ -32,14 +32,9 @@ def is_shortest_path(json_message, enable):
         weight = weight - decrementer
         json_message["robots"][0]["coordinates"]["x"] = src["x"]
         json_message["robots"][0]["coordinates"]["y"] = src["y"]
-        #json_message["robots"][0]["coordinates"]["latitude"] = src["latitude"]
-        #json_message["robots"][0]["coordinates"]["longitude"] = src["longitude"]
         path = pathfind_from_json(json_message, 0) #enable set to 0
         if enable == 1:
             print("\nBest Path Weight " + str (path["path_cost"]))
-            #print("Best Path Node IDs: " + str (path["coordinates"]))
-            #print("\nJson X Y: {0} {1}  SRC X Y: {2} {3}".format(json_message["robots"][0]["coordinates"]["x"],
-            #json_message["robots"][0]["coordinates"]["y"], src["x"], src["y"]))
             print("src value is: {0}".format(src))
             print("\nWEIGHT:{0}\n PATH COST:{1}".format(weight, path["path_cost"]))
 
@@ -57,12 +52,7 @@ def unittest(fname, enable):
     with open(fname, 'r') as data_file:    
         data = json.load(data_file)
 
-    #pathfind_from_json(data)
-    #Convert_JSON_Global_ToXY(data, 1)
-    #print(StartLocX)
-    
     tempPath = pathfind_from_json(data, 1) #Get test data output from pathfinding algo to see if input is valid
-    #pprint(tempPath)
     
     # Block below used to check if input is valid. Used when data provided is not correct in dimensions or solveability
     if tempPath["path_cost"] is None:
@@ -70,7 +60,6 @@ def unittest(fname, enable):
         print("\nInput JSON File not valid\nTest for valid structure returned correctly so test is pass")
         
     else: # ** Else means data is pure and can now run Unit Test **
-        #tempResult = True
         tempResult = is_shortest_path(data, enable) # Run Unit Test function and store True / False result into tempResult variable
     
     # Conditional check of statement to assign string of PASSED or FAILED
@@ -106,8 +95,8 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 
 #### TEST 0 #####################################################################################
 #Large map with high computation
-inputfile = 'testnew2.json'
-TestNum = 1 # Current Test Number
+inputfile = 'test0.json'
+TestNum = 0 # Current Test Number
 
 uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
