@@ -103,58 +103,25 @@ uResult = unittest(inputfile, 1) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 
 """
-"""
+
 #### TEST 0 #####################################################################################
-# Small map with no obstacles
-inputfile = 'test0.json'
-TestNum = 0 # Current Test Number
-
-uResult = unittest(inputfile, 0) # Run unit test and store result
-TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
-
-#### TEST 1 #####################################################################################
-# Medium map with light computation
-inputfile = 'test1.json'
+#Large map with high computation
+inputfile = 'testnew2.json'
 TestNum = 1 # Current Test Number
 
 uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 
 
-#### TEST 2 #####################################################################################
-# Large map with medium computation
-inputfile = 'test2.json'
-TestNum = 2 # Current Test Number
-
-uResult = unittest(inputfile, 0) # Run unit test and store result
-TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
-"""
-
-#### TEST 3 #####################################################################################
-#Large map with high computation
-inputfile = 'testnew2.json'
-TestNum = 3 # Current Test Number
-
-uResult = unittest(inputfile, 0) # Run unit test and store result
-TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
-"""
-
-#### TEST 4 #####################################################################################
+#### TEST Default #####################################################################################
 #ERROR Test. Should not run and give an error output
-inputfile = 'test4.json'
-TestNum = 4 # Current Test Number
+inputfile = '../default_problem.json'
+TestNum = 1 # Current Test Number
 
 uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 
-#### TEST 5 #####################################################################################
-#Large map with higher computation
-inputfile = 'test5.json'
-TestNum = 5 # Current Test Number
 
-uResult = unittest(inputfile, 0) # Run unit test and store result
-TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
-"""
 #########################################################################################3##
 
 print("\n-----------------------------\nFINAL RESULTS:\n")
