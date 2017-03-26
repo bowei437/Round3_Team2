@@ -1,0 +1,92 @@
+{
+  "boundary": {
+    "boundary_info": {
+      "coordinates": [
+        {
+          "latitude": 50,
+          "longitude": -100
+        }
+      ],
+      "name": "rectangle"
+    }
+  },
+  "goal": {
+    "coordinates": {
+        "latitude": 37.229792,
+        "longitude": -80.422600
+    }
+  },
+  "obstacles": [
+    {
+      "obstacle_id": 0,
+      "obstacle_info": {
+        "coordinates": [
+          {
+            "latitude": 37.229788,
+            "longitude": -80.422800
+          },
+          {
+            "latitude": 37.229799,
+            "longitude": -80.422800
+          },
+          {
+            "latitude": 37.229799,
+            "longitude": -80.422900
+          },
+          {
+            "latitude": 37.229788,
+            "longitude": -80.422900
+          }
+        ],
+        "name": "rectangle"
+      }
+    }
+  ],
+  "path": {
+    "coordinates": [
+      {
+        "latitude": 0,
+        "longitude": 0
+      }
+    ],
+    "path_cost": 1
+  },
+  "problem_id": 0,
+  "regions": {
+    "searched": [
+      {
+        "id": 0,
+        "points": [
+          {
+            "latitude": 0,
+            "longitude": 0
+          }
+        ],
+        "radius": 0
+      }
+    ],
+    "unsearched": {
+      "cache": [
+        {
+          "id": 0,
+          "points": [
+            {
+              "latitude": 0,
+              "longitude": 0
+            }
+          ]
+        }
+      ],
+      "version": 0
+    }
+  },
+  "robots": [
+    {
+      "coordinates": {
+          "latitude": 37.229792,
+          "longitude": -80.423788
+      },
+      "id": 0
+    }
+  ]
+}

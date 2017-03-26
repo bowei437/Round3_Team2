@@ -110,6 +110,22 @@ TestNum = 1 # Current Test Number
 uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 
+#### TEST Default #####################################################################################
+#ERROR Test. Should not run and give an error output
+inputfile = './testIntermittent.json'
+TestNum = 1 # Current Test Number
+
+uResult = unittest(inputfile, 0) # Run unit test and store result
+TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
+
+#### TEST Default #####################################################################################
+#ERROR Test. Should not run and give an error output
+inputfile = './testIntermittent2.json'
+TestNum = 1 # Current Test Number
+
+uResult = unittest(inputfile, 0) # Run unit test and store result
+TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
+
 
 #########################################################################################3##
 

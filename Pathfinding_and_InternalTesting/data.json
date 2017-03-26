@@ -3,21 +3,21 @@
         "boundary_info": {
             "coordinates": [
                 {
-                    "latitude": 0,
-                    "longitude": 0,
-                    "x": 0,
-                    "y": 0
+                    "latitude": 50,
+                    "longitude": -100,
+                    "x": -11131949,
+                    "y": -6446275
                 }
             ],
-            "shape": "rectangle"
+            "name": "rectangle"
         }
     },
     "goal": {
         "coordinates": {
-            "latitude": 0,
-            "longitude": 0,
-            "x": 0,
-            "y": 0
+            "latitude": 37.229792,
+            "longitude": -80.4226,
+            "x": -8952602,
+            "y": -4471185
         }
     },
     "obstacles": [
@@ -26,13 +26,31 @@
             "obstacle_info": {
                 "coordinates": [
                     {
-                        "latitude": 0,
-                        "longitude": 0,
-                        "x": 0,
-                        "y": 0
+                        "latitude": 37.229788,
+                        "longitude": -80.4228,
+                        "x": -8952625,
+                        "y": -4471184
+                    },
+                    {
+                        "latitude": 37.229799,
+                        "longitude": -80.4228,
+                        "x": -8952625,
+                        "y": -4471186
+                    },
+                    {
+                        "latitude": 37.229799,
+                        "longitude": -80.4229,
+                        "x": -8952636,
+                        "y": -4471186
+                    },
+                    {
+                        "latitude": 37.229788,
+                        "longitude": -80.4229,
+                        "x": -8952636,
+                        "y": -4471184
                     }
                 ],
-                "shape": "rectangle"
+                "name": "rectangle"
             }
         }
     ],
@@ -43,7 +61,7 @@
                 "longitude": 0
             }
         ],
-        "path_cost": 0
+        "path_cost": 1
     },
     "problem_id": 0,
     "regions": {
@@ -77,10 +95,10 @@
     "robots": [
         {
             "coordinates": {
-                "latitude": 0,
-                "longitude": 0,
-                "x": 0,
-                "y": 0
+                "latitude": 37.229792,
+                "longitude": -80.423788,
+                "x": -8952735,
+                "y": -4471185
             },
             "id": 0
         }
