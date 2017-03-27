@@ -13,15 +13,11 @@ def readJSON(data, scale):
     #globally store JSON message
     Json = json.loads('{}')
 
-
-
     #Boundary
     x = convert_lon_to_x(data["boundary"]["boundary_info"]["coordinates"][0]["longitude"])
     y = convert_lat_to_y(data["boundary"]["boundary_info"]["coordinates"][0]["latitude"])
     data["boundary"]["boundary_info"]["coordinates"][0]["x"] = x
     data["boundary"]["boundary_info"]["coordinates"][0]["y"] = y
-
-
 
     #Goal
     x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
@@ -74,7 +70,6 @@ def convert_lon_to_x(lon):
     temp = float(string)
     xout = round(temp, 1) 
     #print("LON TEMP: {0} | {1}".format(temp, xout)) 
-
     return xout
 
 def convert_lat_to_y(lat):
@@ -82,7 +77,6 @@ def convert_lat_to_y(lat):
     tmath = 0-r_major*math.log(math.tan(math.pi/4.0+lat*(math.pi/180.0)/2.0))
     string = "{:.3f}".format(tmath)
     temp = float(string) 
-
     yout = round(temp, 1)
     #print("LAT TEMP: {0} | {1}".format(temp, yout))
 

@@ -3,8 +3,8 @@
     "boundary_info": {
       "coordinates": [
         {
-          "latitude": 1.1,
-          "longitude": 2.2
+          "latitude": 40,
+          "longitude": -90
         }
       ],
       "name": "rectangle"
@@ -12,8 +12,8 @@
   },
   "goal": {
     "coordinates": {
-      "latitude": 0,
-      "longitude": 0
+      "latitude": 37.230573,
+      "longitude": -80.423272
     }
   },
   "obstacles": [
@@ -22,8 +22,20 @@
       "obstacle_info": {
         "coordinates": [
           {
-            "latitude": 1,
-            "longitude": 2
+            "latitude": 37.229902,
+            "longitude": -80.423725
+          },
+          {
+            "latitude": 37.229933,
+            "longitude": -80.423304
+          },
+          {
+            "latitude": 37.229697,
+            "longitude": -80.423811
+          },
+          {
+            "latitude": 37.229734,
+            "longitude": -80.423296
           }
         ],
         "name": "rectangle"
@@ -34,8 +46,20 @@
       "obstacle_info": {
         "coordinates": [
           {
-            "latitude": 3,
-            "longitude": 4
+            "latitude": 37.229825,
+            "longitude": -80.424594
+          },
+          {
+            "latitude": 37.229814,
+            "longitude": -80.424278
+          },
+          {
+            "latitude": 37.229568,
+            "longitude": -80.424702
+          },
+          {
+            "latitude": 37.229586,
+            "longitude": -80.424120
           }
         ],
         "name": "rectangle"
@@ -83,8 +107,8 @@
   "robots": [
     {
       "coordinates": {
-        "latitude": 0,
-        "longitude": 0
+        "latitude": 37.229517,
+        "longitude": -80.423819
       },
       "id": 0
     }

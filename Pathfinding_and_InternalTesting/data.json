@@ -4,8 +4,8 @@
             "coordinates": [
                 {
                     "latitude": 40,
-                    "longitude": 1,
-                    "x": 111320,
+                    "longitude": -90,
+                    "x": -10018754,
                     "y": -4865942
                 }
             ],
@@ -14,10 +14,10 @@
     },
     "goal": {
         "coordinates": {
-            "latitude": 0,
-            "longitude": 0,
-            "x": 0,
-            "y": 0
+            "latitude": 37.230573,
+            "longitude": -80.423272,
+            "x": -8952677,
+            "y": -4471294
         }
     },
     "obstacles": [
@@ -26,10 +26,28 @@
             "obstacle_info": {
                 "coordinates": [
                     {
-                        "latitude": 1,
-                        "longitude": 2,
-                        "x": 222639,
-                        "y": -111325
+                        "latitude": 37.229902,
+                        "longitude": -80.423725,
+                        "x": -8952728,
+                        "y": -4471200
+                    },
+                    {
+                        "latitude": 37.229933,
+                        "longitude": -80.423304,
+                        "x": -8952681,
+                        "y": -4471205
+                    },
+                    {
+                        "latitude": 37.229697,
+                        "longitude": -80.423811,
+                        "x": -8952737,
+                        "y": -4471172
+                    },
+                    {
+                        "latitude": 37.229734,
+                        "longitude": -80.423296,
+                        "x": -8952680,
+                        "y": -4471177
                     }
                 ],
                 "name": "rectangle"
@@ -40,10 +58,28 @@
             "obstacle_info": {
                 "coordinates": [
                     {
-                        "latitude": 20,
-                        "longitude": 30,
-                        "x": 3339585,
-                        "y": -2273030
+                        "latitude": 37.229825,
+                        "longitude": -80.424594,
+                        "x": -8952824,
+                        "y": -4471190
+                    },
+                    {
+                        "latitude": 37.229814,
+                        "longitude": -80.424278,
+                        "x": -8952789,
+                        "y": -4471188
+                    },
+                    {
+                        "latitude": 37.229568,
+                        "longitude": -80.424702,
+                        "x": -8952836,
+                        "y": -4471154
+                    },
+                    {
+                        "latitude": 37.229586,
+                        "longitude": -80.42412,
+                        "x": -8952772,
+                        "y": -4471156
                     }
                 ],
                 "name": "rectangle"
@@ -91,10 +127,10 @@
     "robots": [
         {
             "coordinates": {
-                "latitude": 0,
-                "longitude": 0,
-                "x": 0,
-                "y": 0
+                "latitude": 37.229517,
+                "longitude": -80.423819,
+                "x": -8952738,
+                "y": -4471146
             },
             "id": 0
         }
