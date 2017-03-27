@@ -57,6 +57,9 @@ def readJSON(data, scale):
     data["robots"][0]["coordinates"]["x"] = x
     data["robots"][0]["coordinates"]["y"] = y
     
+    # data.json is the name of the temporary output file that shows us what this file 'gives' back to
+    # pathfinder. It is an intermediate json and should not be taken as what pathfinder actually outputs.
+    # It is meant for debugging
     with open('data.json', 'w') as outfile:
         json.dump(data, outfile, sort_keys = True, indent = 4, ensure_ascii = False)
     
