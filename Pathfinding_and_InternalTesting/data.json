@@ -54,6 +54,54 @@
             "zoneN": 17
         }
     },
+    "obstacles": [
+        {
+            "obstacle_id": 0,
+            "obstacle_info": {
+                "coordinates": [
+                    {
+                        "latitude": 37.229902,
+                        "longitude": -80.423725,
+                        "x": 551121,
+                        "y": 4120533,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229933,
+                        "longitude": -80.423304,
+                        "x": 551158,
+                        "y": 4120536,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229697,
+                        "longitude": -80.423811,
+                        "x": 551113,
+                        "y": 4120510,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229734,
+                        "longitude": -80.423296,
+                        "x": 551159,
+                        "y": 4120514,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    }
+                ],
+                "height": 26,
+                "name": "rectangle",
+                "width": 46,
+                "x_max": 551159,
+                "x_min": 551113,
+                "y_max": 4120536,
+                "y_min": 4120510
+            }
+        }
+    ],
     "path": {
         "coordinates": [
             {

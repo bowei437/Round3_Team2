@@ -60,8 +60,8 @@ def intersects_obstacle(c):
     if "obstacles" in Json:
         while doesIntersect is not True and loc < len(Json["obstacles"]):
             #doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["x_min"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["y_min"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"])
-            print("\nc[0]: {0} and xmin {1} | {2}\nc[1]: {3} and ymin {4} | {5}\tLOC{6}".format(c[0], Json["obstacles"][loc]["obstacle_info"]["x_min"], Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"],
-            c[1], Json["obstacles"][loc]["obstacle_info"]["y_min"], Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"], loc))
+            #print("\nc[0]: {0} and xmin {1} | {2}\nc[1]: {3} and ymin {4} | {5}\tLOC{6}".format(c[0], Json["obstacles"][loc]["obstacle_info"]["x_min"], Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"],
+            #c[1], Json["obstacles"][loc]["obstacle_info"]["y_min"], Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"], loc))
 
             doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["x_min"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["y_min"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"])
             loc += 1
@@ -69,6 +69,7 @@ def intersects_obstacle(c):
     #print(doesIntersect)
     if (doesIntersect == True):
         print("\n\n\n ------ TRUE ----------- \n\n\n")
+        
     return doesIntersect
 
 # START ORIGINAL MODULE #########################################################
