@@ -72,7 +72,7 @@ def add_obstacle(problem_id, obstacle):
             put_url = storage_url + str(params)
             put_response = requests.put(put_url, json=problem)
 
-            if (response.status_code != 412)
+            if (response.status_code != 412):
                 #check if Storage died
                 if (response.status_code != 200):
                     return jsonify(Error(500, "Storage server error: couldn't add Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
