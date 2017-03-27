@@ -24,11 +24,13 @@ def readJSON(data, scale):
     y = convert_lat_to_y(data["goal"]["coordinates"]["latitude"])
     data["goal"]["coordinates"]["x"] = x
     data["goal"]["coordinates"]["y"] = y
-  
+    
     #Obstacles
     loc = 0
     loc2 = 0
+    loc2tot = 0
     #print("length of obstacles: {0}\nObstacle1: {1}\n".format(len(data["obstacles"]), data["obstacles"][0]))
+    #print(data["obstacles"][loc]["obstacle_info"]["name"])
 
     if "obstacles" not in data:
         print("No Obstacles")
@@ -38,14 +40,41 @@ def readJSON(data, scale):
                     data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["longitude"])
                     data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["latitude"])
                     loc2 += 1
+                if (data["obstacles"][loc]["obstacle_info"]["name"] == "rectangle"):
+                    if (loc2 != 4):
+                        print("WARNING: Obstacle at location {0} of shape rectangle does not have 4 points".format(loc))
                 loc += 1
                 loc2 = 0
-
+    #print(loc2tot)
+    #print(loc)
     loc = 0
     loc2 = 0
     # Calculates rectangular boundary width and height
-    #maxtest = max(data["obstacles"][0]["obstacle_info"], key=lambda ev: ev["longitude"])
-    #print(maxtest)
+
+    # Makes polygon into normalized rectangle
+    while loc < len(data["obstacles"]):
+        if (data["obstacles"][loc]["obstacle_info"]["name"] == "polygon"):
+            print("\nPolygon at {0}".format(loc))
+            polynum = len(data["obstacles"][loc]["obstacle_info"]["coordinates"])
+            #print(polynum)
+            #Temporary max min values
+            Tx_max = max(data["obstacles"][loc]["obstacle_info"]["coordinates"], key=lambda ev: ev["x"])
+            Ty_max = max(data["obstacles"][loc]["obstacle_info"]["coordinates"], key=lambda ev: ev["y"])
+            Tx_min = min(data["obstacles"][loc]["obstacle_info"]["coordinates"], key=lambda ev: ev["x"])
+            Ty_min = min(data["obstacles"][loc]["obstacle_info"]["coordinates"], key=lambda ev: ev["y"])
+            # Store actual max min values
+            x_max = Tx_max["x"]
+            y_max = Ty_max["y"]
+            x_min = Tx_min["x"]
+            y_min = Ty_min["y"]
+            print("\nx_max is {0} | y_max is {1}\nx_min is {2} | y_min is {3}".format(x_max, y_max, x_min, y_min))
+
+
+
+
+
+
+        loc +=1
 
     #Robot
     x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])
