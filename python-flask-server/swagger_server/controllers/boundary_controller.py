@@ -10,7 +10,7 @@ import requests, json
 from flask import jsonify
 from flask_api import status
 
-storage_url = "http://storage_container:8003/v2/"
+storage_url = "http://storage_container:8082/v2/"
 
 def get_boundary(problem_id):
     """
