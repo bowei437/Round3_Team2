@@ -3,9 +3,9 @@
     "boundary_info": {
       "coordinates": [
         {
-          "latitude": 0,
-          "longitude": 0
-        }
+          "latitude": 40,
+          "longitude": 
+ 0       }
       ],
       "name": "rectangle"
     }
@@ -22,8 +22,20 @@
       "obstacle_info": {
         "coordinates": [
           {
-            "latitude": 0,
-            "longitude": 0
+            "latitude": 1,
+            "longitude": 2
+          }
+        ],
+        "name": "rectangle"
+      }
+    },
+    {
+      "obstacle_id": 1,
+      "obstacle_info": {
+        "coordinates": [
+          {
+            "latitude": 20,
+            "longitude": 30
           }
         ],
         "name": "rectangle"
