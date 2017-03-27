@@ -22,10 +22,14 @@ def readJSON(data, scale):
 
     #Boundary
     while loc < len(data["boundary"]["boundary_info"]["coordinates"]):
-        x = convert_lon_to_x(data["boundary"]["boundary_info"]["coordinates"][loc]["longitude"])
-        y = convert_lat_to_y(data["boundary"]["boundary_info"]["coordinates"][loc]["latitude"])
+        cmerc = utm.from_latlon(data["boundary"]["boundary_info"]["coordinates"][loc]["latitude"], data["boundary"]["boundary_info"]["coordinates"][loc]["longitude"])
+        x = round(cmerc[0], 1)
+        y = round(cmerc[1], 1)
         data["boundary"]["boundary_info"]["coordinates"][loc]["x"] = x
         data["boundary"]["boundary_info"]["coordinates"][loc]["y"] = y
+        data["boundary"]["boundary_info"]["coordinates"][loc]["zoneN"] = cmerc[2]
+        data["boundary"]["boundary_info"]["coordinates"][loc]["zoneL"] = cmerc[3]
+
         loc += 1
 
     loc = 0
@@ -45,17 +49,21 @@ def readJSON(data, scale):
         data["boundary"]["boundary_info"]["x_min"] = x_min
         data["boundary"]["boundary_info"]["y_min"] = y_min
 
+        #data["boundary"]["boundary_info"]["width"] = x_max - x_min
+        #data["boundary"]["boundary_info"]["height"] = y_max - y_min
         data["boundary"]["boundary_info"]["width"] = x_max - x_min
         data["boundary"]["boundary_info"]["height"] = y_max - y_min
-
         loc += 1
 
 
     #Goal
-    x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
-    y = convert_lat_to_y(data["goal"]["coordinates"]["latitude"])
+    cmerc = utm.from_latlon(data["goal"]["coordinates"]["latitude"], data["goal"]["coordinates"]["longitude"])
+    x = round(cmerc[0], 1)
+    y = round(cmerc[1], 1)
     data["goal"]["coordinates"]["x"] = x
     data["goal"]["coordinates"]["y"] = y
+    data["goal"]["coordinates"]["zoneN"] = cmerc[2]
+    data["goal"]["coordinates"]["zoneL"] = cmerc[3]
     
     #Obstacles
     loc = 0
@@ -68,8 +76,14 @@ def readJSON(data, scale):
     else:
             while loc < len(data["obstacles"]):
                 while loc2 < len(data["obstacles"][loc]["obstacle_info"]["coordinates"]):
-                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["x"] = convert_lon_to_x(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["longitude"])
-                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["y"] = convert_lat_to_y(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["latitude"])
+                    cmerc = utm.from_latlon(data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["latitude"], data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["longitude"])
+                    x = round(cmerc[0], 1)
+                    y = round(cmerc[1], 1)
+                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["x"] = x
+                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["y"] = y
+                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["zoneN"] = cmerc[2]
+                    data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["zoneL"] = cmerc[3]
+
                     loc2 += 1
                 if (data["obstacles"][loc]["obstacle_info"]["name"] == "rectangle"):
                     if (loc2 != 4):
@@ -84,7 +98,7 @@ def readJSON(data, scale):
     if "obstacles" in data:
         while loc < len(data["obstacles"]):
             #if (data["obstacles"][loc]["obstacle_info"]["name"] == "polygon"):
-            print("\nShape at {0}".format(loc))
+            #print("\nShape at {0}".format(loc))
             #polynum = len(data["obstacles"][loc]["obstacle_info"]["coordinates"])
             #print(polynum)
             #Temporary max min values
@@ -97,7 +111,7 @@ def readJSON(data, scale):
             y_max = Ty_max["y"]
             x_min = Tx_min["x"]
             y_min = Ty_min["y"]
-            print("\nx_max is {0} | y_max is {1}\nx_min is {2} | y_min is {3}".format(x_max, y_max, x_min, y_min))
+            #print("\nx_max is {0} | y_max is {1}\nx_min is {2} | y_min is {3}".format(x_max, y_max, x_min, y_min))
             # store max min variables back into intermediate json object
             data["obstacles"][loc]["obstacle_info"]["x_max"] = x_max
             data["obstacles"][loc]["obstacle_info"]["y_max"] = y_max
@@ -110,10 +124,14 @@ def readJSON(data, scale):
             loc +=1
 
     #Robot
-    x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])
-    y = convert_lat_to_y(data["robots"][0]["coordinates"]["latitude"])
+    cmerc = utm.from_latlon(data["robots"][0]["coordinates"]["latitude"], data["robots"][0]["coordinates"]["longitude"])
+    x = round(cmerc[0], 1)
+    y = round(cmerc[1], 1)
+
     data["robots"][0]["coordinates"]["x"] = x
     data["robots"][0]["coordinates"]["y"] = y
+    data["robots"][0]["coordinates"]["zoneN"] = cmerc[2]
+    data["robots"][0]["coordinates"]["zoneL"] = cmerc[3]
     
     # data.json is the name of the temporary output file that shows us what this file 'gives' back to
     # pathfinder. It is an intermediate json and should not be taken as what pathfinder actually outputs.
@@ -152,6 +170,17 @@ def convert_y_to_lat(y):
     r_major = 6378137.000
     y = (0-y)/r_major
     return 180.0/math.pi*(2.0*math.atan(math.exp(y))-math.pi/2.0)
+
+#new Conversion function
+def convert_latlon_to_utm(lat, lon):
+    temp = utm.from_latlon(lat, lon)
+    Tx = temp[0]
+    Ty = temp[1]
+    stringx = "{:.0f}".format(Tx)
+    stringy = "{:.0f}".format(Ty)
+
+    return Ty
+
 
 
 
