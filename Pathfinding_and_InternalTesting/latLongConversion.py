@@ -12,12 +12,39 @@ def readJSON(data, scale):
 
     #globally store JSON message
     Json = json.loads('{}')
+    loc = 0
+    loc2 = 0
 
     #Boundary
-    x = convert_lon_to_x(data["boundary"]["boundary_info"]["coordinates"][0]["longitude"])
-    y = convert_lat_to_y(data["boundary"]["boundary_info"]["coordinates"][0]["latitude"])
-    data["boundary"]["boundary_info"]["coordinates"][0]["x"] = x
-    data["boundary"]["boundary_info"]["coordinates"][0]["y"] = y
+    while loc < len(data["boundary"]["boundary_info"]["coordinates"]):
+        x = convert_lon_to_x(data["boundary"]["boundary_info"]["coordinates"][loc]["longitude"])
+        y = convert_lat_to_y(data["boundary"]["boundary_info"]["coordinates"][loc]["latitude"])
+        data["boundary"]["boundary_info"]["coordinates"][loc]["x"] = x
+        data["boundary"]["boundary_info"]["coordinates"][loc]["y"] = y
+        loc += 1
+
+    loc = 0
+    while loc < len(data["boundary"]["boundary_info"]["coordinates"]):
+        Tx_max = max(data["boundary"]["boundary_info"]["coordinates"], key=lambda ev: ev["x"])
+        Ty_max = max(data["boundary"]["boundary_info"]["coordinates"], key=lambda ev: ev["y"])
+        Tx_min = min(data["boundary"]["boundary_info"]["coordinates"], key=lambda ev: ev["x"])
+        Ty_min = min(data["boundary"]["boundary_info"]["coordinates"], key=lambda ev: ev["y"])
+
+        x_max = Tx_max["x"]
+        y_max = Ty_max["y"]
+        x_min = Tx_min["x"]
+        y_min = Ty_min["y"]
+
+        data["boundary"]["boundary_info"]["x_max"] = x_max
+        data["boundary"]["boundary_info"]["y_max"] = y_max
+        data["boundary"]["boundary_info"]["x_min"] = x_min
+        data["boundary"]["boundary_info"]["y_min"] = y_min
+
+        data["boundary"]["boundary_info"]["width"] = x_max - x_min
+        data["boundary"]["boundary_info"]["height"] = y_max - y_min
+
+        loc += 1
+
 
     #Goal
     x = convert_lon_to_x(data["goal"]["coordinates"]["longitude"])
@@ -28,7 +55,6 @@ def readJSON(data, scale):
     #Obstacles
     loc = 0
     loc2 = 0
-    loc2tot = 0
     #print("length of obstacles: {0}\nObstacle1: {1}\n".format(len(data["obstacles"]), data["obstacles"][0]))
     #print(data["obstacles"][loc]["obstacle_info"]["name"])
 
@@ -45,17 +71,16 @@ def readJSON(data, scale):
                         print("WARNING: Obstacle at location {0} of shape rectangle does not have 4 points".format(loc))
                 loc += 1
                 loc2 = 0
-    #print(loc2tot)
-    #print(loc)
     loc = 0
     loc2 = 0
     # Calculates rectangular boundary width and height
 
     # Makes polygon into normalized rectangle
-    while loc < len(data["obstacles"]):
-        if (data["obstacles"][loc]["obstacle_info"]["name"] == "polygon"):
-            print("\nPolygon at {0}".format(loc))
-            polynum = len(data["obstacles"][loc]["obstacle_info"]["coordinates"])
+    if "obstacles" in data:
+        while loc < len(data["obstacles"]):
+            #if (data["obstacles"][loc]["obstacle_info"]["name"] == "polygon"):
+            print("\nShape at {0}".format(loc))
+            #polynum = len(data["obstacles"][loc]["obstacle_info"]["coordinates"])
             #print(polynum)
             #Temporary max min values
             Tx_max = max(data["obstacles"][loc]["obstacle_info"]["coordinates"], key=lambda ev: ev["x"])
@@ -68,13 +93,16 @@ def readJSON(data, scale):
             x_min = Tx_min["x"]
             y_min = Ty_min["y"]
             print("\nx_max is {0} | y_max is {1}\nx_min is {2} | y_min is {3}".format(x_max, y_max, x_min, y_min))
+            # store max min variables back into intermediate json object
+            data["obstacles"][loc]["obstacle_info"]["x_max"] = x_max
+            data["obstacles"][loc]["obstacle_info"]["y_max"] = y_max
+            data["obstacles"][loc]["obstacle_info"]["x_min"] = x_min
+            data["obstacles"][loc]["obstacle_info"]["y_min"] = y_min
 
-
-
-
-
-
-        loc +=1
+            data["obstacles"][loc]["obstacle_info"]["width"] = x_max - x_min
+            data["obstacles"][loc]["obstacle_info"]["height"] = y_max - y_min
+        
+            loc +=1
 
     #Robot
     x = convert_lon_to_x(data["robots"][0]["coordinates"]["longitude"])

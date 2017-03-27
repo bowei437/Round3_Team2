@@ -68,6 +68,34 @@
           {
             "latitude": 37.229568,
             "longitude": -80.424702
+          },
+          {
+            "latitude": 37.229570,
+            "longitude": -80.4224976
+          }
+        ],
+        "name": "polygon"
+      }
+    },
+    {
+      "obstacle_id": 2,
+      "obstacle_info": {
+        "coordinates": [
+          {
+            "latitude": 37.22980,
+            "longitude": -80.42433
+          },
+          {
+            "latitude": 37.22968,
+            "longitude": -80.42251
+          },
+          {
+            "latitude": 37.23038,
+            "longitude": -80.42250
+          },
+          {
+            "latitude": 37.23051,
+            "longitude": -80.42425
           }
         ],
         "name": "polygon"

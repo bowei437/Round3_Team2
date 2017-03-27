@@ -3,13 +3,37 @@
         "boundary_info": {
             "coordinates": [
                 {
-                    "latitude": 40,
-                    "longitude": -90,
-                    "x": -10018754,
-                    "y": -4865942
+                    "latitude": 37.232142,
+                    "longitude": -80.429057,
+                    "x": -8953321,
+                    "y": -4471513
+                },
+                {
+                    "latitude": 37.232625,
+                    "longitude": -80.415979,
+                    "x": -8951865,
+                    "y": -4471581
+                },
+                {
+                    "latitude": 37.225463,
+                    "longitude": -80.425912,
+                    "x": -8952971,
+                    "y": -4470580
+                },
+                {
+                    "latitude": 37.226972,
+                    "longitude": -80.411656,
+                    "x": -8951384,
+                    "y": -4470791
                 }
             ],
-            "name": "rectangle"
+            "height": 1001,
+            "name": "rectangle",
+            "width": 1937,
+            "x_max": -8951384,
+            "x_min": -8953321,
+            "y_max": -4470580,
+            "y_min": -4471581
         }
     },
     "goal": {
@@ -50,7 +74,13 @@
                         "y": -4471177
                     }
                 ],
-                "name": "rectangle"
+                "height": 33,
+                "name": "rectangle",
+                "width": 57,
+                "x_max": -8952680,
+                "x_min": -8952737,
+                "y_max": -4471172,
+                "y_min": -4471205
             }
         },
         {
@@ -74,9 +104,59 @@
                         "longitude": -80.424702,
                         "x": -8952836,
                         "y": -4471154
+                    },
+                    {
+                        "latitude": 37.22957,
+                        "longitude": -80.4224976,
+                        "x": -8952591,
+                        "y": -4471154
                     }
                 ],
-                "name": "polygon"
+                "height": 36,
+                "name": "polygon",
+                "width": 245,
+                "x_max": -8952591,
+                "x_min": -8952836,
+                "y_max": -4471154,
+                "y_min": -4471190
+            }
+        },
+        {
+            "obstacle_id": 2,
+            "obstacle_info": {
+                "coordinates": [
+                    {
+                        "latitude": 37.2298,
+                        "longitude": -80.42433,
+                        "x": -8952795,
+                        "y": -4471186
+                    },
+                    {
+                        "latitude": 37.22968,
+                        "longitude": -80.42251,
+                        "x": -8952592,
+                        "y": -4471169
+                    },
+                    {
+                        "latitude": 37.23038,
+                        "longitude": -80.4225,
+                        "x": -8952591,
+                        "y": -4471267
+                    },
+                    {
+                        "latitude": 37.23051,
+                        "longitude": -80.42425,
+                        "x": -8952786,
+                        "y": -4471285
+                    }
+                ],
+                "height": 116,
+                "name": "polygon",
+                "width": 204,
+                "x_max": -8952591,
+                "x_min": -8952795,
+                "y_max": -4471169,
+                "y_min": -4471285
             }
         }
     ],

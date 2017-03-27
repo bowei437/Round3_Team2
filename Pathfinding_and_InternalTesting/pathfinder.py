@@ -46,6 +46,7 @@ def update_json(json_message):
     Json = json_message
 
 def intersects_obstacle(c):
+    #print(c)
     # we will look through all obstacles, and check if any intersect a point.
     # this boolean is then returned
     doesIntersect = False
@@ -54,10 +55,13 @@ def intersects_obstacle(c):
 
     #doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["x"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["y"] + Json["obstacles"][loc]["obstacle_info"]["height"])
     #print("runs")
+    #print("In Intersect obstacles x_min is {0}".format(Json["obstacles"][1]["obstacle_info"]["x_min"]))
     while doesIntersect is not False and loc < len(Json["obstacles"]):
-        doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"][0]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"][0]["x"] + 5) and (c[1] >= Json["obstacles"][loc]["obstacle_info"][0]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"][0]["y"] + 5)
-        loc += 1
+        #doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["x_min"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["y_min"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"])
+        doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["x_min"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["x_min"] + 5000) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["y_min"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["y_min"] + 5000)
 
+        loc += 1
+    #print(doesIntersect)
     return doesIntersect
 
 # START ORIGINAL MODULE #########################################################
@@ -220,13 +224,15 @@ def pathfind_from_json(json_message, enable):
         update_json(conv_json)
     else:
         update_json(json_message)
-
-    
+    """
+    print("Boundary is {0}, {1} of width {2} and height {3}".format(Json["boundary"]["boundary_info"]["x_min"],
+     Json["boundary"]["boundary_info"]["y_min"], Json["boundary"]["boundary_info"]["width"], Json["boundary"]["boundary_info"]["height"]))
+     """
 
     finder = pathfinder(distance=absolute_distance, cost=fixed_cost(1),
-                        neighbors=grid_neighbors(Json["boundary"]["boundary_info"]["coordinates"][0]["x"],
-                         Json["boundary"]["boundary_info"]["coordinates"][0]["y"],
-                          50000000, 50000000))
+                        neighbors=grid_neighbors(Json["boundary"]["boundary_info"]["x_min"],
+                         Json["boundary"]["boundary_info"]["y_min"],
+                          Json["boundary"]["boundary_info"]["width"], Json["boundary"]["boundary_info"]["height"]))
 
     path = finder((Json["robots"][0]["coordinates"]["x"], Json["robots"][0]["coordinates"]["y"]), (Json["goal"]["coordinates"]["x"], Json["goal"]["coordinates"]["y"]))
 
