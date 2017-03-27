@@ -1,6 +1,9 @@
 import json
 import math
+import utm
 from decimal import Decimal, ROUND_HALF_UP
+import sys
+#print(sys.path)
 # Here are all your options for rounding:
 # This one offers the most out of the box control
 # ROUND_05UP       ROUND_DOWN       ROUND_HALF_DOWN  ROUND_HALF_UP
@@ -11,6 +14,8 @@ from decimal import Decimal, ROUND_HALF_UP
 def readJSON(data, scale):
 
     #globally store JSON message
+    #print(sys.path)
+
     Json = json.loads('{}')
     loc = 0
     loc2 = 0
