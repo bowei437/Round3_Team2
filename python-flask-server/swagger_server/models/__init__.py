@@ -11,7 +11,7 @@ from .path import Path
 from .problem import Problem
 from .problem_regions import ProblemRegions
 from .problem_regions_unsearched import ProblemRegionsUnsearched
+from .rectangle import Rectangle
 from .robot import Robot
 from .searched_region_lidar import SearchedRegionLIDAR
-from .shape import Shape
 from .unsearched_region_polygon import UnsearchedRegionPolygon

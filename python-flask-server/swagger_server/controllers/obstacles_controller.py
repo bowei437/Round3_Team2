@@ -1,4 +1,4 @@
-import connexion, sys
+import connexion
 from werkzeug.exceptions import BadRequest
 from swagger_server.models.error import Error
 from swagger_server.models.obstacle import Obstacle
@@ -10,7 +10,7 @@ import requests, json
 from flask import jsonify
 from flask_api import status
 
-storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
+storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8080/v1/"
 
 
 def add_obstacle(problem_id, obstacle):
@@ -35,51 +35,51 @@ def add_obstacle(problem_id, obstacle):
         try:
             obstacle = Obstacle.from_dict(connexion.request.get_json())
         except (ValueError, BadRequest) as error:
-            return jsonify(Error(400, "Validation error; please check inputs", str(error))), status.HTTP_400_BAD_REQUEST
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
 
         obstacle = connexion.request.get_json()
 
-        while True: 
-            #contact Storage
-            params = "id=%s/" % str(problem_id)
-            obst_url = storage_url + str(params)
-            response = requests.get(obst_url)
-         
-            #check if Problem exists
-            if (response.status_code == 404):
-                return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
-            
-            #check if Storage died
-            elif (response.status_code != 200):
-                return jsonify(Error(500, "Storage server error: couldn't add Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
-            
-            #get Problem from response
-            problem = response.json()["body"]
-            version = response.json()["version"]
+        #contact Storage
+        params = "id=%s/" % str(problem_id)
+        obst_url = storage_url + str(params)
+        response = requests.get(obst_url)
+     
+        #check if Problem exists
+        if (response.status_code == 404):
+            return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
+        
+        #check if Storage died
+        elif (response.status_code != 200):
+            return jsonify(Error(500, "Storage server error: couldn't add Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        
+        #get Problem from response
+        problem = response.json()["body"]
+        version = response.json()["version"]
 
-            #get Obstacles from Problem
-            obstacles = problem["obstacles"]
+        #get Obstacles from Problem
+        obstacles = problem["obstacles"]
 
-            #make sure there isn't an Obstacle with the same ID
-            if (not any(o_obstacle["obstacle_id"] == obstacle["obstacle_id"] for o_obstacle in obstacles)):
-                obstacles.append(obstacle)
-                problem["obstacles"] = obstacles
-            else:
-                return jsonify(Error(409, "Obstacle ID already exists; this must be a unique value")), status.HTTP_409_CONFLICT
+        #make sure there isn't an Obstacle with the same ID
+        if (not any(o_obstacle["obstacle_id"] == obstacle["obstacle_id"] for o_obstacle in obstacles)):
+            obstacles.append(obstacle)
+            problem["obstacles"] = obstacles
+        else:
+            return jsonify(Error(409, "Obstacle ID already exists; this must be a unique value")), status.HTTP_409_CONFLICT
 
-            #PUT new Problem to Storage
-            params = "id=%s/ver=%s/" % (str(problem_id), str(version))
-            put_url = storage_url + str(params)
-            put_response = requests.put(put_url, json=problem)
+        #PUT new Problem to Storage
+        params = "id=%s/ver=%s/" % (str(problem_id), str(version))
+        put_url = storage_url + str(params)
+        put_response = requests.put(put_url, json=problem)
 
-            if (response.status_code != 412)
-                #check if Storage died
-                if (response.status_code != 200):
-                    return jsonify(Error(500, "Storage server error: couldn't add Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
-                break
-
+        #check if Storage died
+        if (response.status_code != 200):
+            return jsonify(Error(500, "Storage server error: couldn't add Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        
+        reply = {}
+        reply["response"] = put_response.json()
+        reply["version"] = problem["version"]
         #return response from Storage
-        return jsonify({"response":"Successfully updated"})
+        return jsonify(reply)
     
     #return error if not JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
@@ -168,8 +168,7 @@ def get_obstacle(problem_id, obstacle_id):
         return jsonify(Error(400, "Negative Obstacle_ID")), status.HTTP_400_BAD_REQUEST
 
     #contact Storage
-    params = "id=%s" % str(problem_id)
-    obst_url = storage_url + str(params)
+    obst_url = storage_url + str(problem_id)
     response = requests.get(obst_url)
 
     #check that the Problem exists
@@ -181,7 +180,7 @@ def get_obstacle(problem_id, obstacle_id):
         return jsonify(Error(500, "Storage server error: couldn't get Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
     
     #get Problem from response
-    problem = response.json()["body"]
+    problem = response.json()
 
     #get Obstacles from Problem
     obstacles = problem["obstacles"]
@@ -191,6 +190,7 @@ def get_obstacle(problem_id, obstacle_id):
         if (obstacle["obstacle_id"] == obstacle_id):
             reply = {}
             reply["obstacle"] = obstacle
+            reply["version"] = problem["version"]
             return jsonify(reply)
 
     #return error if not found
@@ -211,8 +211,7 @@ def get_obstacles(problem_id):
         return jsonify(Error(400, "Negative Problem_ID")), status.HTTP_400_BAD_REQUEST
 
     #contact Storage
-    params = "id=%s" % str(problem_id)
-    obst_url = storage_url + str(params)
+    obst_url = storage_url + str(problem_id)
     response = requests.get(obst_url)
 
     #check that Problem exists
@@ -224,7 +223,7 @@ def get_obstacles(problem_id):
         return jsonify(Error(500, "Storage server error: couldn't get Obstacles")), status.HTTP_500_INTERNAL_SERVER_ERROR
     
     #get Problem from response
-    problem = response.json()["body"]
+    problem = response.json()
 
     #return the list of Obstacles
     reply = {}
@@ -262,56 +261,52 @@ def update_obstacle(problem_id, obstacle_id, updated_obstacle=None):
         try:
             obstacle = Obstacle.from_dict(connexion.request.get_json())
         except (ValueError, BadRequest) as error:
-            return jsonify(Error(400, "Validation error; please check inputs", str(error))), status.HTTP_400_BAD_REQUEST
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
+        #contact Storage
+        params = "id=%s/" % str(problem_id)
+        obst_url = storage_url + str(problem_id)
+        response = requests.get(obst_url)
         
-        while True:
-            #contact Storage
-            params = "id=%s/" % str(problem_id)
-            obst_url = storage_url + str(problem_id)
-            response = requests.get(obst_url)
-            
-            #check if Problem exists
-            if (response.status_code == 404):
-                return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
-            
-            #check if Storage died
-            elif (response.status_code != 200):
-                return jsonify(Error(500, "Storage server error: couldn't update Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
-            
-            #get Problem from response
-            problem = response.json()["body"]
-            version = response.json()["version"]
+        #check if Problem exists
+        if (response.status_code == 404):
+            return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
+        
+        #check if Storage died
+        elif (response.status_code != 200):
+            return jsonify(Error(500, "Storage server error: couldn't update Obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        
+        #get Problem from response
+        problem = response.json()["body"]
+        version = response.json()["version"]
 
-            #get list of Obstacles from Problem
-            obstacles = problem["obstacles"]
+        #get list of Obstacles from Problem
+        obstacles = problem["obstacles"]
 
-            #Go through list of Obstacles for a specific ID
-            #if found, update coordinates and break loop
-            changed = False;
-            for o_obstacle in obstacles:
-                if (o_obstacle["obstacle_id"] == obstacle_id):
-                    obstacles.remove(o_obstacle)
-                    obstacles.append(obstacle)
-                    problem["obstacles"] = obstacles
-                    changed = True
-                    break
-
-            #if no Obstacle was found, return error
-            if(not changed):
-                return jsonify(Error(404, "Obstacle not found")), status.HTTP_404_NOT_FOUND
-
-            #PUT new Problem into Storage
-            params = "id=%s/ver=%s/" % (str(problem_id), str(version))
-            put_url = storage_url + str(params)
-            put_response = requests.put(put_url, json=problem)
-
-            if (response.status_code != 412):
-                #check if Storage died
-                if (response.status_code != 200):
-                    return jsonify(Error(500, "Storage server error: couldn't update obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        #Go through list of Obstacles for a specific ID
+        #if found, update coordinates and break loop
+        changed = False;
+        for o_obstacle in obstacles:
+            if (o_obstacle["obstacle_id"] == obstacle_id):
+                obstacles.remove(o_obstacle)
+                obstacles.append(obstacle)
+                problem["obstacles"] = obstacles
+                changed = True
                 break
 
+        #if no Obstacle was found, return error
+        if(not changed):
+            return jsonify(Error(404, "Obstacle not found")), status.HTTP_404_NOT_FOUND
+
+        #PUT new Problem into Storage
+        params = "id=%s/ver=%s/" % (str(problem_id), str(version))
+        put_url = storage_url + str(params)
+        put_response = requests.put(put_url, json=problem)
+
+        #check if Storage died
+        if (response.status_code != 200):
+            return jsonify(Error(500, "Storage server error: couldn't update obstacle")), status.HTTP_500_INTERNAL_SERVER_ERROR
+        
         return jsonify({"message" : "Successfully updated"})
-    
     #return Error if not JSON
     return jsonify(Error(415,"Unsupported media type: Please submit data as application/json data")), status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+

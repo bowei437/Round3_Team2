@@ -33,7 +33,7 @@ def add_robot(problem_id, robot):
         try:
             robot = Robot.from_dict(connexion.request.get_json())
         except (ValueError, BadRequest) as error:
-            return jsonify(Error(400, "Validation error; please check inputs", str(error))), status.HTTP_400_BAD_REQUEST
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
 
         robot = connexion.request.get_json()
 
@@ -273,10 +273,15 @@ def update_robot(problem_id, robot, robot_id):
         try:
             robot = Robot.from_dict(connexion.request.get_json())
         except (ValueError, BadRequest) as error:
-            return jsonify(Error(400, "Validation error; please check inputs", str(error))), status.HTTP_400_BAD_REQUEST
+            return jsonify(Error(400, "Validation error; please check inputs")), status.HTTP_400_BAD_REQUEST
         robot = connexion.request.get_json()
 
 
+        ''' 
+        #check if robot is in valid range
+        test_msg = sanitize_robot(robot)
+            return jsonify(Error(400, test_msg)), status.HTTP_400_BAD_REQUEST
+        '''
         #Storage version control
         while True:
             #contact Storage
