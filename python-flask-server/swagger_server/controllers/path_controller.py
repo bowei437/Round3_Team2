@@ -8,6 +8,7 @@ from ..util import deserialize_date, deserialize_datetime
 import requests, json
 from flask import jsonify
 from flask_api import status
+from pathfinder import *
 
 storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
 
