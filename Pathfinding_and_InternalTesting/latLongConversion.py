@@ -105,7 +105,7 @@ def readJSON(data, scale):
     loc2 = 0
     # Calculates rectangular boundary width and height
 
-    # Makes polygon into normalized rectangle
+    # Makes Shape (Rectangle, Polygon, Triangle) into normalized rectangle
     if "obstacles" in data:
         while loc < len(data["obstacles"]):
             #if (data["obstacles"][loc]["obstacle_info"]["name"] == "polygon"):

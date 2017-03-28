@@ -19,14 +19,26 @@ def readJSON(data, scale):
     Json = json.loads('{}')
     loc = 0
     loc2 = 0
+    """
+    UTM Module Syntax:
+
+    1: The syntax is utm.from_latlon(LATITUDE, LONGITUDE).
+        The return has the form (EASTING, NORTHING, ZONE NUMBER, ZONE LETTER).
+
+    2: The syntax is utm.to_latlon(EASTING, NORTHING, ZONE NUMBER, ZONE LETTER).
+        The return has the form (LATITUDE, LONGITUDE).
+    """
 
     #Boundary
     while loc < len(data["boundary"]["boundary_info"]["coordinates"]):
         cmerc = utm.from_latlon(data["boundary"]["boundary_info"]["coordinates"][loc]["latitude"], data["boundary"]["boundary_info"]["coordinates"][loc]["longitude"])
+        # X is getting the Easting UTM value rounded to a whole number
         x = round(cmerc[0], 1)
+        # Y is getting the Northing UTM value rounded to a whole number
         y = round(cmerc[1], 1)
         data["boundary"]["boundary_info"]["coordinates"][loc]["x"] = x
         data["boundary"]["boundary_info"]["coordinates"][loc]["y"] = y
+        # Store the Zone Number and Zone LEtter as an additional intermediate variable used for conversoin back later
         data["boundary"]["boundary_info"]["coordinates"][loc]["zoneN"] = cmerc[2]
         data["boundary"]["boundary_info"]["coordinates"][loc]["zoneL"] = cmerc[3]
 
@@ -49,8 +61,6 @@ def readJSON(data, scale):
         data["boundary"]["boundary_info"]["x_min"] = x_min
         data["boundary"]["boundary_info"]["y_min"] = y_min
 
-        #data["boundary"]["boundary_info"]["width"] = x_max - x_min
-        #data["boundary"]["boundary_info"]["height"] = y_max - y_min
         data["boundary"]["boundary_info"]["width"] = x_max - x_min
         data["boundary"]["boundary_info"]["height"] = y_max - y_min
         loc += 1
@@ -85,6 +95,7 @@ def readJSON(data, scale):
                     data["obstacles"][loc]["obstacle_info"]["coordinates"][loc2]["zoneL"] = cmerc[3]
 
                     loc2 += 1
+                #Data checking to make sure rectangle has correct num of points
                 if (data["obstacles"][loc]["obstacle_info"]["name"] == "rectangle"):
                     if (loc2 != 4):
                         print("WARNING: Obstacle at location {0} of shape rectangle does not have 4 points".format(loc))
@@ -94,7 +105,7 @@ def readJSON(data, scale):
     loc2 = 0
     # Calculates rectangular boundary width and height
 
-    # Makes polygon into normalized rectangle
+    # Makes Shape (Rectangle, Polygon, Triangle) into normalized rectangle
     if "obstacles" in data:
         while loc < len(data["obstacles"]):
             #if (data["obstacles"][loc]["obstacle_info"]["name"] == "polygon"):
@@ -171,7 +182,7 @@ def convert_y_to_lat(y):
     y = (0-y)/r_major
     return 180.0/math.pi*(2.0*math.atan(math.exp(y))-math.pi/2.0)
 
-#new Conversion function
+#new Conversion function CURRENTLY NOT USED
 def convert_latlon_to_utm(lat, lon):
     temp = utm.from_latlon(lat, lon)
     Tx = temp[0]
@@ -180,8 +191,6 @@ def convert_latlon_to_utm(lat, lon):
     stringy = "{:.0f}".format(Ty)
 
     return Ty
-
-
 
 
 # returns distance in meters on the mercator map projection
