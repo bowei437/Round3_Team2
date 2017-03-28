@@ -10,7 +10,7 @@ import requests, json
 from flask import jsonify
 from flask_api import status
 
-storage_url = "http://ec2-35-167-218-237.us-west-2.compute.amazonaws.com:8000/v2/"
+storage_url = "http://ec2-54-149-42-191.us-west-2.compute.amazonaws.com:8000/v2/"
 
 
 default_problem = {
