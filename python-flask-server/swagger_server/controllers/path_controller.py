@@ -48,7 +48,7 @@ def get_path(problem_id):
 
         params = "id=%s/ver=%s/" % (str(problem_id), str(version))
         put_url = storage_url + str(params)
-        response = requests(put_url, json=problem)
+        response = requests.put(put_url, json=problem)
 
         if (response.status_code == 404):
             return jsonify(Error(404, "Problem not found")), status.HTTP_404_NOT_FOUND
