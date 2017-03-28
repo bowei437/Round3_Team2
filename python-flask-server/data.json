@@ -1,0 +1,132 @@
+{
+    "boundary": {
+        "boundary_info": {
+            "coordinates": [
+                {
+                    "latitude": 0,
+                    "longitude": 0,
+                    "x": 166022,
+                    "y": 0,
+                    "zoneL": "N",
+                    "zoneN": 31
+                }
+            ],
+            "height": 0,
+            "name": "rectangle",
+            "width": 0,
+            "x_max": 166022,
+            "x_min": 166022,
+            "y_max": 0,
+            "y_min": 0
+        }
+    },
+    "goal": {
+        "coordinates": {
+            "latitude": 0,
+            "longitude": 0,
+            "x": 166022,
+            "y": 0,
+            "zoneL": "N",
+            "zoneN": 31
+        }
+    },
+    "obstacles": [
+        {
+            "obstacle_id": 0,
+            "obstacle_info": {
+                "coordinates": [
+                    {
+                        "latitude": 0,
+                        "longitude": 0,
+                        "x": 166022,
+                        "y": 0,
+                        "zoneL": "N",
+                        "zoneN": 31
+                    },
+                    {
+                        "latitude": 0,
+                        "longitude": 0,
+                        "x": 166022,
+                        "y": 0,
+                        "zoneL": "N",
+                        "zoneN": 31
+                    },
+                    {
+                        "latitude": 0,
+                        "longitude": 0,
+                        "x": 166022,
+                        "y": 0,
+                        "zoneL": "N",
+                        "zoneN": 31
+                    },
+                    {
+                        "latitude": 0,
+                        "longitude": 0,
+                        "x": 166022,
+                        "y": 0,
+                        "zoneL": "N",
+                        "zoneN": 31
+                    }
+                ],
+                "height": 0,
+                "name": "rectangle",
+                "width": 0,
+                "x_max": 166022,
+                "x_min": 166022,
+                "y_max": 0,
+                "y_min": 0
+            }
+        }
+    ],
+    "path": {
+        "coordinates": [
+            {
+                "latitude": 0,
+                "longitude": 0
+            }
+        ],
+        "path_cost": 1
+    },
+    "problem_id": 77,
+    "regions": {
+        "searched": [
+            {
+                "id": 0,
+                "points": [
+                    {
+                        "latitude": 0,
+                        "longitude": 0
+                    }
+                ],
+                "radius": 0
+            }
+        ],
+        "unsearched": {
+            "cache": [
+                {
+                    "id": 0,
+                    "points": [
+                        {
+                            "latitude": 0,
+                            "longitude": 0
+                        }
+                    ]
+                }
+            ],
+            "version": 0
+        }
+    },
+    "robots": [
+        {
+            "coordinates": {
+                "latitude": 0,
+                "longitude": 0,
+                "x": 166022,
+                "y": 0,
+                "zoneL": "N",
+                "zoneN": 31
+            },
+            "id": 0
+        }
+    ]
+}
