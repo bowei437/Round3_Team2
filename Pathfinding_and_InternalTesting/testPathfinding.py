@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-ECE 4574 Assignment 5 | Round 2 Team 2
+ECE 4574 Assignment 5 | Round 3 Team 2
 Internal Testing Suite
 Video found at: https://youtu.be/XuV_3L8GiAM
 
@@ -106,8 +106,7 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 
 """
 #### TEST Default #####################################################################################
-#ERROR Test. Should not run and give an error output
-inputfile = 'test4.json'
+inputfile = 'test0.json'
 TestNum = 1 # Current Test Number
 
 uResult = unittest(inputfile, 0) # Run unit test and store result
@@ -115,7 +114,6 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 
 """
 #### TEST Default #####################################################################################
-#ERROR Test. Should not run and give an error output
 inputfile = './testIntermittent.json'
 TestNum = 1 # Current Test Number
 
@@ -123,7 +121,6 @@ uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
 
 #### TEST Default #####################################################################################
-#ERROR Test. Should not run and give an error output
 inputfile = './testIntermittent2.json'
 TestNum = 1 # Current Test Number
 
