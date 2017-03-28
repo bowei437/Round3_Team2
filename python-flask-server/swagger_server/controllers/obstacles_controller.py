@@ -106,7 +106,7 @@ def delete_obstacle(problem_id, obstacle_id):
 
     #contact Storage
     params = "id=%s/" % str(problem_id)
-    obst_url = storage_url + str(problem_id)
+    obst_url = storage_url + str(params)
     response = requests.get(obst_url)
     
     #check if Problem exists
@@ -267,7 +267,7 @@ def update_obstacle(problem_id, obstacle_id, updated_obstacle=None):
         while True:
             #contact Storage
             params = "id=%s/" % str(problem_id)
-            obst_url = storage_url + str(problem_id)
+            obst_url = storage_url + str(params)
             response = requests.get(obst_url)
             
             #check if Problem exists
