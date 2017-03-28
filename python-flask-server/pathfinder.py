@@ -35,7 +35,8 @@ the cost exceeded the specified maximum
 >>> finder( (0,0), (2,2), 7 )
 (None, [])
 """
-
+# Global Enable Printing Debug value. If set to 1, it will print output debug
+En_Print = 0 #Enabling this SLOWS DOWN computing path heavilly. Use only for debug
 Global_scale = 5
 
 #globally store JSON message
@@ -51,24 +52,24 @@ def intersects_obstacle(c):
     #print(c)
     doesIntersect = False
     loc = 0
-    #while loc < len(data["obstacles"][loc]["obstacle_info"]):
 
     #doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["x"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["x"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["y"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["coordinates"]["y"] + Json["obstacles"][loc]["obstacle_info"]["height"])
-    #print("runs")
     #print("In Intersect obstacles x_min is {0}".format(Json["obstacles"][1]["obstacle_info"]["x_min"]))
-    #print(len(Json["obstacles"]))
+
     if "obstacles" in Json:
         while doesIntersect is not True and loc < len(Json["obstacles"]):
             #doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["x_min"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["y_min"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"])
-            #print("\nc[0]: {0} and xmin {1} | {2}\nc[1]: {3} and ymin {4} | {5}\tLOC{6}".format(c[0], Json["obstacles"][loc]["obstacle_info"]["x_min"], Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"],
-            #c[1], Json["obstacles"][loc]["obstacle_info"]["y_min"], Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"], loc))
+            if (En_Print == 1):
+                print("\nc[0]: {0} and xmin {1} | {2}\nc[1]: {3} and ymin {4} | {5}\tLOC{6}".format(c[0], Json["obstacles"][loc]["obstacle_info"]["x_min"], Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"],
+                c[1], Json["obstacles"][loc]["obstacle_info"]["y_min"], Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"], loc))
 
             doesIntersect = (c[0] >= Json["obstacles"][loc]["obstacle_info"]["x_min"]) and (c[0] <= Json["obstacles"][loc]["obstacle_info"]["x_min"] + Json["obstacles"][loc]["obstacle_info"]["width"]) and (c[1] >= Json["obstacles"][loc]["obstacle_info"]["y_min"]) and (c[1] <= Json["obstacles"][loc]["obstacle_info"]["y_min"] + Json["obstacles"][loc]["obstacle_info"]["height"])
             loc += 1
 
     #print(doesIntersect)
     if (doesIntersect == True):
-        print("\n\n\n ------ TRUE ----------- \n\n\n")
+        if (En_Print == 1):
+            print("\n\n\n ------ TRUE ----------- \n\n\n")
         
     return doesIntersect
 
@@ -235,10 +236,9 @@ def pathfind_from_json(json_message, enable):
         update_json(conv_json)
     else:
         update_json(json_message)
-    """
-    print("Boundary is {0}, {1} of width {2} and height {3}".format(Json["boundary"]["boundary_info"]["x_min"],
-     Json["boundary"]["boundary_info"]["y_min"], Json["boundary"]["boundary_info"]["width"], Json["boundary"]["boundary_info"]["height"]))
-     """
+    if (En_Print == 1):
+        print("Boundary is {0}, {1} of width {2} and height {3}".format(Json["boundary"]["boundary_info"]["x_min"],
+         Json["boundary"]["boundary_info"]["y_min"], Json["boundary"]["boundary_info"]["width"], Json["boundary"]["boundary_info"]["height"]))
 
     finder = pathfinder(distance=absolute_distance, cost=fixed_cost(1),
                         neighbors=grid_neighbors(Json["boundary"]["boundary_info"]["x_min"],
