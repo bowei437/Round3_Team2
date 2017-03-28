@@ -182,7 +182,7 @@ def convert_y_to_lat(y):
     y = (0-y)/r_major
     return 180.0/math.pi*(2.0*math.atan(math.exp(y))-math.pi/2.0)
 
-#new Conversion function
+#new Conversion function CURRENTLY NOT USED
 def convert_latlon_to_utm(lat, lon):
     temp = utm.from_latlon(lat, lon)
     Tx = temp[0]
@@ -191,8 +191,6 @@ def convert_latlon_to_utm(lat, lon):
     stringy = "{:.0f}".format(Ty)
 
     return Ty
-
-
 
 
 # returns distance in meters on the mercator map projection
