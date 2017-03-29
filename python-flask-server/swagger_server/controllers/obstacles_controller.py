@@ -257,13 +257,13 @@ def update_obstacle(problem_id, obstacle_id, updated_obstacle=None):
     #check if input is JSON
     if connexion.request.is_json:
         #get JSON from input
-        obstacle = connexion.request.get_json()
-
         try:
             obstacle = Obstacle.from_dict(connexion.request.get_json())
         except (ValueError, BadRequest) as error:
             return jsonify(Error(400, "Validation error; please check inputs", str(error))), status.HTTP_400_BAD_REQUEST
         
+        obstacle = connexion.request.get_json()
+
         while True:
             #contact Storage
             params = "id=%s/" % str(problem_id)
