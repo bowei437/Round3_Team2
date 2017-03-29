@@ -9,6 +9,30 @@
                     "y": 0,
                     "zoneL": "N",
                     "zoneN": 31
+                },
+                {
+                    "latitude": 0,
+                    "longitude": 0,
+                    "x": 166022,
+                    "y": 0,
+                    "zoneL": "N",
+                    "zoneN": 31
+                },
+                {
+                    "latitude": 0,
+                    "longitude": 0,
+                    "x": 166022,
+                    "y": 0,
+                    "zoneL": "N",
+                    "zoneN": 31
+                },
+                {
+                    "latitude": 0,
+                    "longitude": 0,
+                    "x": 166022,
+                    "y": 0,
+                    "zoneL": "N",
+                    "zoneN": 31
                 }
             ],
             "height": 0,
@@ -42,30 +66,6 @@
                         "y": 0,
                         "zoneL": "N",
                         "zoneN": 31
-                    },
-                    {
-                        "latitude": 0,
-                        "longitude": 0,
-                        "x": 166022,
-                        "y": 0,
-                        "zoneL": "N",
-                        "zoneN": 31
-                    },
-                    {
-                        "latitude": 0,
-                        "longitude": 0,
-                        "x": 166022,
-                        "y": 0,
-                        "zoneL": "N",
-                        "zoneN": 31
-                    },
-                    {
-                        "latitude": 0,
-                        "longitude": 0,
-                        "x": 166022,
-                        "y": 0,
-                        "zoneL": "N",
-                        "zoneN": 31
                     }
                 ],
                 "height": 0,
@@ -81,13 +81,13 @@
     "path": {
         "coordinates": [
             {
-                "latitude": 0,
-                "longitude": 0
+                "latitude": 9.833152874998333e-08,
+                "longitude": -1.9507661619400096e-06
             }
         ],
-        "path_cost": 1
+        "path_cost": 0
     },
-    "problem_id": 77,
+    "problem_id": 1425,
     "regions": {
         "searched": [
             {

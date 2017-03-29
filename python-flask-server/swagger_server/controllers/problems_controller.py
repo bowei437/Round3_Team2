@@ -17,19 +17,19 @@ default_problem = {
   "boundary": {
     "boundary_info": {
       "coordinates": [
+	{
+          "latitude": 0,
+          "longitude": 0
+        },
+	{
+          "latitude": 0,
+          "longitude": 0
+        },
         {
           "latitude": 0,
           "longitude": 0
         },
-	{
-          "latitude": 0,
-          "longitude": 0
-        },
-	{
-          "latitude": 0,
-          "longitude": 0
-        },
-	{
+        {
           "latitude": 0,
           "longitude": 0
         }
