@@ -60,9 +60,9 @@ of the message. Select one of the 4 request types from the drop down, fill in th
 Only Get requests will cause data to be displayed in the graphics view.
 
 
-## Performance Testing 
+### Performance Testing 
 
-You can find more materials (report and sample code) on the performance testing in the "PerformanceTesting" directory.
+You can find more materials (report and sample code) of the performance testing in the "PerformanceTesting" directory.
 
 ## Data Validation
 
