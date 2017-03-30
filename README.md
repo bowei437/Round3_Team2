@@ -46,7 +46,7 @@ Happy pathfinding!
 
 ## Running the tests
 
-###Internal Pathfinding Tests
+### Internal Pathfinding Tests
 
 To run internal pathfinding tests, run "python3 testPathfinding.py" while in the "Pathfinding_and_InternalTesting" directory.
 A description of each individual is included below. 
