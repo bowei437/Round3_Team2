@@ -19,7 +19,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Internal Pathfinding Tests
+
+To run internal pathfinding tests, run "Python testPathfinding.py" while in the "Pathfinding_and_InternalTesting" directory.
 
 ### Break down into end to end tests
 
