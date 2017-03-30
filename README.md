@@ -59,6 +59,11 @@ run the CLientSDK project within the clientSDk folder. a gui window should pop u
 of the message. Select one of the 4 request types from the drop down, fill in the id's if neccessary and then click the desire function button.
 Only Get requests will cause data to be displayed in the graphics view.
 
+
+## Performance Testing 
+
+You can find more materials (report and sample code) on the performance testing in the "PerformanceTesting" directory.
+
 ## Data Validation
 
 The inputs to our API are sanitized using Flask's model feature and Swagger. The API will catch invalid inputs like missing information or out-of-range value. In the server controller code, we catch exceptions when we requset to get json objects and send errors with detailed message. We also have checks in our controller code for the rest of the input sanitization. We use consistent error code and detailed error message to make our API very easy to use.
