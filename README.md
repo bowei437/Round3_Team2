@@ -25,12 +25,30 @@ cd Round3_Team2/python-flask-server
 pip3 install -r requirements.txt
 ```
 
+Start the Flask server by running this command while in the ```Round3_Team2/python-flask-server``` directory.
+```
+python3 -m swagger_server
+```
+
+This should be the output from the command:
+```
+$ python3 -m swagger_server 
+ * Running on http://0.0.0.0:8082/ (Press CTRL+C to quit)
+```
+
+Open a web browser and go to http://127.0.0.1:8082/v3/ui or subsitute ```127.0.0.1``` for your local IP address.
+
+This should open the Swagger UI which will allow you to test the API by sending HTTP requests. The default structure of the JSON for each of the requests is shown next to each command. 
+
+View the ```sample_problem.json``` file for a Problem that you can use to test the system by hand. Simply POST for a new Problem, remember the ```problem_id``` given, and POST or PUT to update the values for each of the values. Remember to check the default structure shown in Swagger to avoid getting errors.
+
+Happy pathfinding!
 
 ## Running the tests
 
 Internal Pathfinding Tests
 
-To run internal pathfinding tests, run "Python testPathfinding.py" while in the "Pathfinding_and_InternalTesting" directory.
+To run internal pathfinding tests, run "python3 testPathfinding.py" while in the "Pathfinding_and_InternalTesting" directory.
 
 ### Break down into end to end tests
 
