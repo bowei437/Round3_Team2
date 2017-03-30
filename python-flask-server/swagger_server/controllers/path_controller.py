@@ -45,7 +45,7 @@ def get_path(problem_id):
         version = response.json()["version"]
         try:
             path = pathfind_from_json(problem, 1)
-        except (ValueError, TypeError as error):
+        except (ValueError, TypeError) as error:
             return jsonify(Error(400, "Incorrect problem structure: please check default problem", str(error))), status.HTTP_400_BAD_REQUEST
             
         problem["path"] = path
