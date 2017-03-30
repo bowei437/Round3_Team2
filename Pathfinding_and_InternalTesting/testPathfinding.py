@@ -107,10 +107,25 @@ TestResult.insert(TestNum,uResult) # Insert tempResult variable into array locat
 """
 #### TEST Default #####################################################################################
 inputfile = 'test0.json'
+TestNum = 0 # Current Test Number
+
+uResult = unittest(inputfile, 0) # Run unit test and store result
+TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
+
+#### TEST Default #####################################################################################
+inputfile = 'test1.json'
 TestNum = 1 # Current Test Number
 
 uResult = unittest(inputfile, 0) # Run unit test and store result
 TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum
+
+#### TEST Default #####################################################################################
+inputfile = 'test2.json'
+TestNum = 2 # Current Test Number
+
+uResult = unittest(inputfile, 0) # Run unit test and store result
+TestResult.insert(TestNum,uResult) # Insert tempResult variable into array location TestNum<Paste>
+
 
 """
 #### TEST Default #####################################################################################

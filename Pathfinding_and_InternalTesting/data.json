@@ -54,6 +54,146 @@
             "zoneN": 17
         }
     },
+    "obstacles": [
+        {
+            "obstacle_id": 0,
+            "obstacle_info": {
+                "coordinates": [
+                    {
+                        "latitude": 37.229902,
+                        "longitude": -80.423725,
+                        "x": 551121,
+                        "y": 4120533,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229933,
+                        "longitude": -80.423304,
+                        "x": 551158,
+                        "y": 4120536,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229697,
+                        "longitude": -80.423811,
+                        "x": 551113,
+                        "y": 4120510,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229734,
+                        "longitude": -80.423296,
+                        "x": 551159,
+                        "y": 4120514,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    }
+                ],
+                "height": 26,
+                "name": "rectangle",
+                "width": 46,
+                "x_max": 551159,
+                "x_min": 551113,
+                "y_max": 4120536,
+                "y_min": 4120510
+            }
+        },
+        {
+            "obstacle_id": 1,
+            "obstacle_info": {
+                "coordinates": [
+                    {
+                        "latitude": 37.229825,
+                        "longitude": -80.424594,
+                        "x": 551044,
+                        "y": 4120524,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229814,
+                        "longitude": -80.424278,
+                        "x": 551072,
+                        "y": 4120523,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.229568,
+                        "longitude": -80.424702,
+                        "x": 551034,
+                        "y": 4120495,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.22957,
+                        "longitude": -80.4224976,
+                        "x": 551230,
+                        "y": 4120497,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    }
+                ],
+                "height": 29,
+                "name": "polygon",
+                "width": 196,
+                "x_max": 551230,
+                "x_min": 551034,
+                "y_max": 4120524,
+                "y_min": 4120495
+            }
+        },
+        {
+            "obstacle_id": 2,
+            "obstacle_info": {
+                "coordinates": [
+                    {
+                        "latitude": 37.2298,
+                        "longitude": -80.42433,
+                        "x": 551067,
+                        "y": 4120521,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.22968,
+                        "longitude": -80.42251,
+                        "x": 551229,
+                        "y": 4120509,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.23038,
+                        "longitude": -80.4225,
+                        "x": 551229,
+                        "y": 4120586,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    },
+                    {
+                        "latitude": 37.23051,
+                        "longitude": -80.42425,
+                        "x": 551074,
+                        "y": 4120600,
+                        "zoneL": "S",
+                        "zoneN": 17
+                    }
+                ],
+                "height": 91,
+                "name": "polygon",
+                "width": 162,
+                "x_max": 551229,
+                "x_min": 551067,
+                "y_max": 4120600,
+                "y_min": 4120509
+            }
+        }
+    ],
     "path": {
         "coordinates": [
             {

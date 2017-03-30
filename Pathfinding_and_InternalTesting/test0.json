@@ -1,23 +1,12 @@
+
 {
   "boundary": {
     "boundary_info": {
       "coordinates": [
-          {
-            "latitude": 37.232142,
-            "longitude": -80.429057
-          },
-          {
-            "latitude": 37.232625,
-            "longitude": -80.415979
-          },
-          {
-            "latitude": 37.225463,
-            "longitude": -80.425912
-          },
-          {
-            "latitude": 37.226972,
-            "longitude": -80.411656
-          }
+        {
+          "latitude": 40,
+          "longitude": -90
+        }
       ],
       "name": "rectangle"
     }
@@ -28,6 +17,56 @@
       "longitude": -80.423272
     }
   },
+  "obstacles": [
+    {
+      "obstacle_id": 0,
+      "obstacle_info": {
+        "coordinates": [
+          {
+            "latitude": 37.229902,
+            "longitude": -80.423725
+          },
+          {
+            "latitude": 37.229933,
+            "longitude": -80.423304
+          },
+          {
+            "latitude": 37.229697,
+            "longitude": -80.423811
+          },
+          {
+            "latitude": 37.229734,
+            "longitude": -80.423296
+          }
+        ],
+        "name": "rectangle"
+      }
+    },
+    {
+      "obstacle_id": 1,
+      "obstacle_info": {
+        "coordinates": [
+          {
+            "latitude": 37.229825,
+            "longitude": -80.424594
+          },
+          {
+            "latitude": 37.229814,
+            "longitude": -80.424278
+          },
+          {
+            "latitude": 37.229568,
+            "longitude": -80.424702
+          },
+          {
+            "latitude": 37.229586,
+            "longitude": -80.424120
+          }
+        ],
+        "name": "rectangle"
+      }
+    }
+  ],
   "path": {
     "coordinates": [
       {
