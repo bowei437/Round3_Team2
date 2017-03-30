@@ -66,6 +66,11 @@ The inputs to our API are sanitized using Flask's model feature and Swagger. The
 ## Path Efficiency
 
 Our pathfinding algorithm is built to look at the previous path to determine if the new one will be any different. By checking if any new obstacle has been added to block the path, we aim to reduce the time spent pathfinding along the same coordinates. 
+
+## Running with Docker
+
+This service was also built into a Docker image. For more information on building and running the container, see https://github.com/jth2279/Pathfinding_Dockerized.
+
 ## Built With
 
 * Swagger API
