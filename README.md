@@ -1,6 +1,6 @@
-﻿# ECE 4575 Team 2: Assignment 6 Phase 2
+﻿# ECE 4574 Team 2: Assignment 6 Phase 2
 
-Pathfinding API using RESTful service with Swagger for ECE 4575 Spring 2017.
+Pathfinding API using RESTful service with Swagger for ECE 4574 Spring 2017.
 
 ## Getting Started
 
@@ -8,14 +8,23 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Python3 
-* VirtualBox (VM for Docker)
-* SSH access to AWS server
-* QT creator (GUI)
+* Python3
+* pip3
+* Port 8082 open on your machine
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Clone the repository:
+```
+git clone https://github.com/bowei437/Round3_Team2.git
+```
+
+Change your current working directory to Round3_Team2/python-flask-server and install dependencies. Depending on your environment, installing dependencies may require root privileges. In that case, preface ```pip3``` with ```sudo```.
+```
+cd Round3_Team2/python-flask-server
+pip3 install -r requirements.txt
+```
+
 
 ## Running the tests
 
