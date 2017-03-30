@@ -1,0 +1,1154 @@
+local sleep_time = 0
+local response
+
+local url = "http://ec2-54-149-42-191.us-west-2.compute.amazonaws.com:8082/v3"
+local uid1 = "YOUR_VALUE"
+local uid2 = "YOUR_VALUE"
+local version2 = "YOUR_VALUE"
+local obj2 = "YOUR_VALUE"
+local obj1 = "YOUR_VALUE"
+local rid1 = "YOUR_VALUE"
+local rid2 = "YOUR_VALUE"
+
+-- 1. Problem
+
+response = http.request({
+  url=""..url.."/",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 201 then
+	log.error('Problems Post 1 Error')
+  do return end
+end
+
+uid1 = json.parse(response.body).problem_id
+
+--[[
+tests["Status code is 201"] = responseCode.code === 201;
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("uid1", jsonData.problem_id);
+postman.setEnvironmentVariable("version1", jsonData.version);
+
+tests["Returned a problemid number"] = postman.getEnvironmentVariable("uid1") > 0 ;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+--]]
+
+  --json_body.problem_id;
+
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 201 then
+	log.error('Problems Post 2 Error')
+  do return end
+end
+
+uid2 = json.parse(response.body).problem_id
+--[[
+tests["Status code is 201"] = responseCode.code === 201;
+
+var jsonData = JSON.parse(responseBody);
+
+
+postman.setEnvironmentVariable("uid2", jsonData.problem_id);
+postman.setEnvironmentVariable("version2", jsonData.version);
+
+tests["Returned a problemid number"] = postman.getEnvironmentVariable("uid2") > 0 ;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Problems Get Error')
+  do return end
+end
+
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/",
+  method="DELETE",
+  headers={ ["Content-Type"]="application/json" },
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 200 then
+	log.error('Problems Delete Error')
+  do return end
+end
+
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+tests["Successfully Deleted Message"] = jsonData.response === "successfully deleted";
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Problems Post 2 Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+
+--]]
+--[[client.sleep(sleep_time)
+
+-- 2. Boundary
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Boundary",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Boundary Get Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Boundary",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Boundary Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+//check defaults
+tests["Default boundary latitude"] = jsonData.boundary_info.coordinates[0].latitude === 0;
+tests["Default boundary longitude"] = jsonData.boundary_info.coordinates[0].longitude === 0;
+
+//check version
+tests["Default version"] = jsonData.version == environment.version1;
+
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Boundary/ver="..version2.."/",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"boundary_info\": [    {            \"latitude\": 37.232142,            \"longitude\": -80.429057          },          {            \"latitude\": 37.232625,            \"longitude\": -80.415979          },          {            \"latitude\": 37.225463,            \"longitude\": -80.425912          },          {            \"latitude\": 37.226972,            \"longitude\": -80.411656          }  ]}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Boundary Put Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/problem+json";
+
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Boundary",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"boundary_info\": [   {            \"latitude\": 37.232142,            \"longitude\": -80.429057          },          {            \"latitude\": 37.232625,            \"longitude\": -80.415979          },          {            \"latitude\": 37.225463,            \"longitude\": -80.425912          },          {            \"latitude\": 37.226972,            \"longitude\": -80.411656          }  ]}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Boundary Put Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Boundary",
+  method="GET",
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 200 then
+	log.error('Boundary Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+//check updates stuck
+tests["Default boundary latitude"] = jsonData.boundary_info[0].latitude === 100;
+tests["Default boundary longitude"] = jsonData.boundary_info[0].longitude === 100;
+tests["Version Check"] = jsonData.version == environment.version1;
+
+
+--]]
+client.sleep(sleep_time)
+
+-- 3. Obstacles
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles",
+  method="GET",
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 200 then
+	log.error('Obstacles Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Obstacles",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Obstacles Get Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+--client.sleep(sleep_time)
+
+--[[
+postman.setEnvironmentVariable("obj1", 1);
+--]]
+obj1 = "1"
+
+--[[response = http.request({
+  url=""..url.."/id="..uid2.."/Obstacles",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"obstacle_id\": "..obj1..",  \"obstacle_info\": {    \"coordinates\": [      {            \"latitude\": 37.224463,            \"longitude\": -80.424912          },          {            \"latitude\": 37.224463,            \"longitude\": -80.423912          },          {            \"latitude\": 37.223463,            \"longitude\": -80.423912          },          {            \"latitude\": 37.223463,            \"longitude\": -80.424912          }    ],    \"name\": \"rectangle\"  }}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Obstacles Post Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 400"] = responseCode.code === 400;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+--]]
+client.sleep(sleep_time)
+
+--[[
+postman.setEnvironmentVariable("obj1", 1);
+--]]
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"obstacle_id\": "..obj1..",  \"obstacle_info\": {    \"coordinates\": [      {            \"latitude\": 37.224463,            \"longitude\": -80.424912          },          {            \"latitude\": 37.224463,            \"longitude\": -80.423912          },          {            \"latitude\": 37.223463,            \"longitude\": -80.423912          },          {            \"latitude\": 37.223463,            \"longitude\": -80.424912          }    ],    \"name\": \"rectangle\"  }}",
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 200 then
+	log.error('Obstacles Post Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+--]]
+client.sleep(sleep_time)
+
+--[[
+postman.setEnvironmentVariable("obj2", 2);
+--]]
+obj2 = "2"
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"obstacle_id\": "..obj2..",  \"obstacle_info\": {    \"coordinates\": [      {            \"latitude\": 37.228463,            \"longitude\": -80.420912          },          {            \"latitude\": 37.228463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.420912          }    ],    \"name\": \"rectangle\"  }}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Obstacles Post Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles/obstacle_id="..obj2.."",
+  method="DELETE",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Obstacles Delete Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Obstacles Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles/obstacle_id="..obj1.."",
+  method="GET",
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 200 then
+	log.error('Obstacles Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+tests["Check obstacle id"] = jsonData.obstacle.obstacle_id == environment.obj1;
+tests["Check obstacle latitude"] = jsonData.obstacle.obstacle_info.coordinates[0].latitude === 20;
+tests["Check obstacle longitude"] = jsonData.obstacle.obstacle_info.coordinates[0].longitude === 20;
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Obstacles/obstacle_id="..obj2.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Obstacles Get Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles/obstacle_id="..obj2.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Obstacles Get Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles/obstacle_id="..obj1.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"obstacle_id\": "..obj1..",  \"obstacle_info\": {    \"coordinates\": [      {            \"latitude\": 37.228463,            \"longitude\": -80.420912          },          {            \"latitude\": 37.228463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.420912          }    ],    \"name\": \"rectangle\"  }}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Obstacles Put Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles/obstacle_id="..obj2.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"obstacle_id\": "..obj2..",  \"obstacle_info\": {    \"coordinates\": [      {            \"latitude\": 37.228463,            \"longitude\": -80.420912          },          {            \"latitude\": 37.228463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.420912          }    ],    \"name\": \"rectangle\"  }}",
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 404 then
+	log.error('Obstacles Put Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Obstacles/obstacle_id="..obj1.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"obstacle_id\": "..obj1..",  \"obstacle_info\": {    \"coordinates\": [      {            \"latitude\": 37.228463,            \"longitude\": -80.420912          },          {            \"latitude\": 37.228463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.419912          },          {            \"latitude\": 37.227463,            \"longitude\": -80.420912          }    ],    \"name\": \"rectangle\"  }}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Obstacles Put Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles/obstacle_id="..obj1.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Obstacles Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+
+//check updates
+tests["Check obstacle id"] = jsonData.obstacle.obstacle_id == environment.obj1;
+tests["Check obstacle latitude"] = jsonData.obstacle.obstacle_info.coordinates[0].latitude == 40;
+tests["Check obstacle longitude"] = jsonData.obstacle.obstacle_info.coordinates[0].longitude == 40;
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Obstacles",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Obstacles Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+/*[
+  {
+    "obstacle_id": 0,
+    "obstacle_info": {
+      "coordinates": {
+        "latitude": 0,
+        "longitude": 0
+      },
+      "height": 0,
+      "width": 0
+    }
+  }
+]*/
+
+var jsonData = JSON.parse(responseBody);
+
+//check for default obstacle
+tests["Check obstacle id"] = jsonData.obstacles[1].obstacle_id == environment.obj1;
+tests["Check obstacle latitude"] = jsonData.obstacles[1].obstacle_info.coordinates[0].latitude === 40;
+tests["Check obstacle longitude"] = jsonData.obstacles[1].obstacle_info.coordinates[0].longitude === 40;
+
+//make sure only one obstacle is in the list
+tests["Two Obstacles exist"] = jsonData.obstacles.length == 2;
+
+--]]
+client.sleep(sleep_time)
+
+-- 4. Robot
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 1 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+--[[
+postman.setEnvironmentVariable("rid1", 1);
+--]]
+rid1 = "1";
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {    \"latitude\": 37.229517,        \"longitude\": -80.423819  },  \"id\": "..rid1.."} ",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Post Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid1.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {        \"latitude\": 37.230517,        \"longitude\": -80.425819  },  \"id\": "..rid1.."}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Put Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid1.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 2 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid1.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {        \"latitude\": 37.226517,        \"longitude\": -80.423819  },  \"id\": "..rid1.."}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Put Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 3 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+--[[
+postman.setEnvironmentVariable("rid2", 2);
+--]]
+rid2 = "2"
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {        \"latitude\": 37.227517,        \"longitude\": -80.420819  },  \"id\": "..rid2.."} ",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Post Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid2.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 4 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid2.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {        \"latitude\": 37.226517,        \"longitude\": -80.421819  },  \"id\": "..rid2.."}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Put Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid2.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 5 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 6 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid2.."",
+  method="DELETE",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Delete Error')
+  do return end
+end
+
+
+local rid0 = "0"
+
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid0.."",
+  method="DELETE",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Delete Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 7 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid2.."",
+  method="DELETE",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Robot Delete Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 8 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+--[[client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Robot",
+  method="POST",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {    \"latitude\": 37.227517,        \"longitude\": -80.420819  },  \"id\": "..rid2.."} ",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Robot Post Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 9 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid1.."",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Get 10 Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Robot/rid="..rid1.."",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {    \"latitude\": 37.229517,        \"longitude\": -80.423819  },  \"id\": "..rid1.."}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Robot Put Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+-- 5. Goal
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Goal",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Goal Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+tests["Default has a coordinate"] = responseBody.has("coordinates");
+tests["Default has a latitude"] = responseBody.has("latitude");
+tests["Default has a longitude"] = responseBody.has("longitude");
+
+var jsonData = JSON.parse(responseBody);
+postman.setEnvironmentVariable("goal_lat1", jsonData.goal.coordinates.latitude);
+postman.setEnvironmentVariable("goal_long1", jsonData.goal.coordinates.longitude);
+postman.setEnvironmentVariable("version1", jsonData.version);
+
+
+tests["Returned default latitude"] = postman.getEnvironmentVariable("goal_lat1") === 0 ;
+tests["Returned default longitude"] = postman.getEnvironmentVariable("goal_long1") === 0 ;
+tests["Returned version"] = postman.getEnvironmentVariable("version1") == environment.version1;
+
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Goal",
+  method="PUT",
+  headers={ ["Content-Type"]="application/json" },
+  data="{  \"coordinates\": {    \"latitude\": 37.230573,      \"longitude\": -80.423272  }}",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Goal Put Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+
+
+var jsonData = JSON.parse(responseBody);
+
+postman.setEnvironmentVariable("version1", jsonData.version);
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Goal",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Goal Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+--[[client.sleep(sleep_time)
+
+-- 6. Path
+
+response = http.request({
+  url=""..url.."/id="..uid2.."/Path",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 404 then
+	log.error('Path Get Error')
+  do return end
+end--]]
+--[[
+tests["Status code is 404"] = responseCode.code === 404;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/Path",
+  method="GET",
+  response_body_bytes=200000
+})
+if response.status_code ~= 200 then
+	log.error('Path Get Error')
+  do return end
+end
+--[[
+tests["Status code is 200"] = responseCode.code === 200;
+
+tests["Content-Type is present"] = postman.getResponseHeader("Content-Type");
+
+tests["Content-Type is in a json format"] = postman.getResponseHeader("Content-Type") == "application/json";
+
+var jsonData = JSON.parse(responseBody);
+
+tests["Path Exist"] = jsonData.coordinates.length > 1;
+--]]
+client.sleep(sleep_time)
+
+response = http.request({
+  url=""..url.."/id="..uid1.."/",
+  method="DELETE",
+  headers={ ["Content-Type"]="application/json" },
+  response_body_bytes=200000
+})
+
+if response.status_code ~= 200 then
+	log.error('Path Delete (problem) Error')
+  do return end
+end
+client.sleep(sleep_time)
