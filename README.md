@@ -49,6 +49,9 @@ Happy pathfinding!
 Internal Pathfinding Tests
 
 To run internal pathfinding tests, run "python3 testPathfinding.py" while in the "Pathfinding_and_InternalTesting" directory.
+A description of each individual is included below. 
+'Test 0' is a test of an incorrect JSON file. 'Test 1' is a test of a problem with no obstacles. 
+'Test 2' is a test of a problem with obstacles. 
 
 ### Break down into end to end tests
 
